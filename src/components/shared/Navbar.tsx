@@ -67,6 +67,7 @@ const Navbar = () => {
     router.push(href);
   };
 
+  //user session
   const { data: session } = authClient.useSession();
 
   const user = session?.user;
