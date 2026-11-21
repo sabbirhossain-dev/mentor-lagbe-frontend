@@ -88,17 +88,17 @@ export default function AdminOverviewPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {/* 1. Total Registered Users */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Total Users
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400">
               <Users size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-slate-900">{stats.totalUsers}</h3>
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalUsers}</h3>
             <p className="text-xs text-slate-400 mt-1">
               {stats.totalStudents} Students • {stats.totalTutors} Tutors
             </p>
@@ -106,35 +106,35 @@ export default function AdminOverviewPage() {
         </Card>
 
         {/* 2. Total Tutors */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Active Tutors
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400">
               <UserCheck size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-indigo-600">{stats.totalTutors}</h3>
+            <h3 className="text-3xl font-black text-indigo-600 dark:text-indigo-400">{stats.totalTutors}</h3>
             <p className="text-xs text-slate-400 mt-1">Qualified teaching mentors</p>
           </div>
         </Card>
 
         {/* 3. Pending vs Approved Tuitions */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Tuition Catalog
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400">
               <Clock size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-slate-900">
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white">
               {stats.approvedTuitions}{" "}
-              <span className="text-sm font-semibold text-amber-600">
+              <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">
                 ({stats.pendingTuitions} pending)
               </span>
             </h3>
@@ -143,17 +143,17 @@ export default function AdminOverviewPage() {
         </Card>
 
         {/* 4. Total Stripe Revenue */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Stripe Revenue
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400">
               <DollarSign size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-emerald-600">
+            <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">
               ${stats.totalRevenue.toFixed(2)}
             </h3>
             <p className="text-xs text-slate-400 mt-1">Pro plan subscriptions</p>
@@ -165,16 +165,16 @@ export default function AdminOverviewPage() {
       <div className="grid gap-6 sm:grid-cols-3">
         <Link
           href="/dashboard/admin/tuitions"
-          className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-purple-300 hover:shadow-lg transition-all"
+          className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:border-purple-300 dark:hover:border-purple-700 hover:shadow-lg transition-all"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-colors">
             <BookOpen size={24} />
           </div>
-          <h4 className="mt-4 text-base font-bold text-slate-900">Tuition Moderation</h4>
-          <p className="mt-1 text-xs text-slate-500">
+          <h4 className="mt-4 text-base font-bold text-slate-900 dark:text-white">Tuition Moderation</h4>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             Review newly submitted tuition posts and grant approval or rejection.
           </p>
-          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-purple-600">
+          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-purple-600 dark:text-purple-400">
             <span>Moderate posts</span>
             <ArrowRight size={14} />
           </div>
@@ -182,16 +182,16 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/dashboard/admin/users"
-          className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-blue-300 hover:shadow-lg transition-all"
+          className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg transition-all"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors">
             <Users size={24} />
           </div>
-          <h4 className="mt-4 text-base font-bold text-slate-900">User Role Management</h4>
-          <p className="mt-1 text-xs text-slate-500">
+          <h4 className="mt-4 text-base font-bold text-slate-900 dark:text-white">User Role Management</h4>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             Promote or reassign user roles between Student, Tutor, and Admin.
           </p>
-          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-blue-600">
+          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400">
             <span>Manage accounts</span>
             <ArrowRight size={14} />
           </div>
@@ -199,16 +199,16 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/dashboard/admin/transactions"
-          className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:border-emerald-300 hover:shadow-lg transition-all"
+          className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-lg transition-all"
         >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
             <CreditCard size={24} />
           </div>
-          <h4 className="mt-4 text-base font-bold text-slate-900">Payment Transactions</h4>
-          <p className="mt-1 text-xs text-slate-500">
+          <h4 className="mt-4 text-base font-bold text-slate-900 dark:text-white">Payment Transactions</h4>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             Inspect all Stripe subscription payments and generated transaction IDs.
           </p>
-          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-emerald-600">
+          <div className="mt-4 flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
             <span>View transactions</span>
             <ArrowRight size={14} />
           </div>

@@ -24,6 +24,8 @@ import {
   ShieldAlert,
   ShieldCheck,
   Sparkles,
+  Sun,
+  Moon,
   UserCheck,
   UserRound,
   Users,
@@ -172,18 +174,13 @@ export default function DashboardShell({
             </div>
           </Link>
 
-          <div className="flex items-center gap-1">
-            <div className="hidden lg:block">
-              <ThemeToggle className="h-8 w-8" />
-            </div>
-            <button
-              type="button"
-              onClick={() => setSidebarOpen(false)}
-              className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
-            >
-              <X size={20} />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(false)}
+            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         {/* User Card */}
@@ -247,7 +244,17 @@ export default function DashboardShell({
         </nav>
 
         {/* Footer Actions */}
-        <div className="border-t border-slate-100 dark:border-slate-800 p-4 space-y-2">
+        <div className="border-t border-slate-100 dark:border-slate-800 p-4 space-y-2.5">
+          {/* Appearance / Theme Toggle Row */}
+          <div className="flex items-center justify-between rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-3.5 py-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <Sun size={15} className="text-amber-500 dark:hidden" />
+              <Moon size={15} className="text-blue-400 hidden dark:block" />
+              <span>Appearance</span>
+            </div>
+            <ThemeToggle className="h-8 w-8" />
+          </div>
+
           <Link
             href="/"
             className="flex items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -268,8 +275,28 @@ export default function DashboardShell({
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto min-h-screen">
-        <div className="p-4 sm:p-6 lg:p-10 max-w-7xl mx-auto">
+      <main className="flex-1 overflow-y-auto min-h-screen flex flex-col">
+        {/* Desktop Top Header Bar */}
+        <header className="hidden lg:flex sticky top-0 z-30 h-16 items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 px-8 backdrop-blur-md">
+          <div className="flex items-center gap-2.5 text-sm">
+            <span className="font-bold text-slate-900 dark:text-white capitalize">
+              {navItems.find((item) => item.href === pathname)?.label || "Dashboard Overview"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            >
+              <Home size={14} />
+              Public Website
+            </Link>
+          </div>
+        </header>
+
+        <div className="flex-1 p-4 sm:p-6 lg:p-10 max-w-7xl w-full mx-auto">
           {children}
         </div>
       </main>

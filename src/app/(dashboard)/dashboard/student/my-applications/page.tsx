@@ -91,17 +91,17 @@ export default function MyApplicationsPage() {
       </div>
 
       {/* Applications List */}
-      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-6 space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100" />
+              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             ))}
           </div>
         ) : applications.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50/70 text-xs font-bold uppercase text-slate-500">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 text-xs font-bold uppercase text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="px-6 py-4">Tuition Title & Subject</th>
                   <th className="px-6 py-4">Tutor Details</th>
@@ -111,18 +111,18 @@ export default function MyApplicationsPage() {
                   <th className="px-6 py-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {applications.map((app) => (
-                  <tr key={app._id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={app._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-6 py-5">
                       <Link
                         href={`/tuitions/${app.tuitionId}`}
-                        className="font-bold text-slate-900 hover:text-blue-600 flex items-center gap-1.5"
+                        className="font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1.5"
                       >
                         {app.tuitionTitle}
                         <ExternalLink size={13} className="text-slate-400" />
                       </Link>
-                      <span className="mt-0.5 inline-block text-xs font-semibold text-blue-600">
+                      <span className="mt-0.5 inline-block text-xs font-semibold text-blue-600 dark:text-blue-400">
                         {app.subject}
                       </span>
                       {app.studentNote && (
@@ -132,19 +132,19 @@ export default function MyApplicationsPage() {
                       )}
                     </td>
 
-                    <td className="px-6 py-5 text-xs text-slate-600">
-                      <p className="font-bold text-slate-800">{app.tutorName}</p>
+                    <td className="px-6 py-5 text-xs text-slate-600 dark:text-slate-300">
+                      <p className="font-bold text-slate-800 dark:text-slate-200">{app.tutorName}</p>
                       <p className="text-slate-400 mt-0.5">{app.tutorEmail}</p>
                     </td>
 
                     <td className="px-6 py-5">
-                      <span className="font-extrabold text-blue-600 text-base">
+                      <span className="font-extrabold text-blue-600 dark:text-blue-400 text-base">
                         ৳{app.monthlyFee?.toLocaleString()}
                       </span>
                       <span className="text-xs text-slate-400"> /mo</span>
                     </td>
 
-                    <td className="px-6 py-5 text-xs text-slate-500">
+                    <td className="px-6 py-5 text-xs text-slate-500 dark:text-slate-400">
                       {new Date(app.appliedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
@@ -156,10 +156,10 @@ export default function MyApplicationsPage() {
                       <Badge
                         className={`capitalize text-xs font-bold py-1 px-3 ${
                           app.status === "accepted"
-                            ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                            ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
                             : app.status === "rejected"
-                            ? "bg-red-100 text-red-800 border-red-300"
-                            : "bg-amber-100 text-amber-800 border-amber-300"
+                            ? "bg-red-100 dark:bg-red-950/70 text-red-800 dark:text-red-300 border-red-300 dark:border-red-800"
+                            : "bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
                         }`}
                       >
                         {app.status}
@@ -173,7 +173,7 @@ export default function MyApplicationsPage() {
                           size="sm"
                           disabled={cancellingId === app._id}
                           onClick={() => handleCancelApplication(app._id)}
-                          className="rounded-xl text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700"
+                          className="rounded-xl text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 hover:text-red-700"
                         >
                           <Trash2 size={14} className="mr-1" />
                           {cancellingId === app._id ? "Cancelling..." : "Cancel"}

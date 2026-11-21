@@ -95,17 +95,17 @@ export default function TutorOverviewPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {/* 1. Total Tuitions Posted */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Total Posted
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400">
               <BookOpen size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-slate-900">{stats.totalPosted}</h3>
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalPosted}</h3>
             <p className="text-xs text-slate-400 mt-1">
               {stats.plan === "pro" ? "Unlimited allowed (PRO)" : `${stats.totalPosted}/2 free posts used`}
             </p>
@@ -113,50 +113,50 @@ export default function TutorOverviewPage() {
         </Card>
 
         {/* 2. Active & Approved */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Live & Active
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-emerald-600">{stats.activeApproved}</h3>
+            <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{stats.activeApproved}</h3>
             <p className="text-xs text-slate-400 mt-1">Visible on catalog</p>
           </div>
         </Card>
 
         {/* 3. Total Applicants */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Applicants Received
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400">
               <Users size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-purple-600">{stats.totalApplicants}</h3>
+            <h3 className="text-3xl font-black text-purple-600 dark:text-purple-400">{stats.totalApplicants}</h3>
             <p className="text-xs text-slate-400 mt-1">Student applications</p>
           </div>
         </Card>
 
         {/* 4. Current Plan */}
-        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+        <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Current Plan
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400">
               <Sparkles size={20} />
             </div>
           </div>
           <div className="mt-4 flex items-baseline justify-between">
             <div>
-              <h3 className="text-3xl font-black capitalize text-slate-900">
+              <h3 className="text-3xl font-black capitalize text-slate-900 dark:text-white">
                 {stats.plan}
               </h3>
               <p className="text-xs text-slate-400 mt-1">
@@ -165,7 +165,7 @@ export default function TutorOverviewPage() {
             </div>
             {stats.plan !== "pro" && (
               <Link href="/pricing">
-                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-blue-600 border-blue-200 hover:bg-blue-50">
+                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950">
                   Upgrade
                 </Button>
               </Link>
@@ -177,14 +177,14 @@ export default function TutorOverviewPage() {
       {/* Grid: My Created Tuitions + Recent Applicants */}
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Left: My Created Tuitions */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">My Tuitions</h3>
-              <p className="text-xs text-slate-500">Overview of your posted batches</p>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">My Tuitions</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Overview of your posted batches</p>
             </div>
             <Link href="/dashboard/tutor/my-tuitions">
-              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 hover:bg-blue-50">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950">
                 Manage All
                 <ArrowRight size={14} className="ml-1" />
               </Button>
@@ -193,22 +193,22 @@ export default function TutorOverviewPage() {
 
           {loading ? (
             <div className="space-y-3">
-              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
-              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             </div>
           ) : myTuitions.length > 0 ? (
             <div className="space-y-3">
               {myTuitions.map((t) => (
                 <div
                   key={t._id}
-                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/60 p-4 hover:bg-slate-50 transition-colors"
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/60 p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <div className="min-w-0 pr-4">
-                    <p className="truncate text-sm font-bold text-slate-900">{t.title}</p>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                    <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{t.title}</p>
+                    <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                       <span>{t.subject}</span>
                       <span>•</span>
-                      <span className="font-semibold text-blue-600">৳{t.monthlyFee?.toLocaleString()}/mo</span>
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">৳{t.monthlyFee?.toLocaleString()}/mo</span>
                     </div>
                   </div>
 
@@ -216,10 +216,10 @@ export default function TutorOverviewPage() {
                     <Badge
                       className={`capitalize text-[11px] font-bold ${
                         t.approvalStatus === "approved"
-                          ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                          ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
                           : t.approvalStatus === "rejected"
-                          ? "bg-red-100 text-red-700 border-red-200"
-                          : "bg-amber-100 text-amber-700 border-amber-200"
+                          ? "bg-red-100 dark:bg-red-950/70 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800"
+                          : "bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800"
                       }`}
                     >
                       {t.approvalStatus}
@@ -230,7 +230,7 @@ export default function TutorOverviewPage() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <p className="text-xs text-slate-500">You haven't posted any tuitions yet.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">You haven't posted any tuitions yet.</p>
               <Link href="/dashboard/tutor/post-tuition" className="mt-3 inline-block">
                 <Button size="sm" className="rounded-xl bg-blue-600 text-xs">Post First Tuition</Button>
               </Link>
@@ -239,14 +239,14 @@ export default function TutorOverviewPage() {
         </div>
 
         {/* Right: Recent Applicants */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Recent Applicants</h3>
-              <p className="text-xs text-slate-500">Students awaiting your review</p>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Applicants</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Students awaiting your review</p>
             </div>
             <Link href="/dashboard/tutor/applicants">
-              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 hover:bg-blue-50">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950">
                 View All
                 <ArrowRight size={14} className="ml-1" />
               </Button>
@@ -255,28 +255,28 @@ export default function TutorOverviewPage() {
 
           {loading ? (
             <div className="space-y-3">
-              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
-              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             </div>
           ) : recentApplicants.length > 0 ? (
             <div className="space-y-3">
               {recentApplicants.map((app) => (
                 <div
                   key={app._id}
-                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/60 p-4 hover:bg-slate-50 transition-colors"
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/60 p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <div className="min-w-0 pr-4">
-                    <p className="truncate text-sm font-bold text-slate-900">{app.studentName}</p>
-                    <p className="text-xs text-slate-500 truncate">{app.tuitionTitle}</p>
+                    <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{app.studentName}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{app.tuitionTitle}</p>
                   </div>
 
                   <Badge
                     className={`capitalize text-[11px] font-bold ${
                       app.status === "accepted"
-                        ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                        ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
                         : app.status === "rejected"
-                        ? "bg-red-100 text-red-700 border-red-200"
-                        : "bg-amber-100 text-amber-700 border-amber-200"
+                        ? "bg-red-100 dark:bg-red-950/70 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800"
+                        : "bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800"
                     }`}
                   >
                     {app.status}
@@ -286,7 +286,7 @@ export default function TutorOverviewPage() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <p className="text-xs text-slate-500">No student applicants yet.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">No student applicants yet.</p>
             </div>
           )}
         </div>
