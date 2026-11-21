@@ -1,582 +1,296 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
-  LayoutDashboard,
-  Plus,
-  BookOpen,
-  Users,
-  CreditCard,
-  UserRound,
   ArrowRight,
-  MapPin,
-  Clock,
-  GraduationCap,
-  BriefcaseBusiness,
+  BookOpen,
   CheckCircle2,
-  Clock3,
+  Clock,
+  Eye,
   FileText,
+  GraduationCap,
+  Plus,
+  PlusCircle,
   Sparkles,
-  Settings,
-  LogOut,
-  Bell,
-  Search,
+  Users,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { apiFetch } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
+import type { Tuition, Application } from "@/types/tuition";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+interface TutorStats {
+  totalPosted: number;
+  activeApproved: number;
+  totalApplicants: number;
+  plan: string;
+}
 
-const navigationItems = [
-  {
-    title: "Overview",
-    url: "/dashboard/tutor",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Post Tuition",
-    url: "/dashboard/tutor/post-tuition",
-    icon: Plus,
-  },
-  {
-    title: "My Tuitions",
-    url: "/dashboard/tutor/my-tuitions",
-    icon: BookOpen,
-  },
-  {
-    title: "Applications",
-    url: "/dashboard/tutor/applications",
-    icon: Users,
-  },
-  {
-    title: "Subscription",
-    url: "/dashboard/tutor/subscription",
-    icon: CreditCard,
-  },
-  {
-    title: "My Profile",
-    url: "/dashboard/tutor/profile",
-    icon: UserRound,
-  },
-];
+export default function TutorOverviewPage() {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
-const TutorDashboard = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const [stats, setStats] = useState<TutorStats>({
+    totalPosted: 0,
+    activeApproved: 0,
+    totalApplicants: 0,
+    plan: "free",
+  });
+  const [myTuitions, setMyTuitions] = useState<Tuition[]>([]);
+  const [recentApplicants, setRecentApplicants] = useState<Application[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const [statsRes, tuitionsRes, applicantsRes] = await Promise.all([
+          apiFetch<{ success: boolean; stats: TutorStats }>("/stats/tutor"),
+          apiFetch<{ success: boolean; tuitions: Tuition[] }>("/tutor/my-tuitions"),
+          apiFetch<{ success: boolean; applications: Application[] }>("/tutor/applicants"),
+        ]);
+
+        if (statsRes.success) setStats(statsRes.stats);
+        if (tuitionsRes.success) setMyTuitions(tuitionsRes.tuitions.slice(0, 4));
+        if (applicantsRes.success) setRecentApplicants(applicantsRes.applications.slice(0, 4));
+      } catch (err) {
+        console.error("Failed to load tutor dashboard:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboard();
+  }, []);
 
   return (
-    <SidebarProvider>
-      <Sidebar collapsible="icon" className="border-r-0">
-        {/* Sidebar Header */}
-        <SidebarHeader className="px-4 py-5">
-          <div className="flex items-center gap-3">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white">
-              <GraduationCap className="size-6" />
-            </div>
+    <div className="space-y-8">
+      {/* Welcome Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-gradient-to-r from-blue-700 to-indigo-800 p-6 sm:p-8 text-white shadow-xl shadow-blue-500/10">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur">
+            <GraduationCap size={14} />
+            Tutor Workspace
+          </div>
+          <h1 className="mt-3 text-2xl sm:text-3xl font-black">
+            Welcome, {user?.name || "Tutor"}!
+          </h1>
+          <p className="mt-1 text-sm text-blue-100 max-w-lg">
+            Manage your teaching batches, review incoming student enrollments, and launch new tuition sessions.
+          </p>
+        </div>
 
-            <div className="grid flex-1 text-left leading-tight">
-              <span className="truncate text-lg font-bold text-slate-900">
-                MentorLagbe
-              </span>
-              <span className="truncate text-xs text-slate-500">
-                Tutor Dashboard
-              </span>
+        <Link href="/dashboard/tutor/post-tuition">
+          <Button className="rounded-xl bg-white text-blue-800 font-bold hover:bg-blue-50 shadow-md">
+            <PlusCircle size={16} className="mr-2" />
+            Post New Tuition
+          </Button>
+        </Link>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* 1. Total Tuitions Posted */}
+        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Total Posted
+            </span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+              <BookOpen size={20} />
             </div>
           </div>
-        </SidebarHeader>
-
-        {/* Sidebar Navigation */}
-        <SidebarContent className="px-3">
-          <SidebarGroup>
-            <SidebarGroupLabel className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Menu
-            </SidebarGroupLabel>
-
-            <SidebarGroupContent>
-              <SidebarMenu className="gap-1">
-                {navigationItems.map((item) => {
-                  const isActive = pathname === item.url;
-
-                  return (
-                    <SidebarMenuItem key={item.url}>
-                      <SidebarMenuButton
-                        isActive={isActive}
-                        tooltip={item.title}
-                        onClick={() => router.push(item.url)}
-                        className={`h-11 rounded-lg px-3 ${
-                          isActive
-                            ? "bg-blue-50 font-semibold text-blue-700 hover:bg-blue-50 hover:text-blue-700"
-                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                        }`}
-                      >
-                        <item.icon className="size-5 shrink-0" />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          <SidebarGroup className="mt-4">
-            <SidebarGroupLabel className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Account
-            </SidebarGroupLabel>
-
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    tooltip="Back to Website"
-                    onClick={() => router.push("/")}
-                    className="h-11 rounded-lg px-3 text-slate-600 hover:bg-slate-100"
-                  >
-                    <ArrowRight className="size-5" />
-                    <span>Back to Website</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    tooltip="Settings"
-                    onClick={() => router.push("/dashboard/tutor/settings")}
-                    className="h-11 rounded-lg px-3 text-slate-600 hover:bg-slate-100"
-                  >
-                    <Settings className="size-5" />
-                    <span>Settings</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-
-        {/* Sidebar Footer */}
-        <SidebarFooter className="border-t border-slate-100 p-3">
-          <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-              T
-            </div>
-
-            <div className="grid flex-1 text-left leading-tight">
-              <span className="truncate text-sm font-semibold text-slate-800">
-                Tutor Account
-              </span>
-              <span className="truncate text-xs text-slate-500">Free Plan</span>
-            </div>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8 shrink-0 text-slate-500 hover:text-red-600"
-              aria-label="Logout"
-            >
-              <LogOut className="size-4" />
-            </Button>
+          <div className="mt-4">
+            <h3 className="text-3xl font-black text-slate-900">{stats.totalPosted}</h3>
+            <p className="text-xs text-slate-400 mt-1">
+              {stats.plan === "pro" ? "Unlimited allowed (PRO)" : `${stats.totalPosted}/2 free posts used`}
+            </p>
           </div>
-        </SidebarFooter>
-      </Sidebar>
+        </Card>
 
-      {/* Main Dashboard */}
-      <SidebarInset className="min-w-0 bg-slate-50">
-        <div className="min-h-screen">
-          {/* Top Header */}
-          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6 lg:px-8">
-            <div className="flex min-w-0 items-center gap-3">
-              <SidebarTrigger className="size-11 shrink-0 rounded-lg text-slate-600 hover:bg-slate-100 [&>svg]:!size-6 [&>svg]:!w-6 [&>svg]:!h-6 cursor-pointer" />
-
-              <div className="hidden min-w-0 sm:block">
-                <h1 className="truncate text-sm font-semibold text-slate-800">
-                  Tutor Dashboard
-                </h1>
-                <p className="text-xs text-slate-500">
-                  Manage your tuition activities
-                </p>
-              </div>
+        {/* 2. Active & Approved */}
+        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Live & Active
+            </span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <CheckCircle2 size={20} />
             </div>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-3xl font-black text-emerald-600">{stats.activeApproved}</h3>
+            <p className="text-xs text-slate-400 mt-1">Visible on catalog</p>
+          </div>
+        </Card>
 
-            {/* <Button
-                variant="ghost"
-                size="icon"
-                className="relative size-9 rounded-full text-slate-600 hover:bg-slate-100"
-                aria-label="Notifications"
-              >
-                <Bell className="size-5" />
-                <span className="absolute right-2 top-2 size-2 rounded-full bg-red-500" />
-              </Button> */}
+        {/* 3. Total Applicants */}
+        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Applicants Received
+            </span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
+              <Users size={20} />
+            </div>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-3xl font-black text-purple-600">{stats.totalApplicants}</h3>
+            <p className="text-xs text-slate-400 mt-1">Student applications</p>
+          </div>
+        </Card>
 
-            <Button
-              variant="outline"
-              size="icon"
-              className="ml-3 h-10 w-10 shrink-0 rounded-full border-0 bg-blue-50 text-blue-700 shadow-none hover:bg-blue-100"
-              aria-label="Profile"
-              onClick={() => router.push("/dashboard/student/profile")}
-            >
-              <UserRound className="h-8 w-8" />
-            </Button>
+        {/* 4. Current Plan */}
+        <Card className="rounded-2xl border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Current Plan
+            </span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+              <Sparkles size={20} />
+            </div>
+          </div>
+          <div className="mt-4 flex items-baseline justify-between">
+            <div>
+              <h3 className="text-3xl font-black capitalize text-slate-900">
+                {stats.plan}
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                {stats.plan === "pro" ? "Verified badge + unlimited" : "Max 2 tuition posts"}
+              </p>
+            </div>
+            {stats.plan !== "pro" && (
+              <Link href="/pricing">
+                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-blue-600 border-blue-200 hover:bg-blue-50">
+                  Upgrade
+                </Button>
+              </Link>
+            )}
+          </div>
+        </Card>
+      </div>
 
-            {/* <div className="hidden sm:block">
-                  <p className="text-sm font-semibold text-slate-800">
-                    Tutor Account
-                  </p>
-                  <p className="text-xs text-slate-500">Tutor</p>
-                </div> */}
-          </header>
-
-          {/* Dashboard Content */}
-          <main className="mx-auto w-full max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
-            {/* Welcome Section */}
-            <section className="flex flex-col justify-between gap-4 rounded-2xl bg-gradient-to-r from-blue-700 to-blue-500 p-5 text-white shadow-sm sm:flex-row sm:items-center sm:p-7">
-              <div className="max-w-xl">
-                <Badge className="mb-3 border border-white/20 bg-white/15 text-white hover:bg-white/15">
-                  <Sparkles className="mr-1 size-3" />
-                  Tutor Dashboard
-                </Badge>
-
-                <h2 className="text-xl font-bold sm:text-2xl lg:text-3xl">
-                  Welcome back, Tutor!
-                </h2>
-
-                <p className="mt-2 text-sm leading-relaxed text-blue-100 sm:text-base">
-                  Manage your tuition posts, review student applications, and
-                  grow your teaching career with MentorLagbe.
-                </p>
-              </div>
-
-              <Button
-                onClick={() => router.push("/dashboard/tutor/post-tuition")}
-                className="w-full shrink-0 bg-white text-blue-700 hover:bg-blue-50 sm:w-auto"
-              >
-                <Plus className="mr-2 size-4" />
-                Post New Tuition
+      {/* Grid: My Created Tuitions + Recent Applicants */}
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Left: My Created Tuitions */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">My Tuitions</h3>
+              <p className="text-xs text-slate-500">Overview of your posted batches</p>
+            </div>
+            <Link href="/dashboard/tutor/my-tuitions">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 hover:bg-blue-50">
+                Manage All
+                <ArrowRight size={14} className="ml-1" />
               </Button>
-            </section>
+            </Link>
+          </div>
 
-            {/* Statistics */}
-            <section>
-              <div className="mb-4">
-                <h2 className="text-lg font-bold text-slate-800">
-                  Dashboard Overview
-                </h2>
-                <p className="text-sm text-slate-500">
-                  A quick overview of your teaching activities
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <StatCard
-                  title="Total Tuitions"
-                  icon={BookOpen}
-                  iconClass="bg-blue-50 text-blue-600"
-                />
-
-                <StatCard
-                  title="Active Tuitions"
-                  icon={CheckCircle2}
-                  iconClass="bg-green-50 text-green-600"
-                />
-
-                <StatCard
-                  title="Total Applicants"
-                  icon={Users}
-                  iconClass="bg-purple-50 text-purple-600"
-                />
-
-                <StatCard
-                  title="Pending Applications"
-                  icon={Clock3}
-                  iconClass="bg-orange-50 text-orange-600"
-                />
-              </div>
-            </section>
-
-            {/* Recent Applications and Subscription */}
-            <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-              {/* Recent Applications */}
-              <Card className="border-slate-200 shadow-sm xl:col-span-2">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                  <div>
-                    <CardTitle className="text-base font-bold text-slate-800">
-                      Recent Applications
-                    </CardTitle>
-                    <CardDescription className="mt-1">
-                      Latest applications from students
-                    </CardDescription>
+          {loading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+            </div>
+          ) : myTuitions.length > 0 ? (
+            <div className="space-y-3">
+              {myTuitions.map((t) => (
+                <div
+                  key={t._id}
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/60 p-4 hover:bg-slate-50 transition-colors"
+                >
+                  <div className="min-w-0 pr-4">
+                    <p className="truncate text-sm font-bold text-slate-900">{t.title}</p>
+                    <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                      <span>{t.subject}</span>
+                      <span>•</span>
+                      <span className="font-semibold text-blue-600">৳{t.monthlyFee?.toLocaleString()}/mo</span>
+                    </div>
                   </div>
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => router.push("/dashboard/tutor/applications")}
-                    className="shrink-0"
-                  >
-                    View All
-                    <ArrowRight className="ml-2 size-4" />
-                  </Button>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  {[1, 2, 3].map((item) => (
-                    <div
-                      key={item}
-                      className="flex flex-col gap-3 rounded-xl border border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between"
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge
+                      className={`capitalize text-[11px] font-bold ${
+                        t.approvalStatus === "approved"
+                          ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                          : t.approvalStatus === "rejected"
+                          ? "bg-red-100 text-red-700 border-red-200"
+                          : "bg-amber-100 text-amber-700 border-amber-200"
+                      }`}
                     >
-                      <div className="flex min-w-0 items-center gap-3">
-                        <Skeleton className="size-11 shrink-0 rounded-full" />
-
-                        <div className="min-w-0 flex-1 space-y-2">
-                          <Skeleton className="h-4 w-32 max-w-full" />
-                          <Skeleton className="h-3 w-48 max-w-full" />
-                        </div>
-                      </div>
-
-                      <Skeleton className="h-7 w-24 rounded-full" />
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              {/* Subscription Card */}
-              <Card className="overflow-hidden border-slate-200 shadow-sm">
-                <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-5 text-white">
-                  <div className="mb-4 flex items-center justify-between">
-                    <div className="flex size-10 items-center justify-center rounded-xl bg-white/15">
-                      <Sparkles className="size-5" />
-                    </div>
-
-                    <Badge className="border border-white/20 bg-white/15 text-white hover:bg-white/15">
-                      Free Plan
+                      {t.approvalStatus}
                     </Badge>
                   </div>
-
-                  <h3 className="text-lg font-bold">Upgrade to Pro</h3>
-
-                  <p className="mt-2 text-sm leading-relaxed text-blue-100">
-                    Unlock premium features and get more opportunities to grow
-                    your teaching career.
-                  </p>
                 </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-xs text-slate-500">You haven't posted any tuitions yet.</p>
+              <Link href="/dashboard/tutor/post-tuition" className="mt-3 inline-block">
+                <Button size="sm" className="rounded-xl bg-blue-600 text-xs">Post First Tuition</Button>
+              </Link>
+            </div>
+          )}
+        </div>
 
-                <CardContent className="space-y-4 p-5">
-                  <div className="space-y-3">
-                    <FeatureItem text="More tuition posting opportunities" />
-                    <FeatureItem text="Enhanced profile visibility" />
-                    <FeatureItem text="Premium support" />
+        {/* Right: Recent Applicants */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">Recent Applicants</h3>
+              <p className="text-xs text-slate-500">Students awaiting your review</p>
+            </div>
+            <Link href="/dashboard/tutor/applicants">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 hover:bg-blue-50">
+                View All
+                <ArrowRight size={14} className="ml-1" />
+              </Button>
+            </Link>
+          </div>
+
+          {loading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+              <Skeleton className="h-16 w-full rounded-2xl bg-slate-100" />
+            </div>
+          ) : recentApplicants.length > 0 ? (
+            <div className="space-y-3">
+              {recentApplicants.map((app) => (
+                <div
+                  key={app._id}
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/60 p-4 hover:bg-slate-50 transition-colors"
+                >
+                  <div className="min-w-0 pr-4">
+                    <p className="truncate text-sm font-bold text-slate-900">{app.studentName}</p>
+                    <p className="text-xs text-slate-500 truncate">{app.tuitionTitle}</p>
                   </div>
 
-                  <Button
-                    onClick={() => router.push("/dashboard/tutor/subscription")}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                  <Badge
+                    className={`capitalize text-[11px] font-bold ${
+                      app.status === "accepted"
+                        ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                        : app.status === "rejected"
+                        ? "bg-red-100 text-red-700 border-red-200"
+                        : "bg-amber-100 text-amber-700 border-amber-200"
+                    }`}
                   >
-                    Explore Pro Plan
-                    <ArrowRight className="ml-2 size-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            </section>
-
-            {/* My Tuitions */}
-            <section>
-              <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-800">
-                    My Tuitions
-                  </h2>
-                  <p className="text-sm text-slate-500">
-                    Manage your recently posted tuitions
-                  </p>
+                    {app.status}
+                  </Badge>
                 </div>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => router.push("/dashboard/tutor/my-tuitions")}
-                  className="w-full sm:w-auto"
-                >
-                  View All Tuitions
-                  <ArrowRight className="ml-2 size-4" />
-                </Button>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {[1, 2, 3].map((item) => (
-                  <Card key={item} className="border-slate-200 shadow-sm">
-                    <CardContent className="space-y-4 p-5">
-                      <div className="flex items-start justify-between gap-3">
-                        <Skeleton className="size-11 rounded-xl" />
-                        <Skeleton className="h-6 w-20 rounded-full" />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Skeleton className="h-5 w-3/4" />
-                        <Skeleton className="h-3 w-1/2" />
-                      </div>
-
-                      <div className="space-y-3 border-t border-slate-100 pt-4">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="size-4 text-slate-400" />
-                          <Skeleton className="h-3 w-32" />
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Clock className="size-4 text-slate-400" />
-                          <Skeleton className="h-3 w-28" />
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Users className="size-4 text-slate-400" />
-                          <Skeleton className="h-3 w-24" />
-                        </div>
-                      </div>
-
-                      <Skeleton className="h-9 w-full rounded-md" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-
-            {/* Quick Actions */}
-            <section>
-              <div className="mb-4">
-                <h2 className="text-lg font-bold text-slate-800">
-                  Quick Actions
-                </h2>
-                <p className="text-sm text-slate-500">
-                  Quickly access your frequently used features
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <QuickAction
-                  icon={Plus}
-                  title="Post New Tuition"
-                  description="Create a new tuition post"
-                  onClick={() => router.push("/dashboard/tutor/post-tuition")}
-                />
-
-                <QuickAction
-                  icon={Users}
-                  title="View Applications"
-                  description="Manage student applications"
-                  onClick={() => router.push("/dashboard/tutor/applications")}
-                />
-
-                <QuickAction
-                  icon={BookOpen}
-                  title="My Tuitions"
-                  description="Manage your tuition posts"
-                  onClick={() => router.push("/dashboard/tutor/my-tuitions")}
-                />
-
-                <QuickAction
-                  icon={UserRound}
-                  title="My Profile"
-                  description="Update your tutor profile"
-                  onClick={() => router.push("/dashboard/tutor/profile")}
-                />
-              </div>
-            </section>
-          </main>
+              ))}
+            </div>
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-xs text-slate-500">No student applicants yet.</p>
+            </div>
+          )}
         </div>
-      </SidebarInset>
-    </SidebarProvider>
-  );
-};
-
-export default TutorDashboard;
-
-/* Statistics Card */
-function StatCard({
-  title,
-  icon: Icon,
-  iconClass,
-}: {
-  title: string;
-  icon: React.ElementType;
-  iconClass: string;
-}) {
-  return (
-    <Card className="border-slate-200 shadow-sm">
-      <CardContent className="flex items-center justify-between gap-3 p-5">
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-slate-500">{title}</p>
-          <Skeleton className="mt-3 h-8 w-16" />
-          <Skeleton className="mt-2 h-3 w-24" />
-        </div>
-
-        <div
-          className={`flex size-12 shrink-0 items-center justify-center rounded-xl ${iconClass}`}
-        >
-          <Icon className="size-6" />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-/* Pro Plan Feature */
-function FeatureItem({ text }: { text: string }) {
-  return (
-    <div className="flex items-center gap-2 text-sm text-slate-600">
-      <CheckCircle2 className="size-4 shrink-0 text-green-500" />
-      <span>{text}</span>
+      </div>
     </div>
-  );
-}
-
-/* Quick Action Card */
-function QuickAction({
-  icon: Icon,
-  title,
-  description,
-  onClick,
-}: {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group flex w-full items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 text-left transition-all hover:border-blue-200 hover:shadow-sm"
-    >
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-        <Icon className="size-5" />
-      </div>
-
-      <div className="min-w-0 flex-1">
-        <h3 className="text-sm font-semibold text-slate-800">{title}</h3>
-        <p className="mt-1 text-xs text-slate-500">{description}</p>
-      </div>
-
-      <ArrowRight className="size-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-600" />
-    </button>
   );
 }
