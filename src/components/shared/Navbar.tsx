@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronDown,
+  UserRound,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -87,10 +88,10 @@ const Navbar = () => {
 
   // Dashboard navigation
   const handleDashboard = () => {
-    if (!user?.role) return;
+    if (!user) return;
 
     setIsOpen(false);
-    router.push(dashboardPathFor(user.role));
+    router.push(dashboardPathFor(user?.role));
   };
 
   console.log(user);
@@ -224,7 +225,16 @@ const Navbar = () => {
                     className="cursor-pointer gap-2 rounded-lg py-2 text-slate-700 focus:bg-blue-50 focus:text-blue-600"
                   >
                     <LayoutDashboard size={17} />
-                    <Link href={`/dashboard/${user.role}`}>Dashboard</Link>
+                    <span>Dashboard</span>
+                  </DropdownMenuItem>
+
+                  {/* Update Profile */}
+                  <DropdownMenuItem
+                    onClick={() => router.push("/dashboard/profile")}
+                    className="cursor-pointer gap-2 rounded-lg py-2 text-slate-700 focus:bg-blue-50 focus:text-blue-600"
+                  >
+                    <UserRound size={17} />
+                    <span>Update Profile</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator className="bg-slate-100" />
@@ -369,6 +379,20 @@ const Navbar = () => {
                   >
                     <LayoutDashboard size={18} />
                     Dashboard
+                  </Button>
+
+                  {/* Update Profile Button */}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-start gap-2 rounded-xl border-slate-200 font-semibold"
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/dashboard/profile");
+                    }}
+                  >
+                    <UserRound size={18} />
+                    Update Profile
                   </Button>
 
                   {/* Logout Button */}
