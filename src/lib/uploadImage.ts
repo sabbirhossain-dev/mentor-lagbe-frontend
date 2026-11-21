@@ -38,8 +38,10 @@ export async function uploadImageToImgBB(file: File): Promise<string> {
 
     // Direct display URL provided by ImgBB
     return data.data.display_url || data.data.url;
-  } catch (error: any) {
-    console.error("ImgBB upload error:", error);
-    throw new Error(error.message || "Failed to upload image. Please try again.");
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Failed to upload image. Please try again.";
+    console.error("ImgBB upload error:", message);
+    throw new Error(message);
   }
 }

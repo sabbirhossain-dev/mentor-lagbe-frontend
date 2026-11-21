@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
 import { uploadImageToImgBB } from "@/lib/uploadImage";
+import type { UserProfile } from "@/types";
 
 export default function ProfilePage() {
   const { data: session } = authClient.useSession();
@@ -43,7 +44,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const res = await apiFetch<{ success: boolean; user: any }>("/users/me");
+        const res = await apiFetch<{ success: boolean; user: UserProfile }>("/users/me");
         if (res.success && res.user) {
           setName(res.user.name || "");
           setPhone(res.user.phone || "");
@@ -51,7 +52,7 @@ export default function ProfilePage() {
           setImage(res.user.image || "");
           setPreviewUrl(res.user.image || "");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to load profile:", err);
       } finally {
         setLoading(false);
@@ -80,14 +81,14 @@ export default function ProfilePage() {
     let finalImageUrl = image;
 
     try {
-      // 1. If user selected a new file, upload to ImgBB
+      // 1. If user selected a new file, quietly upload to ImgBB without popup
       if (selectedFile) {
-        const toastId = toast.loading("Uploading image to ImgBB...");
         try {
           finalImageUrl = await uploadImageToImgBB(selectedFile);
-          toast.success("Image uploaded to ImgBB!", { id: toastId });
-        } catch (uploadErr: any) {
-          toast.error(uploadErr.message || "Failed to upload image", { id: toastId });
+        } catch (uploadErr: unknown) {
+          const errMsg =
+            uploadErr instanceof Error ? uploadErr.message : "Failed to upload image";
+          toast.error(errMsg);
           setSaving(false);
           return;
         }
@@ -110,8 +111,9 @@ export default function ProfilePage() {
         setSelectedFile(null);
         toast.success("Profile updated successfully!");
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to update profile");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Failed to update profile";
+      toast.error(errMsg);
     } finally {
       setSaving(false);
     }
@@ -143,7 +145,7 @@ export default function ProfilePage() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute bottom-1 right-1 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-blue-700"
-                title="Change Photo via ImgBB"
+                title="Change Photo"
               >
                 <Camera size={18} />
               </button>

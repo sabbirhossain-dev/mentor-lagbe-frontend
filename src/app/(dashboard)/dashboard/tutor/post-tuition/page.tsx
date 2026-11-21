@@ -83,14 +83,14 @@ export default function PostTuitionPage() {
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80";
 
     try {
-      // 1. If banner file chosen, upload to ImgBB
+      // 1. If banner file chosen, upload to ImgBB quietly
       if (bannerFile) {
-        const toastId = toast.loading("Uploading banner image to ImgBB...");
         try {
           uploadedBannerUrl = await uploadImageToImgBB(bannerFile);
-          toast.success("Banner uploaded to ImgBB!", { id: toastId });
-        } catch (uploadErr: any) {
-          toast.error(uploadErr.message || "Banner upload failed", { id: toastId });
+        } catch (uploadErr: unknown) {
+          const errMsg =
+            uploadErr instanceof Error ? uploadErr.message : "Banner upload failed";
+          toast.error(errMsg);
           setSubmitting(false);
           return;
         }

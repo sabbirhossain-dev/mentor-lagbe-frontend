@@ -7,13 +7,14 @@ import toast from "react-hot-toast";
 import { CheckCircle2, ArrowRight, Sparkles, Loader2, ShieldCheck, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
+import type { PaymentRecord } from "@/types";
 
 function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
   const [verifying, setVerifying] = useState(true);
-  const [paymentData, setPaymentData] = useState<any>(null);
+  const [paymentData, setPaymentData] = useState<PaymentRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

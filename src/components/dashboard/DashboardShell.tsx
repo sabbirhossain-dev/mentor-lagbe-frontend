@@ -28,6 +28,7 @@ import {
   UserRound,
   Users,
   X,
+  type LucideIcon,
 } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
@@ -39,7 +40,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface NavItem {
   label: string;
   href: string;
-  icon: any;
+  icon: LucideIcon;
 }
 
 export default function DashboardShell({
