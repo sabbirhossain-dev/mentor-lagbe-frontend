@@ -96,3 +96,21 @@ a {
 [data-slot="card-footer"] {
   border: none !important;
 }
+
+/* Remove default shadcn sidebar borders and outlines */
+[data-sidebar="sidebar"] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[data-sidebar="sidebar"]::before,
+[data-sidebar="sidebar"]::after {
+  border: none !important;
+  outline: none !important;
+}
+
+[data-slot="sidebar-container"] {
+  border: none !important;
+  box-shadow: none !important;
+}
