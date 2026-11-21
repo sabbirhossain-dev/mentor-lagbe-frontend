@@ -3,24 +3,42 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+
 import {
   GraduationCap,
   Menu,
-  X,
-  BookOpen,
   Home,
+  BookOpen,
   CreditCard,
   Info,
+  LayoutDashboard,
+  LogOut,
+  ChevronDown,
 } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Button } from "@/components/ui/button";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+
 import { authClient } from "@/lib/auth-client";
+import { clearAuthToken } from "@/lib/api";
+import { dashboardPathFor } from "@/lib/roles";
 
 // Navbar navigation links
 const navLinks = [
@@ -51,8 +69,14 @@ const Navbar = () => {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Check whether a navigation link is active
+  // Better Auth session
+  const { data: session, isPending } = authClient.useSession();
+
+  const user = session?.user;
+
+  // Check active navigation link
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -61,17 +85,46 @@ const Navbar = () => {
     return pathname.startsWith(href);
   };
 
-  // Navigate and close mobile menu
-  const handleNavigation = (href: string) => {
+  // Dashboard navigation
+  const handleDashboard = () => {
+    if (!user?.role) return;
+
     setIsOpen(false);
-    router.push(href);
+    router.push(dashboardPathFor(user.role));
   };
 
-  //user session
-  const { data: session } = authClient.useSession();
+  console.log(user);
 
-  const user = session?.user;
-  //   console.log(user);
+  // User initials
+  const userInitials =
+    user?.name
+      ?.split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "U";
+
+  // Logout handler
+  const handleSignOut = async () => {
+    if (isLoggingOut) return;
+
+    try {
+      setIsLoggingOut(true);
+
+      await authClient.signOut();
+
+      clearAuthToken();
+
+      setIsOpen(false);
+
+      router.replace("/sign-in");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
@@ -110,35 +163,107 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Desktop Authentication Buttons */}
-        {user ? (
-          <>
-            <div className="border border-slate-200 py-2 px-5 ">
-              <p className="font-semibold">{user.name}</p>
-            </div>
-          </>
-        ) : (
-          <div className="hidden items-center gap-3 md:flex">
-            <Button
-              variant="ghost"
-              className="rounded-xl font-semibold cursor-pointer text-slate-700 hover:text-blue-600"
-              onClick={() => router.push("/sign-in")}
-            >
-              Sign In
-            </Button>
+        {/* Desktop Authentication */}
+        <div className="hidden items-center gap-3 md:flex">
+          {isPending ? (
+            <div className="h-10 w-32 animate-pulse rounded-xl bg-slate-100" />
+          ) : user ? (
+            <DropdownMenu>
+              {/* User Profile Trigger */}
+              <DropdownMenuTrigger className="flex items-center gap-3 rounded-xl border-0 bg-transparent px-3 py-2 outline-none ring-0 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:outline-none focus-visible:ring-0 data-[popup-open]:bg-slate-50">
+                <Avatar className="h-10 w-10 border border-blue-100">
+                  <AvatarImage
+                    src={user.image || ""}
+                    alt={user.name || "User"}
+                  />
 
-            <Button
-              className="rounded-xl bg-blue-600 px-5 py-5 font-semibold cursor-pointer text-white shadow-md shadow-blue-600/20 hover:bg-blue-700"
-              onClick={() => router.push("/sign-up")}
-            >
-              Get Started
-            </Button>
-          </div>
-        )}
+                  <AvatarFallback className="bg-blue-50 font-semibold text-blue-600">
+                    {userInitials}
+                  </AvatarFallback>
+                </Avatar>
+
+                <div className="text-left">
+                  <p className="max-w-32 truncate text-sm font-semibold text-slate-800">
+                    {user.name}
+                  </p>
+
+                  <p className="text-xs capitalize text-slate-500">
+                    {user.role || "Member"}
+                  </p>
+                </div>
+
+                <ChevronDown size={16} className="text-slate-500" />
+              </DropdownMenuTrigger>
+
+              {/* User Dropdown */}
+              <DropdownMenuContent
+                align="end"
+                className="w-56 rounded-xl !border-0 !bg-white p-2 !shadow-lg !ring-0 !outline-none focus:!outline-none"
+              >
+                <DropdownMenuGroup>
+                  {/* User Information */}
+                  <div className="px-2 py-2">
+                    <p className="truncate text-sm font-semibold text-slate-800">
+                      {user.name}
+                    </p>
+
+                    <p className="truncate text-xs text-slate-500">
+                      {user.email}
+                    </p>
+
+                    <p className="mt-1 text-xs font-medium capitalize text-blue-600">
+                      {user.role || "student"}
+                    </p>
+                  </div>
+
+                  <DropdownMenuSeparator className="bg-slate-100" />
+
+                  {/* Dashboard */}
+                  <DropdownMenuItem
+                    onClick={handleDashboard}
+                    className="cursor-pointer gap-2 rounded-lg py-2 text-slate-700 focus:bg-blue-50 focus:text-blue-600"
+                  >
+                    <LayoutDashboard size={17} />
+                    <Link href={`/dashboard/${user.role}`}>Dashboard</Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="bg-slate-100" />
+
+                  {/* Logout */}
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    disabled={isLoggingOut}
+                    className="cursor-pointer gap-2 rounded-lg py-2 text-red-600 focus:bg-red-50 focus:text-red-600"
+                  >
+                    <LogOut size={17} />
+                    {isLoggingOut ? "Signing out..." : "Sign Out"}
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600"
+              >
+                Sign In
+              </Link>
+
+              <Link
+                href="/sign-up"
+                className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-colors hover:bg-blue-700"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <Button
+            type="button"
             variant="outline"
             size="icon"
             className="rounded-xl border-slate-200"
@@ -175,8 +300,8 @@ const Navbar = () => {
             </div>
           </SheetHeader>
 
-          {/* Mobile Navigation Links */}
           <div className="flex flex-col gap-2 p-5">
+            {/* Navigation Links */}
             <p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
               Navigation
             </p>
@@ -185,10 +310,11 @@ const Navbar = () => {
               const Icon = link.icon;
 
               return (
-                <button
+                <Link
                   key={link.href}
-                  onClick={() => handleNavigation(link.href)}
-                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition-colors ${
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
                     isActive(link.href)
                       ? "bg-blue-50 text-blue-600"
                       : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
@@ -196,26 +322,86 @@ const Navbar = () => {
                 >
                   <Icon size={19} />
                   {link.name}
-                </button>
+                </Link>
               );
             })}
 
-            {/* Mobile Authentication Buttons */}
+            {/* Mobile Authentication */}
             <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-5">
-              <Button
-                variant="outline"
-                className="w-full rounded-xl border-slate-200 font-semibold"
-                onClick={() => handleNavigation("/sign-in")}
-              >
-                Sign In
-              </Button>
+              {isPending ? (
+                <div className="h-20 animate-pulse rounded-xl bg-slate-100" />
+              ) : user ? (
+                <>
+                  {/* User Information */}
+                  <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
+                    <Avatar className="h-11 w-11 border border-blue-100">
+                      <AvatarImage
+                        src={user.image || ""}
+                        alt={user.name || "User"}
+                      />
 
-              <Button
-                className="w-full rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-700"
-                onClick={() => handleNavigation("/sign-up")}
-              >
-                Get Started
-              </Button>
+                      <AvatarFallback className="bg-blue-50 font-semibold text-blue-600">
+                        {userInitials}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-800">
+                        {user.name}
+                      </p>
+
+                      <p className="truncate text-xs text-slate-500">
+                        {user.email}
+                      </p>
+
+                      <p className="mt-1 text-xs font-medium capitalize text-blue-600">
+                        {user.role || "Member"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Dashboard Button */}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-start gap-2 rounded-xl border-slate-200 font-semibold"
+                    onClick={handleDashboard}
+                  >
+                    <LayoutDashboard size={18} />
+                    Dashboard
+                  </Button>
+
+                  {/* Logout Button */}
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    className="w-full justify-start gap-2 rounded-xl font-semibold"
+                    onClick={handleSignOut}
+                    disabled={isLoggingOut}
+                  >
+                    <LogOut size={18} />
+                    {isLoggingOut ? "Signing out..." : "Sign Out"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                  >
+                    Sign In
+                  </Link>
+
+                  <Link
+                    href="/sign-up"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </SheetContent>

@@ -1,49 +1,101 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import {
+  AlertCircle,
   ArrowRight,
   Eye,
   EyeOff,
   GraduationCap,
+  Loader2,
   ShieldCheck,
   Users,
 } from "lucide-react";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { authClient } from "@/lib/auth-client";
+import { dashboardPathFor } from "@/lib/roles";
 import { useRouter } from "next/navigation";
-// import { Card } from "@/components/ui/card";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
+  const [terms, setTerms] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const router = useRouter();
+
+  // Already signed in? Go straight to the user's own dashboard.
+  const { data: session, isPending } = authClient.useSession();
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      router.replace(dashboardPathFor(session.user.role));
+    }
+  }, [isPending, session, router]);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting) return;
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string | null)?.trim() ?? "";
+    const email = (formData.get("email") as string | null)?.trim() ?? "";
+    const password = (formData.get("password") as string | null) ?? "";
+    const confirmPassword =
+      (formData.get("confirmPassword") as string | null) ?? "";
 
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    const { data, error } = await authClient.signUp.email({
-      name,
-      email,
-      password,
-      callbackURL: "/",
-    });
-
-    if (error) {
-      console.log(error);
+    // Client-side validation (the server re-validates everything).
+    if (!role) {
+      setError("Please select whether you are joining as a student or tutor.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (!terms) {
+      setError("Please agree to the Terms of Service and Privacy Policy.");
       return;
     }
 
-    router.push("/");
-    console.log(data);
+    setSubmitting(true);
+    try {
+      const { data, error: signUpError } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        role,
+        callbackURL: "/",
+      });
+
+      if (signUpError) {
+        setError(signUpError.message || "Something went wrong. Please try again.");
+        return;
+      }
+
+      // Role-based redirect (role comes from the server response, never from
+      // what we typed — the server is authoritative).
+      router.push(dashboardPathFor(data?.user?.role));
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -134,82 +186,89 @@ export default function SignUpPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              {/* Error */}
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
               {/* Full Name */}
               <div>
-                <label
+                <Label
                   htmlFor="name"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   Full Name
-                </label>
+                </Label>
 
-                <input
+                <Input
                   id="name"
                   name="name"
                   type="text"
                   placeholder="Enter your full name"
                   autoComplete="name"
                   required
-                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                  className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label
+                <Label
                   htmlFor="email"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   Email Address
-                </label>
+                </Label>
 
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
                   placeholder="you@example.com"
                   autoComplete="email"
                   required
-                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                  className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                 />
               </div>
 
               {/* Role */}
               <div>
-                <label
+                <Label
                   htmlFor="role"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   I want to join as
-                </label>
+                </Label>
 
-                <select
-                  id="role"
-                  name="role"
-                  defaultValue=""
-                  required
-                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-600 outline-none transition hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-                >
-                  <option value="" disabled>
-                    Select your role
-                  </option>
-                  <option value="student">Student</option>
-                  <option value="tutor">Tutor</option>
-                </select>
+                <Select value={role} onValueChange={setRole}>
+                  <SelectTrigger
+                    id="role"
+                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-600 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
+                  >
+                    <SelectValue placeholder="Select your role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="student">Student</SelectItem>
+                    <SelectItem value="tutor">Tutor</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Password */}
               <div>
-                <label
+                <Label
                   htmlFor="password"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   Password
-                </label>
+                </Label>
 
                 <div className="relative">
-                  <input
+                  <Input
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
@@ -217,19 +276,21 @@ export default function SignUpPage() {
                     autoComplete="new-password"
                     minLength={8}
                     required
-                    className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                   />
 
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-700"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 text-slate-400 hover:bg-transparent hover:text-slate-700"
                   >
                     {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
-                  </button>
+                  </Button>
                 </div>
 
                 <p className="mt-2 text-xs text-slate-400">
@@ -239,15 +300,15 @@ export default function SignUpPage() {
 
               {/* Confirm Password */}
               <div>
-                <label
+                <Label
                   htmlFor="confirmPassword"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   Confirm Password
-                </label>
+                </Label>
 
                 <div className="relative">
-                  <input
+                  <Input
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
@@ -255,41 +316,42 @@ export default function SignUpPage() {
                     autoComplete="new-password"
                     minLength={8}
                     required
-                    className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                   />
 
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     aria-label={
                       showConfirmPassword
                         ? "Hide confirm password"
                         : "Show confirm password"
                     }
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-700"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 text-slate-400 hover:bg-transparent hover:text-slate-700"
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={19} />
                     ) : (
                       <Eye size={19} />
                     )}
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               {/* Terms */}
               <div className="flex items-start gap-2 pt-1">
-                <input
+                <Checkbox
                   id="terms"
-                  name="terms"
-                  type="checkbox"
-                  required
-                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 accent-blue-600"
+                  checked={terms}
+                  onCheckedChange={(checked) => setTerms(checked === true)}
+                  className="mt-0.5"
                 />
 
-                <label
+                <Label
                   htmlFor="terms"
-                  className="text-xs leading-5 text-slate-500"
+                  className="block cursor-pointer text-xs leading-5 text-slate-500"
                 >
                   I agree to the{" "}
                   <Link
@@ -306,16 +368,26 @@ export default function SignUpPage() {
                     Privacy Policy
                   </Link>
                   .
-                </label>
+                </Label>
               </div>
 
               {/* Submit */}
               <Button
                 type="submit"
+                disabled={submitting}
                 className="h-12 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-700"
               >
-                Create Account
-                <ArrowRight className="ml-2" size={18} />
+                {submitting ? (
+                  <>
+                    <Loader2 className="animate-spin" size={18} />
+                    Creating account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight className="ml-2" size={18} />
+                  </>
+                )}
               </Button>
             </form>
 

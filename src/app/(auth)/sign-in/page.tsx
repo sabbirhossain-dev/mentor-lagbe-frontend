@@ -1,25 +1,91 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import {
+  AlertCircle,
   ArrowRight,
   Eye,
   EyeOff,
   GraduationCap,
+  Loader2,
   ShieldCheck,
 } from "lucide-react";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-// import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { authClient } from "@/lib/auth-client";
+import { dashboardPathFor } from "@/lib/roles";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  // Already signed in? Go straight to the user's own dashboard.
+  const { data: session, isPending } = authClient.useSession();
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      router.replace(dashboardPathFor(session.user.role));
+    }
+  }, [isPending, session, router]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Sign in API will be connected later.
+    if (submitting) return;
+
+    setError(null);
+    setSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    const email = (formData.get("email") as string | null)?.trim() ?? "";
+    const password = (formData.get("password") as string | null) ?? "";
+
+    try {
+      const { data, error: signInError } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe,
+      });
+
+      if (signInError) {
+        setError(signInError.message || "Invalid email or password.");
+        return;
+      }
+
+      // First check the user returned by sign-in.
+      let role = data?.user?.role;
+
+      // If role is missing, fetch the latest authenticated session.
+      if (!role) {
+        const { data: sessionData } = await authClient.getSession();
+        role = sessionData?.user?.role;
+      }
+
+      console.log("Signed-in user:", data?.user);
+      console.log("User role:", role);
+
+      if (!role) {
+        setError("User role not found. Please contact support.");
+        return;
+      }
+
+      router.replace(dashboardPathFor(role));
+    } catch (error) {
+      console.error("Sign in failed:", error);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -110,36 +176,44 @@ export default function SignInPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              {/* Error */}
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
               {/* Email */}
               <div>
-                <label
+                <Label
                   htmlFor="email"
                   className="mb-2 block text-sm font-semibold text-slate-700"
                 >
                   Email Address
-                </label>
+                </Label>
 
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
                   placeholder="you@example.com"
                   autoComplete="email"
                   required
-                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                  className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                 />
               </div>
 
               {/* Password */}
               <div>
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <label
+                  <Label
                     htmlFor="password"
                     className="text-sm font-semibold text-slate-700"
                   >
                     Password
-                  </label>
+                  </Label>
 
                   <Link
                     href="/forgot-password"
@@ -150,52 +224,63 @@ export default function SignInPage() {
                 </div>
 
                 <div className="relative">
-                  <input
+                  <Input
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     autoComplete="current-password"
                     required
-                    className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
                   />
 
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-700"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 text-slate-400 hover:bg-transparent hover:text-slate-700"
                   >
                     {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               {/* Remember Me */}
               <div className="flex items-center gap-2">
-                <input
+                <Checkbox
                   id="remember"
-                  name="remember"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 accent-blue-600"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked === true)}
                 />
-                <label
+                <Label
                   htmlFor="remember"
                   className="cursor-pointer text-sm text-slate-500"
                 >
                   Remember me
-                </label>
+                </Label>
               </div>
 
               {/* Submit */}
               <Button
                 type="submit"
+                disabled={submitting}
                 className="h-12 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-700"
               >
-                Sign In
-                <ArrowRight className="ml-2" size={18} />
+                {submitting ? (
+                  <>
+                    <Loader2 className="animate-spin" size={18} />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight className="ml-2" size={18} />
+                  </>
+                )}
               </Button>
             </form>
 

@@ -13,6 +13,24 @@
   --primary: #2563eb;
   --secondary: #64748b;
   --border: #e2e8f0;
+  --primary-foreground: #ffffff;
+  --secondary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --input: #e2e8f0;
+  --ring: #2563eb;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
 }
 
 .dark {
@@ -21,6 +39,20 @@
   --primary: #3b82f6;
   --secondary: #cbd5e1;
   --border: #334155;
+  --primary-foreground: #ffffff;
+  --secondary-foreground: #0f172a;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --input: #334155;
+  --ring: #3b82f6;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
 }
 
 /* ================= GLOBAL STYLES ================= */
@@ -42,4 +74,25 @@ body {
 
 a {
   text-decoration: none;
+}
+/* Remove default borders from all dashboard cards */
+[data-slot="card"] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 4px 25px rgba(15, 23, 42, 0.035);
+}
+
+/* Remove borders on hover and focus */
+[data-slot="card"]:hover,
+[data-slot="card"]:focus,
+[data-slot="card"]:focus-visible {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove borders from card children */
+[data-slot="card-header"],
+[data-slot="card-content"],
+[data-slot="card-footer"] {
+  border: none !important;
 }
