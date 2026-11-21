@@ -206,7 +206,7 @@ export default function StudentDashboard() {
         {/* Header */}
         <header className="sticky top-0 z-20 flex h-[76px] items-center justify-between bg-white/90 px-4 shadow-[0_2px_15px_rgba(15,23,42,0.03)] backdrop-blur-xl sm:pl-1 sm:pr-5">
           <div className="flex min-w-0 items-center gap-3">
-            <SidebarTrigger className="size-11 shrink-0 rounded-xl border-0 text-slate-600 shadow-none hover:bg-blue-50 hover:text-blue-700<SidebarTrigger [&>svg]:!size-6 [&>svg]:!w-6 [&>svg]:!h-6 cursor-pointer" />
+            <SidebarTrigger className="size-11 shrink-0 rounded-xl border-0 text-slate-600 shadow-none hover:bg-blue-50 hover:text-blue-700 [&>svg]:!size-6 [&>svg]:!w-6 [&>svg]:!h-6 cursor-pointer" />
             <div className="min-w-0">
               <p className="text-xs font-medium tracking-wide text-slate-400">
                 STUDENT DASHBOARD
@@ -220,11 +220,11 @@ export default function StudentDashboard() {
           <Button
             variant="outline"
             size="icon"
-            className="ml-3 shrink-0 rounded-full border-0 bg-blue-50 text-blue-700 shadow-none hover:bg-blue-100"
+            className="ml-3 h-10 w-10 shrink-0 rounded-full border-0 bg-blue-50 text-blue-700 shadow-none hover:bg-blue-100"
             aria-label="Profile"
             onClick={() => router.push("/dashboard/student/profile")}
           >
-            <UserRound className="h-5 w-5" />
+            <UserRound className="h-8 w-8" />
           </Button>
         </header>
 
