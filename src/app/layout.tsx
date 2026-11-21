@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
-
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700", "900"],
@@ -13,21 +10,17 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "MentorLagbe",
-  description: "Find Your Ideal Tutor & Learn Without Limits.",
+  description: "Find your ideal tutor or mentorship batch.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      className={`${roboto.className} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </body>
+    <html lang="en">
+      <body className={roboto.className}>{children}</body>
     </html>
   );
 }
