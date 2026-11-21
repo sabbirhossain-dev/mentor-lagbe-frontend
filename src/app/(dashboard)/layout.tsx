@@ -1,7 +1,9 @@
+import DashboardShell from "@/components/dashboard/DashboardShell";
+
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="min-h-screen">{children}</main>;
+  return <DashboardShell>{children}</DashboardShell>;
 }
