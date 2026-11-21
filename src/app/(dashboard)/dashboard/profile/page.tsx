@@ -123,8 +123,8 @@ export default function ProfilePage() {
     <div className="space-y-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Account Profile</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Account Profile</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Manage your personal information, contact phone, and avatar.
         </p>
       </div>
@@ -132,9 +132,9 @@ export default function ProfilePage() {
       <div className="grid gap-8 lg:grid-cols-12">
         {/* Left Side: Avatar Card */}
         <div className="lg:col-span-4">
-          <Card className="rounded-2xl border-slate-200 bg-white p-6 text-center shadow-sm">
+          <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 text-center shadow-sm">
             <div className="relative mx-auto h-32 w-32">
-              <Avatar className="h-32 w-32 border-4 border-slate-100 shadow-md">
+              <Avatar className="h-32 w-32 border-4 border-slate-100 dark:border-slate-700 shadow-md">
                 <AvatarImage src={previewUrl || image} alt={name || "User"} />
                 <AvatarFallback className="bg-blue-600 text-3xl font-extrabold text-white">
                   {(name || "U").charAt(0).toUpperCase()}
@@ -159,14 +159,14 @@ export default function ProfilePage() {
               className="hidden"
             />
 
-            <h3 className="mt-4 text-lg font-bold text-slate-900">{name || "User Name"}</h3>
-            <p className="text-xs text-slate-500">{sessionUser?.email}</p>
+            <h3 className="mt-4 text-lg font-bold text-slate-900 dark:text-white">{name || "User Name"}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{sessionUser?.email}</p>
 
             <div className="mt-3 flex items-center justify-center gap-2">
-              <Badge className="capitalize text-xs font-bold bg-blue-50 text-blue-700 border-blue-200">
+              <Badge className="capitalize text-xs font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
                 {sessionUser?.role || "student"}
               </Badge>
-              <Badge className="capitalize text-xs font-bold bg-slate-100 text-slate-700">
+              <Badge className="capitalize text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                 Plan: {sessionUser?.plan || "free"}
               </Badge>
             </div>
@@ -179,15 +179,15 @@ export default function ProfilePage() {
 
         {/* Right Side: Profile Details Form */}
         <div className="lg:col-span-8">
-          <Card className="rounded-2xl border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-            <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <UserRound size={18} className="text-blue-600" />
+          <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+              <UserRound size={18} className="text-blue-600 dark:text-blue-400" />
               Personal Information
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   Full Name
                 </label>
                 <Input
@@ -196,19 +196,19 @@ export default function ProfilePage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your full name"
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   Email Address
                 </label>
                 <Input
                   type="email"
                   disabled
                   value={sessionUser?.email || ""}
-                  className="mt-1.5 h-11 rounded-xl bg-slate-50 text-slate-500"
+                  className="mt-1.5 h-11 rounded-xl bg-slate-50 dark:bg-slate-800/60 dark:border-slate-700 text-slate-500 dark:text-slate-400"
                 />
                 <span className="text-[11px] text-slate-400 mt-1 block">
                   Email is locked to your authenticated login.
@@ -216,7 +216,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   Phone Number
                 </label>
                 <Input
@@ -224,12 +224,12 @@ export default function ProfilePage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. +880 1700-000000"
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   Bio / Academic Summary
                 </label>
                 <textarea
@@ -237,12 +237,12 @@ export default function ProfilePage() {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Tell students or tutors about your background, achievements, and subject interests..."
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               {selectedFile && (
-                <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-3 text-xs text-blue-700 flex items-center justify-between">
+                <div className="rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/60 dark:bg-blue-950/60 p-3 text-xs text-blue-700 dark:text-blue-300 flex items-center justify-between">
                   <span>Selected file: <strong>{selectedFile.name}</strong></span>
                   <button
                     type="button"

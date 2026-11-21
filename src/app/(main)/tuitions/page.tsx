@@ -123,23 +123,23 @@ function BrowseTuitionsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-24 pt-12">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 pb-24 pt-12 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header Breadcrumb & Title */}
         <div className="mb-10 text-center sm:text-left">
-          <Badge className="mb-3 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-semibold text-blue-700">
+          <Badge className="mb-3 rounded-full border border-blue-200 bg-blue-50 dark:border-blue-900/60 dark:bg-blue-950/60 px-3.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
             Tuition Catalog
           </Badge>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Browse Approved Tuitions & Mentors
           </h1>
-          <p className="mt-2 text-base text-slate-500">
+          <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
             Find the perfect academic mentor or subject batch with direct filters.
           </p>
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+        <div className="mb-8 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm space-y-4">
           {/* Top Search Input */}
           <form onSubmit={handleSearchSubmit} className="flex gap-2">
             <div className="relative flex-1">
@@ -152,7 +152,7 @@ function BrowseTuitionsContent() {
                 placeholder="Search by title, subject (e.g., Higher Math, Physics), or location..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-11 rounded-xl pl-10 border-slate-200 focus-visible:ring-blue-500 text-sm"
+                className="h-11 rounded-xl pl-10 border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus-visible:ring-blue-500 text-sm"
               />
             </div>
             <Button
@@ -164,17 +164,17 @@ function BrowseTuitionsContent() {
           </form>
 
           {/* Filter Dropdowns Grid */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 items-center pt-2 border-t border-slate-100">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 items-center pt-2 border-t border-slate-100 dark:border-slate-800">
             {/* Subject Filter */}
             <div>
-              <label className="text-xs font-semibold text-slate-500">Subject</label>
+              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Subject</label>
               <select
                 value={subject}
                 onChange={(e) => {
                   setSubject(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
               >
                 {SUBJECTS.map((s) => (
                   <option key={s} value={s}>
@@ -186,14 +186,14 @@ function BrowseTuitionsContent() {
 
             {/* Class Level Filter */}
             <div>
-              <label className="text-xs font-semibold text-slate-500">Class Level</label>
+              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Class Level</label>
               <select
                 value={classLevel}
                 onChange={(e) => {
                   setClassLevel(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
               >
                 {CLASS_LEVELS.map((lvl) => (
                   <option key={lvl} value={lvl}>
@@ -205,14 +205,14 @@ function BrowseTuitionsContent() {
 
             {/* Mode Filter */}
             <div>
-              <label className="text-xs font-semibold text-slate-500">Mode</label>
+              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Mode</label>
               <select
                 value={mode}
                 onChange={(e) => {
                   setMode(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
               >
                 {MODES.map((m) => (
                   <option key={m} value={m}>
@@ -224,14 +224,14 @@ function BrowseTuitionsContent() {
 
             {/* Sort Filter */}
             <div>
-              <label className="text-xs font-semibold text-slate-500">Sort By</label>
+              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Sort By</label>
               <select
                 value={sort}
                 onChange={(e) => {
                   setSort(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
               >
                 <option value="newest">Newest First</option>
                 <option value="fee-low">Fee: Low to High</option>
@@ -246,7 +246,7 @@ function BrowseTuitionsContent() {
                 type="button"
                 variant="ghost"
                 onClick={handleResetFilters}
-                className="mt-5 w-full rounded-xl border border-slate-200 text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                className="mt-5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white"
               >
                 <RotateCcw size={13} className="mr-1.5" />
                 Reset Filters
@@ -256,10 +256,10 @@ function BrowseTuitionsContent() {
         </div>
 
         {/* Results Counter */}
-        <div className="mb-6 flex items-center justify-between text-sm text-slate-500">
+        <div className="mb-6 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
           <p>
-            Showing <span className="font-bold text-slate-800">{tuitions.length}</span> of{" "}
-            <span className="font-bold text-slate-800">{total}</span> approved tuitions
+            Showing <span className="font-bold text-slate-800 dark:text-slate-200">{tuitions.length}</span> of{" "}
+            <span className="font-bold text-slate-800 dark:text-slate-200">{total}</span> approved tuitions
           </p>
         </div>
 
@@ -269,19 +269,19 @@ function BrowseTuitionsContent() {
             Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
               >
-                <Skeleton className="h-48 w-full rounded-none bg-slate-100" />
+                <Skeleton className="h-48 w-full rounded-none bg-slate-100 dark:bg-slate-800" />
                 <div className="flex flex-1 flex-col p-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Skeleton className="h-5 w-24 rounded-full bg-slate-100" />
-                    <Skeleton className="h-5 w-16 rounded-full bg-slate-100" />
+                    <Skeleton className="h-5 w-24 rounded-full bg-slate-100 dark:bg-slate-800" />
+                    <Skeleton className="h-5 w-16 rounded-full bg-slate-100 dark:bg-slate-800" />
                   </div>
-                  <Skeleton className="h-6 w-4/5 bg-slate-100" />
-                  <Skeleton className="h-12 w-full bg-slate-100" />
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <Skeleton className="h-6 w-24 bg-slate-100" />
-                    <Skeleton className="h-9 w-24 rounded-lg bg-slate-100" />
+                  <Skeleton className="h-6 w-4/5 bg-slate-100 dark:bg-slate-800" />
+                  <Skeleton className="h-12 w-full bg-slate-100 dark:bg-slate-800" />
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <Skeleton className="h-6 w-24 bg-slate-100 dark:bg-slate-800" />
+                    <Skeleton className="h-9 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
                   </div>
                 </div>
               </div>
@@ -290,10 +290,10 @@ function BrowseTuitionsContent() {
             tuitions.map((item) => (
               <div
                 key={item._id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5"
               >
                 {/* Banner Image */}
-                <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <img
                     src={item.bannerImage}
                     alt={item.title}
@@ -301,7 +301,7 @@ function BrowseTuitionsContent() {
                     loading="lazy"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="rounded-lg bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm backdrop-blur">
+                    <span className="rounded-lg bg-white/95 dark:bg-slate-900/90 px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm backdrop-blur">
                       {item.classLevel}
                     </span>
                   </div>
@@ -320,23 +320,23 @@ function BrowseTuitionsContent() {
 
                 {/* Card Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-2 text-xs font-medium text-blue-600">
+                  <div className="flex items-center gap-2 text-xs font-medium text-blue-600 dark:text-blue-400">
                     <BookOpen size={14} />
                     <span>{item.subject}</span>
                   </div>
 
-                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 text-sm text-slate-500">
+                  <p className="mt-2 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
                     {item.description}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500">
+                  <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <User size={13} className="text-slate-400" />
-                      <span className="font-medium text-slate-700">{item.tutorName}</span>
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{item.tutorName}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={13} className="text-slate-400" />
@@ -349,12 +349,12 @@ function BrowseTuitionsContent() {
                   </div>
 
                   {/* Footer Fee & CTA */}
-                  <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+                  <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
                     <div>
                       <p className="text-xs text-slate-400">Monthly Fee</p>
-                      <p className="text-lg font-extrabold text-blue-600">
+                      <p className="text-lg font-extrabold text-blue-600 dark:text-blue-400">
                         ৳{item.monthlyFee.toLocaleString()}{" "}
-                        <span className="text-xs font-normal text-slate-500">/mo</span>
+                        <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span>
                       </p>
                     </div>
 
@@ -368,14 +368,14 @@ function BrowseTuitionsContent() {
               </div>
             ))
           ) : (
-            <div className="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white p-16 text-center">
-              <BookOpen size={40} className="mx-auto text-slate-300" />
-              <h3 className="mt-4 text-lg font-bold text-slate-800">No tuitions match your criteria</h3>
-              <p className="mt-1 text-sm text-slate-500">Try adjusting your search terms or resetting the filters.</p>
+            <div className="col-span-full rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 p-16 text-center">
+              <BookOpen size={40} className="mx-auto text-slate-300 dark:text-slate-600" />
+              <h3 className="mt-4 text-lg font-bold text-slate-800 dark:text-white">No tuitions match your criteria</h3>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Try adjusting your search terms or resetting the filters.</p>
               <Button
                 onClick={handleResetFilters}
                 variant="outline"
-                className="mt-5 rounded-xl border-slate-300 font-semibold text-slate-700 hover:bg-slate-50"
+                className="mt-5 rounded-xl border-slate-300 dark:border-slate-700 dark:bg-slate-800 font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Reset All Filters
               </Button>
@@ -394,7 +394,7 @@ function BrowseTuitionsContent() {
                 setPage((prev) => Math.max(1, prev - 1));
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="rounded-xl border-slate-200"
+              className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               <ChevronLeft size={16} className="mr-1" />
               Previous
@@ -413,7 +413,7 @@ function BrowseTuitionsContent() {
                   className={`h-9 w-9 rounded-xl p-0 font-semibold ${
                     p === page
                       ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "border-slate-200 text-slate-700 hover:bg-slate-50"
+                      : "border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   {p}
@@ -429,7 +429,7 @@ function BrowseTuitionsContent() {
                 setPage((prev) => Math.min(totalPages, prev + 1));
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="rounded-xl border-slate-200"
+              className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               Next
               <ChevronRight size={16} className="ml-1" />

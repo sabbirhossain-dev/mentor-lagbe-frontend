@@ -4,6 +4,7 @@ import HowItWorks from "@/components/home/HowItWorks";
 import PricingSection from "@/components/home/PricingSection";
 import SmartMatchSection from "@/components/home/SmartMatchSection";
 import SubjectsTestimonials from "@/components/home/SubjectsTestimonials";
+import FaqSection from "@/components/home/FaqSection";
 
 export default function Home() {
   return (
@@ -25,6 +26,9 @@ export default function Home() {
 
       {/* ================= SUBJECTS, STATS & TESTIMONIALS ================= */}
       <SubjectsTestimonials />
+
+      {/* ================= FAQ & CTA SECTION ================= */}
+      <FaqSection />
     </div>
   );
 }

@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import ToastProvider from "@/components/shared/ToastProvider";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
-const roboto = Roboto({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "MentorLagbe",
-  description: "Find your ideal tutor or mentorship batch.",
+  title: "MentorLagbe - Smart Tuition & Mentorship Platform",
+  description: "Find verified tutors, explore subject-wise batches, or offer 1-on-1 mentorship.",
 };
 
 export default function RootLayout({
@@ -20,10 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        <ToastProvider />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${plusJakartaSans.className} antialiased bg-background text-foreground transition-colors duration-200`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ToastProvider />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -49,57 +49,57 @@ export default function SmartMatchSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50/80 py-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-slate-50/80 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 py-24 transition-colors">
       {/* Background Accent Gradients */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-100/50 blur-3xl -z-10" />
-      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-indigo-100/40 blur-3xl -z-10" />
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-100/50 dark:bg-blue-900/10 blur-3xl -z-10" />
+      <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-indigo-100/40 dark:bg-indigo-900/10 blur-3xl -z-10" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12">
           {/* Left Column: Context & Guarantees */}
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 px-3.5 py-1 text-xs font-semibold text-blue-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 dark:border-blue-900/60 dark:bg-blue-950/60 px-3.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
               <Zap size={14} className="text-amber-500 fill-amber-500" />
               Smart Matching Engine
             </div>
 
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight dark:text-white">
               Know Your Budget & Match With Verified Mentors.
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
+            <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
               No more guessing tuition fees. Use our interactive estimator to gauge expected monthly rates across subjects and modes, then jump straight into verified matching tutors.
             </p>
 
             {/* Feature Highlights */}
             <div className="mt-8 space-y-4">
               <div className="flex items-start gap-3">
-                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400">
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">100% Verified Tutors</h4>
-                  <p className="text-xs text-slate-500">Every tutor profile undergoes academic credential and phone verification.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Verified Tutors</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Every tutor profile undergoes academic credential and phone verification.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
                   <ShieldCheck size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">Zero Commission for Students</h4>
-                  <p className="text-xs text-slate-500">Free browsing, instant applications, and transparent direct communication.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Zero Commission for Students</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Free browsing, instant applications, and transparent direct communication.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-100 text-purple-600">
+                <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-100 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400">
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">Tailored 1-on-1 & Batch Modes</h4>
-                  <p className="text-xs text-slate-500">Choose between flexible Online interactive classes or dedicated Home Tuitions.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Tailored 1-on-1 & Batch Modes</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Choose between flexible Online interactive classes or dedicated Home Tuitions.</p>
                 </div>
               </div>
             </div>
@@ -107,8 +107,8 @@ export default function SmartMatchSection() {
 
           {/* Right Column: Interactive Estimator Card */}
           <div className="lg:col-span-6">
-            <Card className="overflow-hidden border-slate-200/90 shadow-2xl shadow-blue-500/10 rounded-3xl bg-white">
-              <div className="bg-slate-900 p-6 text-white sm:p-8">
+            <Card className="overflow-hidden border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-blue-500/10 rounded-3xl bg-white dark:bg-slate-900">
+              <div className="bg-slate-900 dark:bg-slate-950 p-6 text-white sm:p-8 border-b border-slate-800">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calculator className="text-blue-400" size={20} />
@@ -131,7 +131,7 @@ export default function SmartMatchSection() {
               <CardContent className="p-6 sm:p-8 space-y-6">
                 {/* 1. Target Level */}
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     1. Select Class Level
                   </label>
                   <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -142,8 +142,8 @@ export default function SmartMatchSection() {
                         onClick={() => setClassLevel(lvl)}
                         className={`rounded-xl border px-3 py-2 text-xs font-semibold transition-all ${
                           classLevel === lvl
-                            ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                            ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-500"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-slate-700"
                         }`}
                       >
                         {lvl === "University / Career" ? "Uni / Career" : lvl === "Higher Study / Adult" ? "Higher Study" : lvl}
@@ -154,7 +154,7 @@ export default function SmartMatchSection() {
 
                 {/* 2. Subject */}
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     2. Select Subject
                   </label>
                   <div className="mt-2.5 grid grid-cols-3 gap-2">
@@ -165,8 +165,8 @@ export default function SmartMatchSection() {
                         onClick={() => setSubject(sub)}
                         className={`rounded-xl border px-3 py-2 text-xs font-semibold transition-all ${
                           subject === sub
-                            ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                            ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-500"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-slate-700"
                         }`}
                       >
                         {sub}
@@ -177,7 +177,7 @@ export default function SmartMatchSection() {
 
                 {/* 3. Mode */}
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     3. Learning Mode
                   </label>
                   <div className="mt-2.5 grid grid-cols-2 gap-3">
@@ -186,8 +186,8 @@ export default function SmartMatchSection() {
                       onClick={() => setMode("Online")}
                       className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold transition-all ${
                         mode === "Online"
-                          ? "border-blue-600 bg-blue-50 text-blue-700"
-                          : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                          ? "border-blue-600 bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-500"
+                          : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-slate-700"
                       }`}
                     >
                       <span className="h-2 w-2 rounded-full bg-emerald-500" />
@@ -198,8 +198,8 @@ export default function SmartMatchSection() {
                       onClick={() => setMode("Offline")}
                       className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold transition-all ${
                         mode === "Offline"
-                          ? "border-blue-600 bg-blue-50 text-blue-700"
-                          : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                          ? "border-blue-600 bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 dark:border-blue-500"
+                          : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-slate-700"
                       }`}
                     >
                       <span className="h-2 w-2 rounded-full bg-blue-500" />

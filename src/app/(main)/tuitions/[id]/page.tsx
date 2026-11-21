@@ -175,12 +175,12 @@ export default function TuitionDetailsPage({
   const isStudent = user?.role === "student";
 
   return (
-    <div className="min-h-screen bg-slate-50/60 pb-24 pt-10">
+    <div className="min-h-screen bg-slate-50/60 dark:bg-slate-950 pb-24 pt-10 transition-colors">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link
           href="/tuitions"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors mb-6"
         >
           <ArrowLeft size={16} />
           Back to Browse Tuitions
@@ -237,71 +237,71 @@ export default function TuitionDetailsPage({
           {/* Main Content (Left 8 cols) */}
           <div className="lg:col-span-8 space-y-8">
             {/* Description Card */}
-            <Card className="rounded-2xl border-slate-200/90 bg-white p-6 sm:p-8 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Info size={18} className="text-blue-600" />
+            <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <Info size={18} className="text-blue-600 dark:text-blue-400" />
                 Batch & Curriculum Overview
               </h3>
-              <p className="text-base leading-relaxed text-slate-600 whitespace-pre-line">
+              <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-line">
                 {tuition.description}
               </p>
             </Card>
 
             {/* Program Specs Highlights */}
-            <Card className="rounded-2xl border-slate-200/90 bg-white p-6 sm:p-8 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Sparkles size={18} className="text-blue-600" />
+            <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                <Sparkles size={18} className="text-blue-600 dark:text-blue-400" />
                 Mentorship Highlights
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
-                  <Clock className="text-blue-600 shrink-0 mt-0.5" size={18} />
+                <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
+                  <Clock className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h5 className="text-sm font-bold text-slate-800">Weekly Schedule</h5>
-                    <p className="text-xs text-slate-500 mt-0.5">{tuition.daysPerWeek}</p>
+                    <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Weekly Schedule</h5>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tuition.daysPerWeek}</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
-                  <MapPin className="text-blue-600 shrink-0 mt-0.5" size={18} />
+                <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
+                  <MapPin className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h5 className="text-sm font-bold text-slate-800">Session Mode</h5>
-                    <p className="text-xs text-slate-500 mt-0.5">{tuition.mode} ({tuition.location})</p>
+                    <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Session Mode</h5>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tuition.mode} ({tuition.location})</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
-                  <BadgeCheck className="text-emerald-600 shrink-0 mt-0.5" size={18} />
+                <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
+                  <BadgeCheck className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h5 className="text-sm font-bold text-slate-800">Verified Mentor</h5>
-                    <p className="text-xs text-slate-500 mt-0.5">Admin-reviewed qualifications</p>
+                    <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Verified Mentor</h5>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Admin-reviewed qualifications</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
-                  <Shield className="text-purple-600 shrink-0 mt-0.5" size={18} />
+                <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
+                  <Shield className="text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h5 className="text-sm font-bold text-slate-800">Student Protection</h5>
-                    <p className="text-xs text-slate-500 mt-0.5">Free application & direct status tracking</p>
+                    <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Student Protection</h5>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Free application & direct status tracking</p>
                   </div>
                 </div>
               </div>
             </Card>
 
             {/* Tutor Profile Summary */}
-            <Card className="rounded-2xl border-slate-200/90 bg-white p-6 sm:p-8 shadow-sm">
+            <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
               <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 font-extrabold text-xl">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 font-extrabold text-xl">
                   {tuition.tutorName.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="text-lg font-bold text-slate-900">{tuition.tutorName}</h4>
-                    <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-600">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white">{tuition.tutorName}</h4>
+                    <span className="rounded-full bg-blue-50 dark:bg-blue-950 px-2.5 py-0.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
                       Verified Tutor
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1.5">
                     <Mail size={13} />
                     {tuition.tutorEmail}
                   </p>
@@ -313,8 +313,8 @@ export default function TuitionDetailsPage({
           {/* Sticky Application Action Card (Right 4 cols) */}
           <div className="lg:col-span-4">
             <div className="sticky top-28 space-y-5">
-              <Card className="overflow-hidden rounded-2xl border-2 border-blue-600/30 bg-white shadow-lg shadow-blue-500/5">
-                <div className="bg-slate-900 p-6 text-white text-center">
+              <Card className="overflow-hidden rounded-2xl border-2 border-blue-600/30 bg-white dark:bg-slate-900 shadow-lg shadow-blue-500/5">
+                <div className="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center">
                   <p className="text-xs uppercase font-semibold text-blue-300 tracking-wider">Tuition Fee</p>
                   <p className="text-3xl font-extrabold text-white mt-1">
                     ৳{tuition.monthlyFee.toLocaleString()}{" "}
@@ -326,7 +326,7 @@ export default function TuitionDetailsPage({
                 <div className="p-6 space-y-4">
                   {/* Role validation notice */}
                   {user && user.role !== "student" ? (
-                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-800">
+                    <div className="rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 p-4 text-xs text-amber-800 dark:text-amber-200">
                       <div className="flex items-center gap-1.5 font-bold mb-1">
                         <Lock size={14} />
                         Student Role Only
@@ -349,14 +349,14 @@ export default function TuitionDetailsPage({
                       type="button"
                       variant="outline"
                       onClick={handleBookmarkToggle}
-                      className="w-full rounded-xl border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                      className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
                     >
-                      <Bookmark size={15} className="mr-2 text-blue-600" />
+                      <Bookmark size={15} className="mr-2 text-blue-600 dark:text-blue-400" />
                       Save to My Bookmarks
                     </Button>
                   )}
 
-                  <div className="space-y-2 pt-2 text-xs text-slate-500">
+                  <div className="space-y-2 pt-2 text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 size={14} className="text-emerald-500" />
                       <span>Instant confirmation to your dashboard</span>
@@ -380,16 +380,16 @@ export default function TuitionDetailsPage({
       {/* Student Application Modal */}
       {isApplyModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-8 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
               <div>
-                <h3 className="text-xl font-extrabold text-slate-900">Apply for Tuition</h3>
-                <p className="text-xs text-slate-500 mt-0.5 truncate max-w-xs">{tuition.title}</p>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Apply for Tuition</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-xs">{tuition.title}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsApplyModalOpen(false)}
-                className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                className="h-8 w-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
               >
                 ✕
               </button>
@@ -397,31 +397,31 @@ export default function TuitionDetailsPage({
 
             <form onSubmit={handleSubmitApplication} className="mt-6 space-y-4">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Student Name
                 </label>
                 <Input
                   type="text"
                   value={user?.name || ""}
                   disabled
-                  className="mt-1.5 h-11 rounded-xl bg-slate-50 text-slate-500"
+                  className="mt-1.5 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700 text-slate-500 dark:text-slate-400"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Student Email
                 </label>
                 <Input
                   type="email"
                   value={user?.email || ""}
                   disabled
-                  className="mt-1.5 h-11 rounded-xl bg-slate-50 text-slate-500"
+                  className="mt-1.5 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 dark:border-slate-700 text-slate-500 dark:text-slate-400"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Phone Number <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -430,12 +430,12 @@ export default function TuitionDetailsPage({
                   required
                   value={studentPhone}
                   onChange={(e) => setStudentPhone(e.target.value)}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Preferred Schedule / Timing
                 </label>
                 <Input
@@ -443,12 +443,12 @@ export default function TuitionDetailsPage({
                   placeholder="e.g., Sun-Tue-Thu 6:00 PM or Flexible"
                   value={preferredSchedule}
                   onChange={(e) => setPreferredSchedule(e.target.value)}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Note to Tutor
                 </label>
                 <textarea
@@ -456,7 +456,7 @@ export default function TuitionDetailsPage({
                   placeholder="Briefly mention your academic goal, current grade, or topics you need help with..."
                   value={studentNote}
                   onChange={(e) => setStudentNote(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -465,7 +465,7 @@ export default function TuitionDetailsPage({
                   type="button"
                   variant="outline"
                   onClick={() => setIsApplyModalOpen(false)}
-                  className="rounded-xl border-slate-200"
+                  className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
                   Cancel
                 </Button>

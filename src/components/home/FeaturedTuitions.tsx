@@ -43,21 +43,21 @@ export default function FeaturedTuitions() {
   }, []);
 
   return (
-    <section className="bg-slate-50/60 py-24">
+    <section className="bg-slate-50/70 py-24 dark:bg-slate-900/40 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="mb-14 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-semibold text-blue-700">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-semibold text-blue-700 dark:border-blue-900/60 dark:bg-blue-950/60 dark:text-blue-300">
               <Sparkles size={14} />
               Verified & Handpicked
             </div>
 
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
               Featured Mentorship Batches
             </h2>
 
-            <p className="mt-3 max-w-2xl text-base text-slate-600">
+            <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400">
               Explore recent verified tuition batches and 1-on-1 mentorship programs posted by qualified tutors.
             </p>
           </div>
@@ -65,7 +65,7 @@ export default function FeaturedTuitions() {
           <Button
             variant="outline"
             onClick={() => router.push("/tuitions")}
-            className="rounded-xl border-slate-300 bg-white font-medium text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+            className="rounded-xl border-slate-300 bg-white font-medium text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
             Browse All Tuitions
             <ArrowRight className="ml-2" size={16} />
@@ -78,19 +78,19 @@ export default function FeaturedTuitions() {
             Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
-                className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
               >
-                <Skeleton className="h-48 w-full rounded-none bg-slate-100" />
+                <Skeleton className="h-48 w-full rounded-none bg-slate-100 dark:bg-slate-800" />
                 <div className="flex flex-1 flex-col p-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Skeleton className="h-5 w-24 rounded-full bg-slate-100" />
-                    <Skeleton className="h-5 w-16 rounded-full bg-slate-100" />
+                    <Skeleton className="h-5 w-24 rounded-full bg-slate-100 dark:bg-slate-800" />
+                    <Skeleton className="h-5 w-16 rounded-full bg-slate-100 dark:bg-slate-800" />
                   </div>
-                  <Skeleton className="h-6 w-4/5 bg-slate-100" />
-                  <Skeleton className="h-12 w-full bg-slate-100" />
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <Skeleton className="h-6 w-24 bg-slate-100" />
-                    <Skeleton className="h-9 w-24 rounded-lg bg-slate-100" />
+                  <Skeleton className="h-6 w-4/5 bg-slate-100 dark:bg-slate-800" />
+                  <Skeleton className="h-12 w-full bg-slate-100 dark:bg-slate-800" />
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <Skeleton className="h-6 w-24 bg-slate-100 dark:bg-slate-800" />
+                    <Skeleton className="h-9 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
                   </div>
                 </div>
               </div>
@@ -99,10 +99,10 @@ export default function FeaturedTuitions() {
             tuitions.map((item) => (
               <div
                 key={item._id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5 dark:border-slate-800 dark:bg-slate-900"
               >
                 {/* Banner Image */}
-                <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <img
                     src={item.bannerImage}
                     alt={item.title}
@@ -110,7 +110,7 @@ export default function FeaturedTuitions() {
                     loading="lazy"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="rounded-lg bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm backdrop-blur">
+                    <span className="rounded-lg bg-white/95 dark:bg-slate-900/90 px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm backdrop-blur">
                       {item.classLevel}
                     </span>
                   </div>
@@ -129,23 +129,23 @@ export default function FeaturedTuitions() {
 
                 {/* Card Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-2 text-xs font-medium text-blue-600">
+                  <div className="flex items-center gap-2 text-xs font-medium text-blue-600 dark:text-blue-400">
                     <BookOpen size={14} />
                     <span>{item.subject}</span>
                   </div>
 
-                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors dark:text-white dark:group-hover:text-blue-400">
                     {item.title}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 text-sm text-slate-500">
+                  <p className="mt-2 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
                     {item.description}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500">
+                  <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <User size={13} className="text-slate-400" />
-                      <span className="font-medium text-slate-700">{item.tutorName}</span>
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{item.tutorName}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={13} className="text-slate-400" />
@@ -158,12 +158,12 @@ export default function FeaturedTuitions() {
                   </div>
 
                   {/* Footer Fee & CTA */}
-                  <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+                  <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
                     <div>
                       <p className="text-xs text-slate-400">Monthly Fee</p>
-                      <p className="text-lg font-extrabold text-blue-600">
+                      <p className="text-lg font-extrabold text-blue-600 dark:text-blue-400">
                         ৳{item.monthlyFee.toLocaleString()}{" "}
-                        <span className="text-xs font-normal text-slate-500">/mo</span>
+                        <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span>
                       </p>
                     </div>
 
@@ -177,8 +177,8 @@ export default function FeaturedTuitions() {
               </div>
             ))
           ) : (
-            <div className="col-span-full rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
-              <p className="text-slate-500">No featured tuitions available right now.</p>
+            <div className="col-span-full rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center">
+              <p className="text-slate-500 dark:text-slate-400">No featured tuitions available right now.</p>
             </div>
           )}
         </div>
