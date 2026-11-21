@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import {
   ArrowLeft,
   BadgeCheck,
+  Bookmark,
   BookOpen,
   Calendar,
   CheckCircle2,
@@ -88,6 +89,26 @@ export default function TuitionDetailsPage({
     }
 
     setIsApplyModalOpen(true);
+  };
+
+  const handleBookmarkToggle = async () => {
+    if (!user) {
+      toast("Please sign in as a student to bookmark", { icon: "🔒" });
+      router.push("/sign-in");
+      return;
+    }
+
+    try {
+      const res = await apiFetch<{ success: boolean; message: string; isBookmarked: boolean }>(
+        `/tuitions/${id}/bookmark`,
+        { method: "POST" }
+      );
+      if (res.success) {
+        toast.success(res.message);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to bookmark tuition");
+    }
   };
 
   const handleSubmitApplication = async (e: React.FormEvent) => {
@@ -322,6 +343,18 @@ export default function TuitionDetailsPage({
                     <Send size={16} className="mr-2" />
                     Apply for Tuition
                   </Button>
+
+                  {user?.role === "student" && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleBookmarkToggle}
+                      className="w-full rounded-xl border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                    >
+                      <Bookmark size={15} className="mr-2 text-blue-600" />
+                      Save to My Bookmarks
+                    </Button>
+                  )}
 
                   <div className="space-y-2 pt-2 text-xs text-slate-500">
                     <div className="flex items-center gap-2">

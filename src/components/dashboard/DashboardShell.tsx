@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Bookmark,
   BookOpen,
   BriefcaseBusiness,
   CheckCircle2,
@@ -98,6 +99,7 @@ export default function DashboardShell({
     return [
       { label: "Overview", href: "/dashboard/student", icon: LayoutDashboard },
       { label: "My Applications", href: "/dashboard/student/my-applications", icon: FileText },
+      { label: "Saved Tuitions", href: "/dashboard/student/saved", icon: Bookmark },
       { label: "Browse Tuitions", href: "/tuitions", icon: Search },
       { label: "Update Profile", href: "/dashboard/profile", icon: UserRound },
     ];
