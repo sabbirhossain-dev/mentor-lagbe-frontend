@@ -26,7 +26,7 @@ export function GoogleAuthButton({
     >
       {loading ? (
         <>
-          <Loader2 className="h-5 w-5 animate-spin text-blue-600 dark:text-blue-400" />
+          <Loader2 className="h-5 w-5 animate-spin text-indigo-600 dark:text-indigo-400" />
           <span>Connecting to Google...</span>
         </>
       ) : (

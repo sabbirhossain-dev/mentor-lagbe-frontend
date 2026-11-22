@@ -8,45 +8,62 @@ interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
 }
 
-export function BrandLogoIcon({ className = "h-6 w-6" }: { className?: string }) {
+export function BrandLogoIcon({ className = "h-7 w-7" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
       <defs>
-        <linearGradient id="ml-logo-grad" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+        <linearGradient id="ml-cap-grad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
           <stop stopColor="#6366F1" />
           <stop offset="0.5" stopColor="#4F46E5" />
           <stop offset="1" stopColor="#8B5CF6" />
         </linearGradient>
-        <linearGradient id="ml-spark-grad" x1="14" y1="2" x2="18" y2="10" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#F59E0B" />
-          <stop offset="1" stopColor="#FBBF24" />
-        </linearGradient>
       </defs>
 
-      {/* Hexagonal Academic Crest Shield Background */}
-      <path
-        d="M16 3L27 9V17C27 23.5 16 29 16 29C16 29 5 23.5 5 17V9L16 3Z"
-        fill="url(#ml-logo-grad)"
-      />
-
-      {/* Inner Stylized Interconnected "M" representing Mentorship & Learning */}
-      <path
-        d="M10 20V12.5L16 16.5L22 12.5V20"
-        stroke="#FFFFFF"
-        strokeWidth="2.5"
+      {/* Outer Ring Emblem */}
+      <circle
+        cx="32"
+        cy="32"
+        r="26"
+        stroke="url(#ml-cap-grad)"
+        strokeWidth="4.5"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
 
-      {/* Beacon Spark / Academic Star symbolizing Guidance */}
+      {/* Mortarboard Diamond Top */}
       <path
-        d="M16 6.5L17.2 9.5L20 10.2L17.8 12L18.5 15L16 13.5L13.5 15L14.2 12L12 10.2L14.8 9.5L16 6.5Z"
-        fill="url(#ml-spark-grad)"
+        d="M32 17L46 24L32 31L18 24L32 17Z"
+        stroke="url(#ml-cap-grad)"
+        strokeWidth="4"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* Lower Headband U-curve */}
+      <path
+        d="M22.5 28.5V31.5C22.5 36.5 26.5 40.5 32 40.5C37.5 40.5 41.5 36.5 41.5 31.5V28.5"
+        stroke="url(#ml-cap-grad)"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+
+      {/* Right Hanging Tassel */}
+      <path
+        d="M46 24V32.5"
+        stroke="url(#ml-cap-grad)"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <circle cx="46" cy="33.5" r="1.5" fill="#8B5CF6" />
+      <path
+        d="M44.5 35L46 38.5L47.5 35"
+        stroke="url(#ml-cap-grad)"
+        strokeWidth="2"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -70,20 +87,25 @@ export default function BrandLogo({
   };
 
   return (
-    <div className={`inline-flex items-center gap-2.5 ${className}`}>
+    <div className={`inline-flex items-center gap-3 ${className} cursor-pointer`}>
       <div
-        className={`flex ${iconSizes[size]} items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-violet-600 p-2 text-white shadow-lg shadow-indigo-600/25 transition-transform hover:scale-105`}
+        className={`flex ${iconSizes[size]} items-center justify-center shrink-0 drop-shadow-md transition-transform duration-200 hover:scale-105`}
       >
         <BrandLogoIcon className="h-full w-full" />
       </div>
 
       {!iconOnly && (
         <div className="flex flex-col">
-          <span className={`${textSizes[size]} font-black tracking-tight text-slate-900 dark:text-white leading-none`}>
-            Mentor<span className="bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-transparent">Lagbe</span>
-          </span>
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mt-0.5">
-            Smart Mentorship Platform
+          <div className="flex items-center">
+            <span className={`${textSizes[size]} font-black tracking-tight text-slate-900 dark:text-white leading-none`}>
+              Mentor
+            </span>
+            <span className={`${textSizes[size]} font-black tracking-tight bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent leading-none ml-0.5`}>
+              Lagbe
+            </span>
+          </div>
+          <span className="text-[9.5px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-1">
+            Mentorship Platform
           </span>
         </div>
       )}

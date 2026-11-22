@@ -7,13 +7,13 @@ export default function PrivacyPolicyPage() {
       <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 sm:p-12 shadow-sm">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 mb-6 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 dark:text-slate-400 mb-6 transition-colors"
         >
           <ArrowLeft size={15} />
           Back to Home
         </Link>
 
-        <div className="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 mb-3">
+        <div className="flex items-center gap-2.5 text-indigo-600 dark:text-indigo-400 mb-3">
           <Lock size={22} />
           <span className="text-xs font-bold uppercase tracking-wider">Privacy & Security</span>
         </div>

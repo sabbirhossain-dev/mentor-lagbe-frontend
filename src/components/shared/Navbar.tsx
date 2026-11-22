@@ -269,9 +269,9 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(true)}
-            className="rounded-xl text-slate-700 dark:text-slate-200"
+            className="rounded-sm text-slate-700 dark:text-slate-200 border border-blue-950 p-1"
           >
-            <Menu size={24} />
+            <Menu size={26} />
           </Button>
         </div>
       </div>
@@ -339,11 +339,11 @@ const Navbar = () => {
                     />
                     <span>{link.name}</span>
                   </div>
-                  {link.badge && (
+                  {/* {link.badge && (
                     <span className="rounded-full bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
                       {link.badge}
                     </span>
-                  )}
+                  )} */}
                 </Link>
               );
             })}

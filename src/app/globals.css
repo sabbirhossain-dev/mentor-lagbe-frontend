@@ -113,3 +113,22 @@ a {
   border: none !important;
   box-shadow: none !important;
 }
+
+
+/* Universal Cursor Pointer for all clickable buttons, elements and tabs */
+button,
+[role="button"],
+.btn,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+[data-slot="dropdown-menu-trigger"] {
+  cursor: pointer !important;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+button[disabled] {
+  cursor: not-allowed !important;
+}
