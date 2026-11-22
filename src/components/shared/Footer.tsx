@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, ShieldCheck, Lock, Sparkles } from "lucide-react";
+import { Mail, MapPin, Phone, ShieldCheck, Lock } from "lucide-react";
 import BrandLogo from "@/components/shared/BrandLogo";
 
 // Modern X Logo SVG
@@ -37,16 +37,16 @@ function LinkedinLogo({ size = 16 }: { size?: number }) {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-900 text-slate-300 transition-colors">
-      <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+    <footer className="border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 transition-colors duration-200">
+      <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand & Socials */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <BrandLogo size="md" variant="dark" />
+              <BrandLogo size="md" variant="default" />
             </Link>
 
-            <p className="max-w-xs text-sm leading-6 text-slate-400">
+            <p className="max-w-xs text-sm leading-6 text-slate-500 dark:text-slate-400">
               Connecting qualified academic tutors and students across
               Bangladesh for concept-driven mentorship and zero-commission
               tuition matchmaking.
@@ -59,7 +59,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="X (formerly Twitter)"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-slate-700 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-white"
               >
                 <XLogo size={14} />
               </a>
@@ -69,7 +69,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-indigo-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-white"
               >
                 <FacebookLogo size={14} />
               </a>
@@ -79,7 +79,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-violet-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-white"
               >
                 <LinkedinLogo size={14} />
               </a>
@@ -88,20 +88,23 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+            <h3 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
               Explore Platform
             </h3>
 
-            <ul className="mt-5 space-y-3 text-sm text-slate-400">
+            <ul className="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-400">
               <li>
-                <Link href="/" className="transition hover:text-indigo-400">
+                <Link
+                  href="/"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
+                >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   href="/tuitions"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Find a Mentor
                 </Link>
@@ -109,7 +112,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/pricing"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Pro Membership
                 </Link>
@@ -117,7 +120,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Why Us (About)
                 </Link>
@@ -125,7 +128,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Terms of Service
                 </Link>
@@ -133,7 +136,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/privacy"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Privacy Policy
                 </Link>
@@ -143,15 +146,15 @@ export default function Footer() {
 
           {/* Stakeholders */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+            <h3 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
               Stakeholders
             </h3>
 
-            <ul className="mt-5 space-y-3 text-sm text-slate-400">
+            <ul className="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-400">
               <li>
                 <Link
                   href="/sign-up"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Join as Student
                 </Link>
@@ -159,7 +162,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/sign-up"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Join as Verified Tutor
                 </Link>
@@ -167,7 +170,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard/student"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Student Dashboard
                 </Link>
@@ -175,7 +178,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard/tutor"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Tutor Dashboard
                 </Link>
@@ -183,7 +186,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard/profile"
-                  className="transition hover:text-indigo-400"
+                  className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
                 >
                   Account Profile
                 </Link>
@@ -193,45 +196,44 @@ export default function Footer() {
 
           {/* Contact & Trust */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+            <h3 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
               Direct Support
             </h3>
 
-            <div className="mt-5 space-y-3.5 text-sm text-slate-400">
+            <div className="mt-5 space-y-3.5 text-sm text-slate-600 dark:text-slate-400">
               <div className="flex items-start gap-2.5">
-                <Mail size={16} className="mt-0.5 shrink-0 text-indigo-400" />
+                <Mail
+                  size={16}
+                  className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400"
+                />
                 <span>support@mentorlagbe.com</span>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Phone size={16} className="mt-0.5 shrink-0 text-indigo-400" />
+                <Phone
+                  size={16}
+                  className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400"
+                />
                 <span>+880 1800-MENTOR (8am - 10pm)</span>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-indigo-400" />
+                <MapPin
+                  size={16}
+                  className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400"
+                />
                 <span>Dhaka, Bangladesh</span>
               </div>
             </div>
 
             {/* Security badges */}
-            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center gap-3 text-xs text-slate-400">
-              <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                <ShieldCheck size={16} />
-                <span>Verified Tutors</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-indigo-400 font-medium">
-                <Lock size={14} />
-                <span>256-Bit SSL</span>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-14 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <div className="mt-14 border-t border-slate-200 dark:border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} MentorLagbe. All rights reserved.</p>
-          <p className="flex items-center gap-1 text-slate-400">
+          <p className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
             Smart Tuition & Mentorship Platform built for academic clarity
           </p>
         </div>
