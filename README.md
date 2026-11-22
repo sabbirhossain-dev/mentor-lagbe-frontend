@@ -6,8 +6,8 @@
 
 ## 🌐 Live URLs & Demo Credentials
 
-- **Live Frontend Application:** `[Add Your Production Frontend URL Here]`
-- **Live Backend API Server:** `[Add Your Production Backend URL Here]`
+- **Live Frontend Application:** [https://mentorlagbe-frontend-three.vercel.app](https://mentorlagbe-frontend-three.vercel.app)
+- **Live Backend API Server:** [https://mentorlagbe-backend-xi.vercel.app](https://mentorlagbe-backend-xi.vercel.app)
 
 ### Default Demo Accounts
 
