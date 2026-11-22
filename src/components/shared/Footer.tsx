@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Lock,
-  Sparkles,
-} from "lucide-react";
+import { Mail, MapPin, Phone, ShieldCheck, Lock, Sparkles } from "lucide-react";
 import BrandLogo from "@/components/shared/BrandLogo";
 
 // Modern X Logo SVG
@@ -54,7 +47,9 @@ export default function Footer() {
             </Link>
 
             <p className="max-w-xs text-sm leading-6 text-slate-400">
-              Connecting qualified academic tutors and students across Bangladesh for concept-driven mentorship and zero-commission tuition matchmaking.
+              Connecting qualified academic tutors and students across
+              Bangladesh for concept-driven mentorship and zero-commission
+              tuition matchmaking.
             </p>
 
             {/* Social Links */}
@@ -93,7 +88,9 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Explore Platform</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+              Explore Platform
+            </h3>
 
             <ul className="mt-5 space-y-3 text-sm text-slate-400">
               <li>
@@ -102,27 +99,42 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions" className="transition hover:text-indigo-400">
+                <Link
+                  href="/tuitions"
+                  className="transition hover:text-indigo-400"
+                >
                   Find a Mentor
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="transition hover:text-indigo-400">
+                <Link
+                  href="/pricing"
+                  className="transition hover:text-indigo-400"
+                >
                   Pro Membership
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="transition hover:text-indigo-400">
+                <Link
+                  href="/about"
+                  className="transition hover:text-indigo-400"
+                >
                   Why Us (About)
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="transition hover:text-indigo-400">
+                <Link
+                  href="/terms"
+                  className="transition hover:text-indigo-400"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="transition hover:text-indigo-400">
+                <Link
+                  href="/privacy"
+                  className="transition hover:text-indigo-400"
+                >
                   Privacy Policy
                 </Link>
               </li>
@@ -131,31 +143,48 @@ export default function Footer() {
 
           {/* Stakeholders */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Stakeholders</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+              Stakeholders
+            </h3>
 
             <ul className="mt-5 space-y-3 text-sm text-slate-400">
               <li>
-                <Link href="/sign-up" className="transition hover:text-indigo-400">
+                <Link
+                  href="/sign-up"
+                  className="transition hover:text-indigo-400"
+                >
                   Join as Student
                 </Link>
               </li>
               <li>
-                <Link href="/sign-up" className="transition hover:text-indigo-400">
+                <Link
+                  href="/sign-up"
+                  className="transition hover:text-indigo-400"
+                >
                   Join as Verified Tutor
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/student" className="transition hover:text-indigo-400">
+                <Link
+                  href="/dashboard/student"
+                  className="transition hover:text-indigo-400"
+                >
                   Student Dashboard
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/tutor" className="transition hover:text-indigo-400">
+                <Link
+                  href="/dashboard/tutor"
+                  className="transition hover:text-indigo-400"
+                >
                   Tutor Dashboard
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/profile" className="transition hover:text-indigo-400">
+                <Link
+                  href="/dashboard/profile"
+                  className="transition hover:text-indigo-400"
+                >
                   Account Profile
                 </Link>
               </li>
@@ -164,7 +193,9 @@ export default function Footer() {
 
           {/* Contact & Trust */}
           <div>
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Direct Support</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
+              Direct Support
+            </h3>
 
             <div className="mt-5 space-y-3.5 text-sm text-slate-400">
               <div className="flex items-start gap-2.5">

@@ -202,7 +202,7 @@ export default function DashboardShell({
         {/* Brand Header */}
         <div className="flex h-18 items-center justify-between border-b border-slate-100 dark:border-slate-800 px-6">
           <Link href="/" className="cursor-pointer">
-            <BrandLogo size="sm" />
+            <BrandLogo size="md" />
           </Link>
 
           <button
