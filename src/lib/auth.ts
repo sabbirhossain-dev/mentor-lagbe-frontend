@@ -23,18 +23,44 @@ const db = client.db("Mentor-Lagbe");
 const PUBLIC_ROLES = ["student", "tutor"] as const;
 
 /**
- * GitHub is only registered when its credentials exist, so the auth
- * server never starts with a half-configured social provider.
+ * Social providers (Google, GitHub) are dynamically registered when their credentials exist.
  */
+const googleClientId =
+  process.env.GOOGLE_CLIENT_ID ||
+  process.env.GOOGLE_AUTH_CLIENT_ID ||
+  process.env.GIT_AUTH_CLIENT_ID;
+
+const googleClientSecret =
+  process.env.GOOGLE_CLIENT_SECRET ||
+  process.env.GOOGLE_AUTH_SECRET_KEY ||
+  process.env.GIT_AUTH_SECRET_KEY;
+
+const githubClientId = process.env.GITHUB_CLIENT_ID;
+const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+
+const configuredSocialProviders = {
+  ...(googleClientId && googleClientSecret
+    ? {
+        google: {
+          clientId: googleClientId.trim(),
+          clientSecret: googleClientSecret.trim(),
+        },
+      }
+    : {}),
+  ...(githubClientId && githubClientSecret
+    ? {
+        github: {
+          clientId: githubClientId.trim(),
+          clientSecret: githubClientSecret.trim(),
+        },
+      }
+    : {}),
+};
+
 const socialProviders =
-    process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
-        ? {
-              github: {
-                  clientId: process.env.GITHUB_CLIENT_ID,
-                  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-              },
-          }
-        : undefined;
+  Object.keys(configuredSocialProviders).length > 0
+    ? configuredSocialProviders
+    : undefined;
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
@@ -78,25 +104,43 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        before: async (user) => {
-          const requested =
-              typeof user.role === "string" && user.role
-                  ? user.role.toLowerCase()
-                  : "student";
+        before: async (user, context?: unknown) => {
+          let requested =
+            typeof user.role === "string" && user.role
+              ? user.role.toLowerCase()
+              : "";
+
+          // If role was not provided directly (e.g. social sign-in), check cookie header
+          if (!requested && context && typeof context === "object" && "headers" in context) {
+            try {
+              const headers = (context as { headers?: { get?: (name: string) => string | null } }).headers;
+              const cookieHeader = headers?.get ? headers.get("cookie") || "" : "";
+              const match = cookieHeader.match(/mentorlagbe_signup_role=([a-z]+)/i);
+              if (match && match[1]) {
+                requested = match[1].toLowerCase();
+              }
+            } catch {
+              // fallback gracefully
+            }
+          }
+
+          if (!requested) {
+            requested = "student";
+          }
 
           if (!(PUBLIC_ROLES as readonly string[]).includes(requested)) {
-              throw new APIError("FORBIDDEN", {
-                  message:
-                      "Invalid role. Only student or tutor can register. Admin accounts are created by the administrator.",
-              });
+            throw new APIError("FORBIDDEN", {
+              message:
+                "Invalid role. Only student or tutor can register. Admin accounts are created by the administrator.",
+            });
           }
 
           return {
-              data: {
-                  ...user,
-                  role: requested,
-                  plan: "free",
-              },
+            data: {
+              ...user,
+              role: requested,
+              plan: "free",
+            },
           };
         },
       },

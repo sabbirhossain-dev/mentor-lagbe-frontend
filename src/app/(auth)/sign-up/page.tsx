@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
   AlertCircle,
   ArrowRight,
@@ -11,7 +12,9 @@ import {
   GraduationCap,
   Loader2,
   ShieldCheck,
-  Users,
+  CheckCircle2,
+  BookOpen,
+  User,
 } from "lucide-react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -19,16 +22,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { authClient } from "@/lib/auth-client";
 import { dashboardPathFor } from "@/lib/roles";
+import { GoogleAuthButton } from "@/components/auth/SocialAuthButton";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -36,11 +32,12 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [role, setRole] = useState<string | null>(null);
-  const [terms, setTerms] = useState(false);
+  const [role, setRole] = useState<"student" | "tutor">("student");
+  const [terms, setTerms] = useState(true);
 
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   // Prevent dashboard redirect during the signup process.
   const skipDashboardRedirect = useRef(false);
@@ -54,10 +51,34 @@ export default function SignUpPage() {
     }
   }, [isPending, session, router]);
 
+  // Google OAuth Sign-Up Handler
+  const handleGoogleSignUp = async () => {
+    if (googleLoading || submitting) return;
+    setError(null);
+    setGoogleLoading(true);
+
+    try {
+      // Store chosen role in cookie so Better-Auth database hook picks it up
+      const chosenRole = role || "student";
+      document.cookie = `mentorlagbe_signup_role=${chosenRole}; path=/; max-age=600; SameSite=Lax`;
+
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (err: unknown) {
+      console.error("Google sign up failed:", err);
+      const msg = err instanceof Error ? err.message : "Failed to connect to Google. Please try again.";
+      setError(msg);
+      toast.error(msg);
+      setGoogleLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (submitting) return;
+    if (submitting || googleLoading) return;
 
     setError(null);
 
@@ -65,13 +86,24 @@ export default function SignUpPage() {
     const formData = new FormData(form);
 
     const name = String(formData.get("name") ?? "").trim();
-    const email = String(formData.get("email") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim().toLowerCase();
     const password = String(formData.get("password") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
 
     // Required field validation.
     if (!name || !email || !password || !confirmPassword) {
       setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (name.length < 2) {
+      setError("Please enter your real full name (at least 2 characters).");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
       return;
     }
 
@@ -93,7 +125,7 @@ export default function SignUpPage() {
 
     if (!passwordRegex.test(password)) {
       setError(
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+        "Password must contain at least 8 characters with 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special symbol.",
       );
       return;
     }
@@ -111,8 +143,6 @@ export default function SignUpPage() {
     }
 
     setSubmitting(true);
-
-    // Prevent session update from triggering dashboard redirect.
     skipDashboardRedirect.current = true;
 
     try {
@@ -126,27 +156,23 @@ export default function SignUpPage() {
 
       if (signUpError) {
         skipDashboardRedirect.current = false;
-
-        setError(
-          signUpError.message ||
-            "Unable to create your account. Please try again.",
-        );
+        setError(signUpError.message || "Unable to create your account. Please try again.");
+        toast.error(signUpError.message || "Account creation failed");
         return;
       }
 
       if (!data?.user) {
         skipDashboardRedirect.current = false;
-
         setError("Unable to verify your account creation. Please try again.");
         return;
       }
 
-      // Signup successful: redirect to website homepage.
-      router.replace("/");
+      toast.success("Account created successfully! Welcome to MentorLagbe.");
+      router.replace(dashboardPathFor(role));
       router.refresh();
     } catch {
       skipDashboardRedirect.current = false;
-      setError("Something went wrong. Please try again.");
+      setError("Something went wrong. Please check your connection and try again.");
     } finally {
       setSubmitting(false);
     }
@@ -155,67 +181,62 @@ export default function SignUpPage() {
   // Prevent signup form flash while checking the session.
   if (isPending || session?.user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
         <Loader2 className="size-8 animate-spin text-blue-600" />
       </div>
     );
   }
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-slate-50 px-3 py-6 sm:px-6 sm:py-10">
-      <div className="grid w-full max-w-6xl overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/60 sm:rounded-3xl lg:min-h-[700px] lg:grid-cols-2">
+    <section className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-3 py-6 sm:px-6 sm:py-10 transition-colors">
+      <div className="grid w-full max-w-6xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl sm:rounded-3xl lg:min-h-[700px] lg:grid-cols-2">
         {/* Left Side - Branding */}
-        <div className="relative hidden flex-col justify-between overflow-hidden bg-blue-600 p-10 text-white lg:flex xl:p-14">
-          <div className="absolute -right-24 -top-24 size-80 rounded-full bg-blue-500 opacity-50" />
-          <div className="absolute -bottom-32 -left-20 size-96 rounded-full bg-blue-700 opacity-50" />
+        <div className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-10 text-white lg:flex xl:p-14">
+          <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-blue-500/40 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-32 -left-20 size-96 rounded-full bg-blue-900/50 blur-3xl" />
 
           {/* Logo */}
-          <Link
-            href="/"
-            className="relative z-10 inline-flex w-fit items-center gap-2"
-          >
-            <div className="flex size-11 items-center justify-center rounded-xl bg-white text-blue-600">
+          <Link href="/" className="relative z-10 inline-flex w-fit items-center gap-2.5">
+            <div className="flex size-11 items-center justify-center rounded-xl bg-white text-blue-600 shadow-md">
               <GraduationCap size={27} />
             </div>
-
-            <span className="text-2xl font-bold">MentorLagbe</span>
+            <span className="text-2xl font-black tracking-tight">MentorLagbe</span>
           </Link>
 
           {/* Content */}
-          <div className="relative z-10 my-12">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400 bg-blue-500/40 px-4 py-2 text-sm font-medium">
-              <Users size={17} />
-              Join Our Learning Community
+          <div className="relative z-10 my-10">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/40 bg-blue-500/30 px-4 py-1.5 text-xs font-semibold backdrop-blur">
+              <CheckCircle2 size={15} />
+              Join Our Verified Learning Community
             </div>
 
-            <h1 className="max-w-lg text-4xl leading-tight font-bold xl:text-5xl">
+            <h1 className="max-w-lg text-4xl leading-tight font-extrabold xl:text-5xl">
               Build Your Future With The Right Mentor.
             </h1>
 
-            <p className="mt-6 max-w-md leading-7 text-blue-100">
-              Join MentorLagbe and connect with experienced tutors, explore
-              learning opportunities, and achieve your goals.
+            <p className="mt-5 max-w-md leading-relaxed text-blue-100 text-sm sm:text-base">
+              Connect with top-tier academic tutors, explore active tuition batches, or offer your own 1-on-1 mentorship.
             </p>
 
-            <div className="mt-10 space-y-5">
+            <div className="mt-8 space-y-3.5">
               {[
-                "Connect with qualified tutors",
-                "Explore tuition opportunities",
-                "Grow your skills and knowledge",
+                "100% free account creation for students and tutors",
+                "Verified badges for certified academic educators",
+                "Secure messaging and instant application review",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
-                  <span className="size-2 shrink-0 rounded-full bg-blue-200" />
-                  <span className="text-sm text-blue-50">{item}</span>
+                  <CheckCircle2 size={16} className="text-blue-300 shrink-0" />
+                  <span className="text-xs sm:text-sm text-blue-50">{item}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Footer */}
-          <div className="relative z-10 flex items-center gap-3 border-t border-blue-400/50 pt-6">
-            <ShieldCheck size={22} className="shrink-0 text-blue-200" />
-            <p className="text-sm text-blue-100">
-              A smarter way to learn and teach.
+          <div className="relative z-10 flex items-center gap-3 border-t border-white/20 pt-6">
+            <ShieldCheck size={20} className="shrink-0 text-blue-200" />
+            <p className="text-xs text-blue-100">
+              A smarter, safer way to learn and teach.
             </p>
           </div>
         </div>
@@ -224,80 +245,105 @@ export default function SignUpPage() {
         <div className="flex items-center justify-center px-4 py-8 sm:px-10 sm:py-10 lg:px-12 xl:px-16">
           <div className="w-full max-w-md">
             {/* Mobile Logo */}
-            <Link
-              href="/"
-              className="mb-8 inline-flex items-center gap-2 lg:hidden"
-            >
+            <Link href="/" className="mb-8 inline-flex items-center gap-2 lg:hidden">
               <div className="flex size-10 items-center justify-center rounded-xl bg-blue-600 text-white">
                 <GraduationCap size={25} />
               </div>
-
-              <span className="text-xl font-bold text-slate-900">
-                MentorLagbe
-              </span>
+              <span className="text-xl font-bold text-slate-900 dark:text-white">MentorLagbe</span>
             </Link>
 
             {/* Heading */}
-            <div className="mb-7">
-              <div className="mb-4 inline-flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
-                <Users size={25} />
-              </div>
-
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Create an account
+            <div className="mb-6">
+              <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+                Create your account
               </h2>
-
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                Get started with MentorLagbe and find your learning partner.
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                Get started today in less than a minute.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Role Selection Tabs */}
+            <div className="mb-5 space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+                I am joining as
+              </Label>
+              <div className="grid grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setRole("student")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold transition-all ${
+                    role === "student"
+                      ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-500 dark:bg-blue-950/70 dark:text-blue-300"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-400"
+                  }`}
+                >
+                  <GraduationCap size={16} />
+                  <span>Student / Learner</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setRole("tutor")}
+                  className={`flex items-center justify-center gap-2 rounded-xl border p-3 text-xs font-bold transition-all ${
+                    role === "tutor"
+                      ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm dark:border-blue-500 dark:bg-blue-950/70 dark:text-blue-300"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-400"
+                  }`}
+                >
+                  <BookOpen size={16} />
+                  <span>Tutor / Mentor</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Google Social Button */}
+            <div className="space-y-5">
+              <GoogleAuthButton
+                onClick={handleGoogleSignUp}
+                loading={googleLoading}
+                disabled={submitting}
+                text={`Sign up with Google as ${role === "tutor" ? "Tutor" : "Student"}`}
+              />
+
+              <div className="relative flex items-center justify-center">
+                <div className="w-full border-t border-slate-200 dark:border-slate-800" />
+                <span className="bg-white dark:bg-slate-900 px-3 text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold absolute">
+                  Or register with email
+                </span>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-5 space-y-3.5" noValidate>
               {/* Error Message */}
               {error && (
-                <Alert
-                  variant="destructive"
-                  role="alert"
-                  className="items-start"
-                >
-                  <AlertCircle className="mt-0.5 size-4 shrink-0" />
-                  <AlertDescription className="text-sm leading-5">
-                    {error}
-                  </AlertDescription>
+                <Alert variant="destructive" role="alert" className="rounded-xl">
+                  <AlertCircle className="size-4 shrink-0" />
+                  <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
                 </Alert>
               )}
 
               {/* Full Name */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="name"
-                  className="text-sm font-semibold text-slate-700"
-                >
+              <div className="space-y-1">
+                <Label htmlFor="name" className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Full Name
                 </Label>
-
                 <Input
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="e.g. Tanvir Ahmed"
                   autoComplete="name"
                   required
-                  minLength={2}
-                  disabled={submitting}
-                  className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
+                  disabled={submitting || googleLoading}
+                  className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
                 />
               </div>
 
               {/* Email */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-semibold text-slate-700"
-                >
+              <div className="space-y-1">
+                <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Email Address
                 </Label>
-
                 <Input
                   id="email"
                   name="email"
@@ -305,126 +351,62 @@ export default function SignUpPage() {
                   placeholder="you@example.com"
                   autoComplete="email"
                   required
-                  disabled={submitting}
-                  className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
+                  disabled={submitting || googleLoading}
+                  className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
                 />
               </div>
 
-              {/* Role */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="role"
-                  className="text-sm font-semibold text-slate-700"
-                >
-                  I want to join as
-                </Label>
-
-                <Select
-                  value={role ?? ""}
-                  onValueChange={(value) => {
-                    setRole(value);
-                    setError(null);
-                  }}
-                  disabled={submitting}
-                >
-                  <SelectTrigger
-                    id="role"
-                    className="!h-12 !w-full !rounded-xl !border-slate-200 !bg-white px-4 text-sm text-slate-600 shadow-none hover:!border-slate-300 focus-visible:!border-blue-500 focus-visible:!bg-white focus-visible:ring-4 focus-visible:ring-blue-500/10 data-[popup-open]:!bg-white dark:!bg-white"
-                  >
-                    <SelectValue placeholder="Select your role" />
-                  </SelectTrigger>
-
-                  <SelectContent className="!bg-white">
-                    <SelectItem value="student">Student</SelectItem>
-                    <SelectItem value="tutor">Tutor</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
               {/* Password */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-sm font-semibold text-slate-700"
-                >
+              <div className="space-y-1">
+                <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Password
                 </Label>
-
                 <div className="relative">
                   <Input
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
+                    placeholder="At least 8 characters"
                     autoComplete="new-password"
-                    minLength={8}
                     required
-                    disabled={submitting}
-                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
+                    disabled={submitting || googleLoading}
+                    className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 pr-11 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
                   />
-
-                  <Button
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="icon"
-                    disabled={submitting}
                     onClick={() => setShowPassword((prev) => !prev)}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    className="absolute top-1/2 right-2 size-9 -translate-y-1/2 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                   >
-                    {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
-                  </Button>
+                    {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                  </button>
                 </div>
-
-                <p className="text-xs text-slate-400">
-                  Minimum 8 characters with uppercase, lowercase, number and
-                  special character.
-                </p>
               </div>
 
               {/* Confirm Password */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="confirmPassword"
-                  className="text-sm font-semibold text-slate-700"
-                >
+              <div className="space-y-1">
+                <Label htmlFor="confirmPassword" className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Confirm Password
                 </Label>
-
                 <div className="relative">
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder="Repeat your password"
                     autoComplete="new-password"
-                    minLength={8}
                     required
-                    disabled={submitting}
-                    className="h-12 w-full rounded-xl border-slate-200 bg-white px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-blue-500 focus-visible:ring-4 focus-visible:ring-blue-500/10"
+                    disabled={submitting || googleLoading}
+                    className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 pr-11 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
                   />
-
-                  <Button
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="icon"
-                    disabled={submitting}
                     onClick={() => setShowConfirmPassword((prev) => !prev)}
-                    aria-label={
-                      showConfirmPassword
-                        ? "Hide confirm password"
-                        : "Show confirm password"
-                    }
-                    className="absolute top-1/2 right-2 size-9 -translate-y-1/2 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                   >
-                    {showConfirmPassword ? (
-                      <EyeOff size={19} />
-                    ) : (
-                      <Eye size={19} />
-                    )}
-                  </Button>
+                    {showConfirmPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                  </button>
                 </div>
               </div>
 
@@ -433,32 +415,22 @@ export default function SignUpPage() {
                 <Checkbox
                   id="terms"
                   checked={terms}
-                  disabled={submitting}
+                  disabled={submitting || googleLoading}
                   onCheckedChange={(checked) => {
                     setTerms(checked === true);
                     setError(null);
                   }}
                   className="mt-0.5 shrink-0"
                 />
-
-                <div className="text-xs leading-5 text-slate-500">
-                  <Label
-                    htmlFor="terms"
-                    className="inline cursor-pointer text-xs leading-5 font-normal text-slate-500"
-                  >
-                    I agree to the
-                  </Label>{" "}
-                  <Link
-                    href="/terms"
-                    className="font-semibold text-blue-600 hover:underline"
-                  >
-                    Terms of Service
+                <div className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
+                  <Label htmlFor="terms" className="cursor-pointer text-xs font-normal text-slate-600 dark:text-slate-400">
+                    I agree to MentorLagbe's{" "}
+                  </Label>
+                  <Link href="/terms" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                    Terms
                   </Link>{" "}
                   and{" "}
-                  <Link
-                    href="/privacy"
-                    className="font-semibold text-blue-600 hover:underline"
-                  >
+                  <Link href="/privacy" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                     Privacy Policy
                   </Link>
                   .
@@ -468,17 +440,17 @@ export default function SignUpPage() {
               {/* Submit */}
               <Button
                 type="submit"
-                disabled={submitting}
-                className="h-12 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                disabled={submitting || googleLoading}
+                className="h-11 w-full rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70 mt-2"
               >
                 {submitting ? (
                   <>
-                    <Loader2 className="size-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating account...
                   </>
                 ) : (
                   <>
-                    Create Account
+                    Create Account as {role === "tutor" ? "Tutor" : "Student"}
                     <ArrowRight className="ml-2 size-4" />
                   </>
                 )}
@@ -486,11 +458,11 @@ export default function SignUpPage() {
             </form>
 
             {/* Sign In Link */}
-            <p className="mt-7 text-center text-sm text-slate-500">
+            <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
               Already have an account?{" "}
               <Link
                 href="/sign-in"
-                className="font-semibold text-blue-600 transition hover:text-blue-700"
+                className="font-bold text-blue-600 dark:text-blue-400 transition hover:underline"
               >
                 Sign in
               </Link>
