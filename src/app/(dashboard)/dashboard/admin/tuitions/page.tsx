@@ -82,14 +82,14 @@ export default function AdminTuitionsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Tuition Moderation</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Tuition Moderation</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Review tutor listings and approve them for public discovery on the catalog.
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex rounded-xl border border-slate-200 bg-white p-1">
+        <div className="flex rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-1">
           {["all", "pending", "approved", "rejected"].map((tab) => (
             <button
               key={tab}
@@ -97,8 +97,8 @@ export default function AdminTuitionsPage() {
               onClick={() => setFilterStatus(tab)}
               className={`rounded-lg px-3.5 py-1.5 text-xs font-bold capitalize transition-all ${
                 filterStatus === tab
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               {tab}
@@ -108,17 +108,17 @@ export default function AdminTuitionsPage() {
       </div>
 
       {/* Tuitions Moderation Table */}
-      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-6 space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100" />
+              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             ))}
           </div>
         ) : filteredTuitions.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50/70 text-xs font-bold uppercase text-slate-500">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-xs font-bold uppercase text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="px-6 py-4">Tuition Listing</th>
                   <th className="px-6 py-4">Tutor</th>
@@ -128,32 +128,32 @@ export default function AdminTuitionsPage() {
                   <th className="px-6 py-4 text-right">Moderation Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {filteredTuitions.map((t) => (
-                  <tr key={t._id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={t._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-6 py-5">
                       <Link
                         href={`/tuitions/${t._id}`}
-                        className="font-bold text-slate-900 hover:text-blue-600 flex items-center gap-1.5"
+                        className="font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5"
                       >
                         {t.title}
                         <ExternalLink size={12} className="text-slate-400" />
                       </Link>
-                      <span className="text-xs font-semibold text-blue-600 block mt-0.5">
+                      <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 block mt-0.5">
                         {t.subject} • {t.classLevel} • {t.mode}
                       </span>
                     </td>
 
-                    <td className="px-6 py-5 text-xs text-slate-600">
-                      <p className="font-bold text-slate-800">{t.tutorName}</p>
+                    <td className="px-6 py-5 text-xs text-slate-600 dark:text-slate-300">
+                      <p className="font-bold text-slate-800 dark:text-slate-200">{t.tutorName}</p>
                       <p className="text-slate-400">{t.tutorEmail}</p>
                     </td>
 
-                    <td className="px-6 py-5 font-bold text-slate-900 text-sm">
+                    <td className="px-6 py-5 font-black text-indigo-600 dark:text-indigo-400 text-sm">
                       ৳{t.monthlyFee?.toLocaleString()}
                     </td>
 
-                    <td className="px-6 py-5 text-xs text-slate-500">
+                    <td className="px-6 py-5 text-xs text-slate-500 dark:text-slate-400">
                       {new Date(t.createdAt).toLocaleDateString()}
                     </td>
 
@@ -161,10 +161,10 @@ export default function AdminTuitionsPage() {
                       <Badge
                         className={`capitalize text-xs font-bold py-1 px-3 ${
                           t.approvalStatus === "approved"
-                            ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                            ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
                             : t.approvalStatus === "rejected"
-                            ? "bg-red-100 text-red-800 border-red-300"
-                            : "bg-amber-100 text-amber-800 border-amber-300"
+                            ? "bg-red-100 dark:bg-red-950/80 text-red-800 dark:text-red-300 border-red-300 dark:border-red-800"
+                            : "bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
                         }`}
                       >
                         {t.approvalStatus}
@@ -187,7 +187,7 @@ export default function AdminTuitionsPage() {
                           variant="outline"
                           disabled={updatingId === t._id || t.approvalStatus === "rejected"}
                           onClick={() => handleUpdateApproval(t._id, "rejected")}
-                          className="h-8 rounded-lg border-red-200 text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700"
+                          className="h-8 rounded-lg border-red-200 dark:border-red-900/60 dark:bg-slate-800 text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
                         >
                           <X size={14} className="mr-1" />
                           Reject
@@ -201,9 +201,9 @@ export default function AdminTuitionsPage() {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <BookOpen size={42} className="mx-auto text-slate-300" />
-            <h3 className="mt-4 text-base font-bold text-slate-800">No tuitions to display</h3>
-            <p className="mt-1 text-xs text-slate-500">No tuition posts match this filter.</p>
+            <BookOpen size={42} className="mx-auto text-slate-300 dark:text-slate-700" />
+            <h3 className="mt-4 text-base font-bold text-slate-800 dark:text-slate-200">No tuitions to display</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">No tuition posts match this filter.</p>
           </div>
         )}
       </div>

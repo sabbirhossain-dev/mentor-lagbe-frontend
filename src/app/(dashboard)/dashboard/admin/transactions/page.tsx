@@ -13,7 +13,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
 
@@ -61,36 +60,36 @@ export default function AdminTransactionsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             Payment Transactions
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Audit Stripe Pro Plan subscription payments and billing transaction IDs.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-right">
-          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+        <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40 px-5 py-3 text-right">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
             Total Revenue
           </p>
-          <p className="text-2xl font-black text-emerald-700 mt-0.5">
+          <p className="text-2xl font-black text-emerald-700 dark:text-emerald-400 mt-0.5">
             ${totalVolume.toFixed(2)} USD
           </p>
         </div>
       </div>
 
       {/* Transactions Table */}
-      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-6 space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-16 w-full rounded-2xl bg-slate-100" />
+              <Skeleton key={i} className="h-16 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             ))}
           </div>
         ) : transactions.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50/70 text-xs font-bold uppercase text-slate-500">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-xs font-bold uppercase text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="px-6 py-4">User</th>
                   <th className="px-6 py-4">Subscription Plan</th>
@@ -100,16 +99,16 @@ export default function AdminTransactionsPage() {
                   <th className="px-6 py-4 text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {transactions.map((tx) => (
-                  <tr key={tx._id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={tx._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-6 py-4">
-                      <p className="font-bold text-slate-900">{tx.userName || "Subscriber"}</p>
-                      <p className="text-xs text-slate-500">{tx.userEmail}</p>
+                      <p className="font-bold text-slate-900 dark:text-white">{tx.userName || "Subscriber"}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{tx.userEmail}</p>
                     </td>
 
                     <td className="px-6 py-4">
-                      <Badge className="bg-purple-50 text-purple-700 border-purple-200 capitalize font-bold">
+                      <Badge className="bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 capitalize font-bold">
                         {tx.planName || "Pro Plan"}
                       </Badge>
                       <span className="block text-xs text-slate-400 capitalize mt-0.5">
@@ -117,15 +116,15 @@ export default function AdminTransactionsPage() {
                       </span>
                     </td>
 
-                    <td className="px-6 py-4 font-bold text-slate-900">
+                    <td className="px-6 py-4 font-black text-slate-900 dark:text-white">
                       ${Number(tx.amount).toFixed(2)} {tx.currency?.toUpperCase() || "USD"}
                     </td>
 
-                    <td className="px-6 py-4 font-mono text-xs text-slate-600">
+                    <td className="px-6 py-4 font-mono text-xs text-slate-600 dark:text-slate-300">
                       {tx.transactionId || "tx_simulated"}
                     </td>
 
-                    <td className="px-6 py-4 text-xs text-slate-500">
+                    <td className="px-6 py-4 text-xs text-slate-500 dark:text-slate-400">
                       {new Date(tx.paidAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
@@ -136,7 +135,7 @@ export default function AdminTransactionsPage() {
                     </td>
 
                     <td className="px-6 py-4 text-right">
-                      <Badge className="bg-emerald-100 text-emerald-800 border-emerald-300 font-bold uppercase text-[10px]">
+                      <Badge className="bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 font-bold uppercase text-[10px]">
                         {tx.paymentStatus || "PAID"}
                       </Badge>
                     </td>
@@ -147,9 +146,9 @@ export default function AdminTransactionsPage() {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <Receipt size={42} className="mx-auto text-slate-300" />
-            <h3 className="mt-4 text-base font-bold text-slate-800">No transactions recorded yet</h3>
-            <p className="mt-1 text-xs text-slate-500">
+            <Receipt size={42} className="mx-auto text-slate-300 dark:text-slate-700" />
+            <h3 className="mt-4 text-base font-bold text-slate-800 dark:text-slate-200">No transactions recorded yet</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               When users purchase Pro upgrades via Stripe, transactions will be logged here automatically.
             </p>
           </div>

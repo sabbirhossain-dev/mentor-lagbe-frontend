@@ -70,7 +70,7 @@ export default function TutorOverviewPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-gradient-to-r from-blue-700 to-indigo-800 p-6 sm:p-8 text-white shadow-xl shadow-blue-500/10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-gradient-to-r from-indigo-700 via-indigo-800 to-violet-900 p-6 sm:p-8 text-white shadow-xl shadow-indigo-500/10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur">
             <GraduationCap size={14} />
@@ -79,13 +79,13 @@ export default function TutorOverviewPage() {
           <h1 className="mt-3 text-2xl sm:text-3xl font-black">
             Welcome, {user?.name || "Tutor"}!
           </h1>
-          <p className="mt-1 text-sm text-blue-100 max-w-lg">
+          <p className="mt-1 text-sm text-indigo-100 max-w-lg">
             Manage your teaching batches, review incoming student enrollments, and launch new tuition sessions.
           </p>
         </div>
 
         <Link href="/dashboard/tutor/post-tuition">
-          <Button className="rounded-xl bg-white text-blue-800 font-bold hover:bg-blue-50 shadow-md">
+          <Button className="rounded-xl bg-white text-indigo-800 font-bold hover:bg-indigo-50 shadow-md">
             <PlusCircle size={16} className="mr-2" />
             Post New Tuition
           </Button>
@@ -100,12 +100,16 @@ export default function TutorOverviewPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Total Posted
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400">
               <BookOpen size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalPosted}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalPosted}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">
               {stats.plan === "pro" ? "Unlimited allowed (PRO)" : `${stats.totalPosted}/2 free posts used`}
             </p>
@@ -123,7 +127,11 @@ export default function TutorOverviewPage() {
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{stats.activeApproved}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{stats.activeApproved}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">Visible on catalog</p>
           </div>
         </Card>
@@ -134,12 +142,16 @@ export default function TutorOverviewPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Applicants Received
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 dark:bg-violet-950/80 text-violet-600 dark:text-violet-400">
               <Users size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-purple-600 dark:text-purple-400">{stats.totalApplicants}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-violet-600 dark:text-violet-400">{stats.totalApplicants}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">Student applications</p>
           </div>
         </Card>
@@ -156,16 +168,20 @@ export default function TutorOverviewPage() {
           </div>
           <div className="mt-4 flex items-baseline justify-between">
             <div>
-              <h3 className="text-3xl font-black capitalize text-slate-900 dark:text-white">
-                {stats.plan}
-              </h3>
+              {loading ? (
+                <Skeleton className="h-9 w-20 rounded-lg bg-slate-100 dark:bg-slate-800" />
+              ) : (
+                <h3 className="text-3xl font-black capitalize text-slate-900 dark:text-white">
+                  {stats.plan}
+                </h3>
+              )}
               <p className="text-xs text-slate-400 mt-1">
                 {stats.plan === "pro" ? "Verified badge + unlimited" : "Max 2 tuition posts"}
               </p>
             </div>
-            {stats.plan !== "pro" && (
+            {stats.plan !== "pro" && !loading && (
               <Link href="/pricing">
-                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950">
+                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-900 hover:bg-indigo-50 dark:hover:bg-indigo-950">
                   Upgrade
                 </Button>
               </Link>
@@ -184,7 +200,7 @@ export default function TutorOverviewPage() {
               <p className="text-xs text-slate-500 dark:text-slate-400">Overview of your posted batches</p>
             </div>
             <Link href="/dashboard/tutor/my-tuitions">
-              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950">
                 Manage All
                 <ArrowRight size={14} className="ml-1" />
               </Button>
@@ -208,7 +224,7 @@ export default function TutorOverviewPage() {
                     <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                       <span>{t.subject}</span>
                       <span>•</span>
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">৳{t.monthlyFee?.toLocaleString()}/mo</span>
+                      <span className="font-semibold text-indigo-600 dark:text-indigo-400">৳{t.monthlyFee?.toLocaleString()}/mo</span>
                     </div>
                   </div>
 
@@ -232,7 +248,7 @@ export default function TutorOverviewPage() {
             <div className="py-8 text-center">
               <p className="text-xs text-slate-500 dark:text-slate-400">You haven't posted any tuitions yet.</p>
               <Link href="/dashboard/tutor/post-tuition" className="mt-3 inline-block">
-                <Button size="sm" className="rounded-xl bg-blue-600 text-xs">Post First Tuition</Button>
+                <Button size="sm" className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold">Post First Tuition</Button>
               </Link>
             </div>
           )}
@@ -246,7 +262,7 @@ export default function TutorOverviewPage() {
               <p className="text-xs text-slate-500 dark:text-slate-400">Students awaiting your review</p>
             </div>
             <Link href="/dashboard/tutor/applicants">
-              <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950">
+              <Button variant="ghost" size="sm" className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950">
                 View All
                 <ArrowRight size={14} className="ml-1" />
               </Button>

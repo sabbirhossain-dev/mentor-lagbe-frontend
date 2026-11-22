@@ -19,7 +19,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
@@ -110,11 +109,11 @@ export default function MyTuitionsPage() {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            title: editTitle.trim(),
+            title: editTitle,
             monthlyFee: Number(editMonthlyFee),
-            location: editLocation.trim(),
-            daysPerWeek: editDaysPerWeek.trim(),
-            description: editDescription.trim(),
+            location: editLocation,
+            daysPerWeek: editDaysPerWeek,
+            description: editDescription,
           }),
         }
       );
@@ -149,14 +148,14 @@ export default function MyTuitionsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">My Created Tuitions</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">My Created Tuitions</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Full management of your active tuition batches, status toggles, and updates.
           </p>
         </div>
 
         <Link href="/dashboard/tutor/post-tuition">
-          <Button className="rounded-xl bg-blue-600 hover:bg-blue-700 font-semibold text-white">
+          <Button className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 font-semibold text-white shadow-md shadow-indigo-500/20">
             <PlusCircle size={16} className="mr-2" />
             Post New Tuition
           </Button>
@@ -164,17 +163,17 @@ export default function MyTuitionsPage() {
       </div>
 
       {/* Tuitions List Table */}
-      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-6 space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100" />
+              <Skeleton key={i} className="h-20 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
             ))}
           </div>
         ) : tuitions.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50/70 text-xs font-bold uppercase text-slate-500">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-xs font-bold uppercase text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="px-6 py-4">Title & Subject</th>
                   <th className="px-6 py-4">Fee / Month</th>
@@ -183,19 +182,19 @@ export default function MyTuitionsPage() {
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {tuitions.map((t) => (
-                  <tr key={t._id} className="hover:bg-slate-50/50 transition-colors">
+                  <tr key={t._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-6 py-5">
                       <Link
                         href={`/tuitions/${t._id}`}
-                        className="font-bold text-slate-900 hover:text-blue-600 flex items-center gap-1.5"
+                        className="font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5"
                       >
                         {t.title}
                         <ExternalLink size={13} className="text-slate-400" />
                       </Link>
-                      <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
-                        <span className="font-semibold text-blue-600">{t.subject}</span>
+                      <div className="mt-1 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <span className="font-semibold text-indigo-600 dark:text-indigo-400">{t.subject}</span>
                         <span>•</span>
                         <span>{t.classLevel}</span>
                         <span>•</span>
@@ -204,7 +203,7 @@ export default function MyTuitionsPage() {
                     </td>
 
                     <td className="px-6 py-5">
-                      <span className="font-extrabold text-blue-600 text-base">
+                      <span className="font-black text-indigo-600 dark:text-indigo-400 text-base">
                         ৳{t.monthlyFee?.toLocaleString()}
                       </span>
                     </td>
@@ -213,10 +212,10 @@ export default function MyTuitionsPage() {
                       <Badge
                         className={`capitalize text-xs font-bold py-1 px-3 ${
                           t.approvalStatus === "approved"
-                            ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                            ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
                             : t.approvalStatus === "rejected"
-                            ? "bg-red-100 text-red-800 border-red-300"
-                            : "bg-amber-100 text-amber-800 border-amber-300"
+                            ? "bg-red-100 dark:bg-red-950/80 text-red-800 dark:text-red-300 border-red-300 dark:border-red-800"
+                            : "bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
                         }`}
                       >
                         {t.approvalStatus}
@@ -229,36 +228,32 @@ export default function MyTuitionsPage() {
                         onClick={() => handleToggleStatus(t._id)}
                         className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-all ${
                           t.isActive
-                            ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
-                            : "bg-slate-100 text-slate-500 hover:bg-slate-200 border border-slate-300"
+                            ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200"
                         }`}
-                        title="Click to toggle Active / Closed"
                       >
-                        <Power size={12} />
-                        {t.isActive ? "Active" : "Closed"}
+                        <Power size={12} className={t.isActive ? "text-emerald-600" : "text-slate-400"} />
+                        {t.isActive ? "Active (Listed)" : "Closed (Hidden)"}
                       </button>
                     </td>
 
-                    <td className="px-6 py-5 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => openEditModal(t)}
-                          className="h-8 rounded-lg text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-600"
-                        >
-                          <Edit3 size={14} className="mr-1" />
-                          Edit
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(t._id)}
-                          className="h-8 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700"
-                        >
-                          <Trash2 size={14} />
-                        </Button>
-                      </div>
+                    <td className="px-6 py-5 text-right space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => openEditModal(t)}
+                        className="h-8 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      >
+                        <Edit3 size={13} className="mr-1" /> Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDelete(t._id)}
+                        className="h-8 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50"
+                      >
+                        <Trash2 size={13} />
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -267,15 +262,13 @@ export default function MyTuitionsPage() {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <BookOpen size={42} className="mx-auto text-slate-300" />
-            <h3 className="mt-4 text-base font-bold text-slate-800">No tuitions posted yet</h3>
-            <p className="mt-1 text-xs text-slate-500">
-              Create your first tuition listing to start receiving student applications.
+            <BookOpen size={42} className="mx-auto text-slate-300 dark:text-slate-700" />
+            <h3 className="mt-4 text-base font-bold text-slate-800 dark:text-slate-200">No tuitions posted yet</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              Create your first tuition batch to start receiving applications from students.
             </p>
-            <Link href="/dashboard/tutor/post-tuition" className="mt-5 inline-block">
-              <Button className="rounded-xl bg-blue-600 font-semibold text-white">
-                Post Tuition Now
-              </Button>
+            <Link href="/dashboard/tutor/post-tuition" className="mt-4 inline-block">
+              <Button size="sm" className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white">Post a Tuition</Button>
             </Link>
           </div>
         )}
@@ -284,13 +277,13 @@ export default function MyTuitionsPage() {
       {/* Edit Tuition Modal */}
       {editingTuition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-8 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="text-xl font-extrabold text-slate-900">Edit Tuition Post</h3>
+          <div className="w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 p-6 sm:p-8 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">Edit Tuition Post</h3>
               <button
                 type="button"
                 onClick={() => setEditingTuition(null)}
-                className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                className="h-8 w-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
               >
                 ✕
               </button>
@@ -298,7 +291,7 @@ export default function MyTuitionsPage() {
 
             <form onSubmit={handleSaveEdit} className="mt-6 space-y-4">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Title
                 </label>
                 <Input
@@ -306,12 +299,12 @@ export default function MyTuitionsPage() {
                   required
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Monthly Fee (BDT)
                 </label>
                 <Input
@@ -319,12 +312,12 @@ export default function MyTuitionsPage() {
                   required
                   value={editMonthlyFee}
                   onChange={(e) => setEditMonthlyFee(e.target.value ? Number(e.target.value) : "")}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200 font-bold"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Location / Platform
                 </label>
                 <Input
@@ -332,12 +325,12 @@ export default function MyTuitionsPage() {
                   required
                   value={editLocation}
                   onChange={(e) => setEditLocation(e.target.value)}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Schedule (Days / Week)
                 </label>
                 <Input
@@ -345,19 +338,19 @@ export default function MyTuitionsPage() {
                   required
                   value={editDaysPerWeek}
                   onChange={(e) => setEditDaysPerWeek(e.target.value)}
-                  className="mt-1.5 h-11 rounded-xl border-slate-200"
+                  className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                   Description
                 </label>
                 <textarea
                   rows={3}
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white p-3 text-sm focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -366,14 +359,14 @@ export default function MyTuitionsPage() {
                   type="button"
                   variant="outline"
                   onClick={() => setEditingTuition(null)}
-                  className="rounded-xl border-slate-200"
+                  className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={savingEdit}
-                  className="rounded-xl bg-blue-600 font-semibold hover:bg-blue-700 px-6"
+                  className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 font-semibold text-white px-6 shadow-md"
                 >
                   {savingEdit ? "Saving..." : "Save Changes"}
                 </Button>

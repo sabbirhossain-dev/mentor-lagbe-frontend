@@ -39,6 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import BrandLogo from "@/components/shared/BrandLogo";
 
 interface NavItem {
   label: string;
@@ -115,7 +116,7 @@ export default function DashboardShell({
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Loading your dashboard...</p>
         </div>
       </div>
@@ -126,11 +127,8 @@ export default function DashboardShell({
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col lg:flex-row transition-colors duration-200">
       {/* Mobile Top Header */}
       <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 shadow-sm">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white font-bold">
-            <GraduationCap size={20} />
-          </div>
-          <span className="text-lg font-extrabold text-slate-900 dark:text-white">MentorLagbe</span>
+        <Link href="/">
+          <BrandLogo size="sm" />
         </Link>
 
         <div className="flex items-center gap-2">
@@ -162,16 +160,8 @@ export default function DashboardShell({
       >
         {/* Brand Header */}
         <div className="flex h-16 items-center justify-between border-b border-slate-100 dark:border-slate-800 px-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
-              <GraduationCap size={20} />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white">MentorLagbe</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                {role} portal
-              </span>
-            </div>
+          <Link href="/">
+            <BrandLogo size="sm" />
           </Link>
 
           <button
@@ -188,7 +178,7 @@ export default function DashboardShell({
           <div className="flex items-center gap-3">
             <Avatar className="h-11 w-11 border-2 border-white dark:border-slate-700 shadow-sm">
               <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
-              <AvatarFallback className="bg-blue-600 text-white font-bold text-sm">
+              <AvatarFallback className="bg-indigo-600 text-white font-bold text-sm">
                 {(user?.name || "U").charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -201,7 +191,7 @@ export default function DashboardShell({
                     role === "admin"
                       ? "bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
                       : role === "tutor"
-                      ? "bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                      ? "bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800"
                       : "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
                   }`}
                 >
@@ -232,7 +222,7 @@ export default function DashboardShell({
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-all ${
                   isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
@@ -249,7 +239,7 @@ export default function DashboardShell({
           <div className="flex items-center justify-between rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 px-3.5 py-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
               <Sun size={15} className="text-amber-500 dark:hidden" />
-              <Moon size={15} className="text-blue-400 hidden dark:block" />
+              <Moon size={15} className="text-indigo-400 hidden dark:block" />
               <span>Appearance</span>
             </div>
             <ThemeToggle className="h-8 w-8" />

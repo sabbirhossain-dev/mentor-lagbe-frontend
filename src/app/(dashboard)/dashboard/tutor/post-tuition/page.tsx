@@ -16,7 +16,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { apiFetch } from "@/lib/api";
 import { uploadImageToImgBB } from "@/lib/uploadImage";
 
@@ -103,15 +103,15 @@ export default function PostTuitionPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            title: title.trim(),
+            title,
             subject,
             classLevel,
             mode,
-            location: location.trim(),
+            location,
             monthlyFee: Number(monthlyFee),
-            daysPerWeek: daysPerWeek.trim(),
+            daysPerWeek,
             bannerImage: uploadedBannerUrl,
-            description: description.trim(),
+            description,
           }),
         }
       );
@@ -131,17 +131,17 @@ export default function PostTuitionPage() {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Post a New Tuition</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Post a New Tuition</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Create a mentorship batch or 1-on-1 tuition listing for student enrollment.
         </p>
       </div>
 
-      <Card className="rounded-3xl border-slate-200 bg-white p-6 sm:p-10 shadow-sm">
+      <Card className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10 shadow-sm">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* 1. Title */}
           <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
               Tuition Title <span className="text-red-500">*</span>
             </label>
             <Input
@@ -150,20 +150,20 @@ export default function PostTuitionPage() {
               placeholder="e.g. HSC Higher Math & Calculus Special Crash Course"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1.5 h-11 rounded-xl border-slate-200 font-medium"
+              className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-medium"
             />
           </div>
 
           {/* 2. Subject & Class Level Grid */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Subject <span className="text-red-500">*</span>
               </label>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:border-indigo-500 focus:outline-none"
               >
                 {SUBJECTS.map((s) => (
                   <option key={s} value={s}>
@@ -174,13 +174,13 @@ export default function PostTuitionPage() {
             </div>
 
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Class Level <span className="text-red-500">*</span>
               </label>
               <select
                 value={classLevel}
                 onChange={(e) => setClassLevel(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:border-indigo-500 focus:outline-none"
               >
                 {CLASS_LEVELS.map((lvl) => (
                   <option key={lvl} value={lvl}>
@@ -194,7 +194,7 @@ export default function PostTuitionPage() {
           {/* 3. Mode & Location Grid */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Learning Mode <span className="text-red-500">*</span>
               </label>
               <select
@@ -208,7 +208,7 @@ export default function PostTuitionPage() {
                     setLocation("Dhanmondi, Dhaka");
                   }
                 }}
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:border-indigo-500 focus:outline-none"
               >
                 <option value="Online">Online (Google Meet / Zoom)</option>
                 <option value="Offline">Offline (Home / Physical Batch)</option>
@@ -216,7 +216,7 @@ export default function PostTuitionPage() {
             </div>
 
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Location / Platform <span className="text-red-500">*</span>
               </label>
               <Input
@@ -225,7 +225,7 @@ export default function PostTuitionPage() {
                 placeholder={mode === "Online" ? "Online (Google Meet)" : "e.g. Dhanmondi, Dhaka"}
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="mt-1.5 h-11 rounded-xl border-slate-200"
+                className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               />
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function PostTuitionPage() {
           {/* 4. Monthly Fee & Schedule Grid */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Monthly Fee (BDT) <span className="text-red-500">*</span>
               </label>
               <Input
@@ -243,12 +243,12 @@ export default function PostTuitionPage() {
                 placeholder="e.g. 3500"
                 value={monthlyFee}
                 onChange={(e) => setMonthlyFee(e.target.value ? Number(e.target.value) : "")}
-                className="mt-1.5 h-11 rounded-xl border-slate-200 font-bold"
+                className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold"
               />
             </div>
 
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Weekly Schedule <span className="text-red-500">*</span>
               </label>
               <Input
@@ -257,25 +257,25 @@ export default function PostTuitionPage() {
                 placeholder="e.g. 3 Days / Week (Sat, Mon, Wed)"
                 value={daysPerWeek}
                 onChange={(e) => setDaysPerWeek(e.target.value)}
-                className="mt-1.5 h-11 rounded-xl border-slate-200"
+                className="mt-1.5 h-11 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               />
             </div>
           </div>
 
           {/* 5. Banner Image (ImgBB Direct Upload) */}
           <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
               Banner Image (ImgBB Upload)
             </label>
-            <div className="mt-1.5 flex flex-col sm:flex-row items-center gap-4 rounded-2xl border border-dashed border-slate-300 p-4 bg-slate-50/60">
+            <div className="mt-1.5 flex flex-col sm:flex-row items-center gap-4 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-4 bg-slate-50/60 dark:bg-slate-950/40">
               {previewUrl ? (
                 <img
                   src={previewUrl}
                   alt="Banner preview"
-                  className="h-28 w-44 rounded-xl object-cover shadow-sm border border-slate-200"
+                  className="h-28 w-44 rounded-xl object-cover shadow-sm border border-slate-200 dark:border-slate-700"
                 />
               ) : (
-                <div className="flex h-28 w-44 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
+                <div className="flex h-28 w-44 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400">
                   <ImageIcon size={32} />
                 </div>
               )}
@@ -285,7 +285,7 @@ export default function PostTuitionPage() {
                   type="button"
                   variant="outline"
                   onClick={() => fileInputRef.current?.click()}
-                  className="rounded-xl border-slate-300 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50"
+                  className="rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
                 >
                   <Upload size={14} className="mr-1.5" />
                   Select Image File
@@ -297,7 +297,7 @@ export default function PostTuitionPage() {
                   accept="image/*"
                   className="hidden"
                 />
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Direct upload via ImgBB API. If omitted, a high-quality educational placeholder will be used.
                 </p>
               </div>
@@ -306,7 +306,7 @@ export default function PostTuitionPage() {
 
           {/* 6. Description */}
           <div>
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
               Detailed Description & Batch Highlights
             </label>
             <textarea
@@ -314,20 +314,20 @@ export default function PostTuitionPage() {
               placeholder="Outline what topics you will cover, prerequisite expectations, exam problem-solving techniques, and batch size..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
+              className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white p-3 text-sm focus:border-indigo-500 focus:outline-none"
             />
           </div>
 
           {/* Submit Action */}
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-xs text-slate-500">
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               Free plan allows up to 2 posts. Pro plan unlocks unlimited posts.
             </span>
 
             <Button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-blue-600 px-8 py-6 font-bold text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700"
+              className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 px-8 py-6 font-bold text-white shadow-lg shadow-indigo-500/20"
             >
               <PlusCircle size={18} className="mr-2" />
               {submitting ? "Publishing..." : "Submit Tuition Listing"}

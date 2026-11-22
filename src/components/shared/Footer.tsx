@@ -1,10 +1,13 @@
 import Link from "next/link";
 import {
-  GraduationCap,
   Mail,
   MapPin,
   Phone,
+  ShieldCheck,
+  Lock,
+  Sparkles,
 } from "lucide-react";
+import BrandLogo from "@/components/shared/BrandLogo";
 
 // Modern X Logo SVG
 function XLogo({ size = 16 }: { size?: number }) {
@@ -41,33 +44,27 @@ function LinkedinLogo({ size = 16 }: { size?: number }) {
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 text-slate-300">
+    <footer className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-900 text-slate-300 transition-colors">
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand & Socials */}
-          <div>
-            <Link href="/" className="flex items-center gap-2">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
-                <GraduationCap size={24} />
-              </span>
-
-              <span className="text-2xl font-extrabold text-white">
-                Mentor<span className="text-blue-500">Lagbe</span>
-              </span>
+          <div className="space-y-4">
+            <Link href="/" className="inline-block">
+              <BrandLogo size="md" />
             </Link>
 
-            <p className="mt-4 max-w-xs text-sm leading-6 text-slate-400">
-              Connecting qualified academic tutors and students across Bangladesh and worldwide for concept-driven mentorship.
+            <p className="max-w-xs text-sm leading-6 text-slate-400">
+              Connecting qualified academic tutors and students across Bangladesh for concept-driven mentorship and zero-commission tuition matchmaking.
             </p>
 
-            {/* Social Links with new X logo */}
-            <div className="mt-6 flex items-center gap-2.5">
+            {/* Social Links */}
+            <div className="flex items-center gap-2.5 pt-2">
               <a
                 href="https://x.com"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="X (formerly Twitter)"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 transition hover:bg-slate-800 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-slate-700 hover:text-white"
               >
                 <XLogo size={14} />
               </a>
@@ -77,7 +74,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 transition hover:bg-blue-600 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-indigo-600 hover:text-white"
               >
                 <FacebookLogo size={14} />
               </a>
@@ -87,7 +84,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 transition hover:bg-blue-700 hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700/60 text-slate-400 transition hover:bg-violet-600 hover:text-white"
               >
                 <LinkedinLogo size={14} />
               </a>
@@ -96,27 +93,37 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-white text-sm uppercase tracking-wider">Platform Links</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Explore Platform</h3>
 
             <ul className="mt-5 space-y-3 text-sm text-slate-400">
               <li>
-                <Link href="/" className="transition hover:text-blue-400">
+                <Link href="/" className="transition hover:text-indigo-400">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/tuitions" className="transition hover:text-blue-400">
-                  Browse Tuitions
+                <Link href="/tuitions" className="transition hover:text-indigo-400">
+                  Find a Mentor
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="transition hover:text-blue-400">
-                  Pro Plans & Pricing
+                <Link href="/pricing" className="transition hover:text-indigo-400">
+                  Pro Membership
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="transition hover:text-blue-400">
-                  About MentorLagbe
+                <Link href="/about" className="transition hover:text-indigo-400">
+                  Why Us (About)
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="transition hover:text-indigo-400">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="transition hover:text-indigo-400">
+                  Privacy Policy
                 </Link>
               </li>
             </ul>
@@ -124,59 +131,78 @@ export default function Footer() {
 
           {/* Stakeholders */}
           <div>
-            <h3 className="font-bold text-white text-sm uppercase tracking-wider">Stakeholders</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Stakeholders</h3>
 
             <ul className="mt-5 space-y-3 text-sm text-slate-400">
               <li>
-                <Link href="/sign-up" className="transition hover:text-blue-400">
+                <Link href="/sign-up" className="transition hover:text-indigo-400">
                   Join as Student
                 </Link>
               </li>
               <li>
-                <Link href="/sign-up" className="transition hover:text-blue-400">
-                  Join as Tutor
+                <Link href="/sign-up" className="transition hover:text-indigo-400">
+                  Join as Verified Tutor
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/student" className="transition hover:text-blue-400">
+                <Link href="/dashboard/student" className="transition hover:text-indigo-400">
                   Student Dashboard
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard/tutor" className="transition hover:text-blue-400">
+                <Link href="/dashboard/tutor" className="transition hover:text-indigo-400">
                   Tutor Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard/profile" className="transition hover:text-indigo-400">
+                  Account Profile
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Trust */}
           <div>
-            <h3 className="font-bold text-white text-sm uppercase tracking-wider">Direct Support</h3>
+            <h3 className="font-bold text-white text-xs uppercase tracking-wider">Direct Support</h3>
 
             <div className="mt-5 space-y-3.5 text-sm text-slate-400">
               <div className="flex items-start gap-2.5">
-                <Mail size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                <Mail size={16} className="mt-0.5 shrink-0 text-indigo-400" />
                 <span>support@mentorlagbe.com</span>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Phone size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                <Phone size={16} className="mt-0.5 shrink-0 text-indigo-400" />
                 <span>+880 1800-MENTOR (8am - 10pm)</span>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                <MapPin size={16} className="mt-0.5 shrink-0 text-indigo-400" />
                 <span>Dhaka, Bangladesh</span>
+              </div>
+            </div>
+
+            {/* Security badges */}
+            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center gap-3 text-xs text-slate-400">
+              <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                <ShieldCheck size={16} />
+                <span>Verified Tutors</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-indigo-400 font-medium">
+                <Lock size={14} />
+                <span>256-Bit SSL</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-14 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div className="mt-14 border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} MentorLagbe. All rights reserved.</p>
-          <p>Smart Tuition & Mentorship Platform built for academic excellence.</p>
+          <p className="flex items-center gap-1 text-slate-400">
+            Smart Tuition & Mentorship Platform built for academic clarity
+          </p>
         </div>
       </div>
     </footer>

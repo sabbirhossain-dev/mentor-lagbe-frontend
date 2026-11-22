@@ -1,91 +1,106 @@
+"use client";
+
 import {
   ArrowRight,
   CheckCircle2,
-  FileText,
+  FileCheck2,
+  GraduationCap,
   Search,
-  UserPlus,
+  Sparkles,
+  UserCheck,
 } from "lucide-react";
 
-const HowItWorks = () => {
+export default function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Create Your Account",
-      description:
-        "Sign up as a student or tutor and create your learning profile.",
-      icon: UserPlus,
+      title: "Create Account",
+      subtitle: "For Students & Tutors",
+      description: "Quickly sign up or continue with Google as a Student or verified Tutor with custom academic profile credentials.",
+      icon: UserCheck,
+      badge: "Step 1",
     },
     {
       number: "02",
-      title: "Explore Opportunities",
-      description:
-        "Students browse available tuitions while tutors create tuition posts.",
+      title: "Discover or Post",
+      subtitle: "Interactive Search",
+      description: "Students filter batches by subject and budget; tutors post verified tuition listings with instant ImgBB banner upload.",
       icon: Search,
+      badge: "Step 2",
     },
     {
       number: "03",
-      title: "Connect & Apply",
-      description:
-        "Students apply for suitable tuition opportunities and tutors review applications.",
-      icon: FileText,
+      title: "Direct Application",
+      subtitle: "Schedule Alignment",
+      description: "Students apply with preferred time slots and learning goals; tutors review contact info and accept or decline.",
+      icon: FileCheck2,
+      badge: "Step 3",
     },
     {
       number: "04",
-      title: "Start Learning",
-      description:
-        "Connect with the right match and begin your learning journey.",
+      title: "Start Mentorship",
+      subtitle: "Academic Excellence",
+      description: "Begin structured 1-on-1 tutoring or online/offline batches with zero middleman commissions on student tuitions.",
       icon: CheckCircle2,
+      badge: "Step 4",
     },
   ];
 
   return (
-    <section className="bg-white py-20 dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+    <section className="relative overflow-hidden bg-white py-24 dark:bg-slate-950 transition-colors">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <span className="font-semibold text-blue-600">SIMPLE PROCESS</span>
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/80 px-3.5 py-1 text-xs font-bold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/60 dark:text-indigo-300">
+            <Sparkles size={14} className="text-amber-500 fill-amber-500" />
+            CLEAR & TRANSPARENT ROADMAP
+          </div>
 
-          <h2 className="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl dark:text-white">
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
             How MentorLagbe Works
           </h2>
 
-          <p className="mt-4 text-slate-500 dark:text-slate-400">
-            Getting started is simple. Follow a few easy steps to find your
-            ideal learning opportunity.
+          <p className="mt-4 text-base text-slate-600 dark:text-slate-400">
+            Our streamlined process bridges the gap between ambitious students and verified mentors in 4 simple steps.
           </p>
         </div>
 
         {/* Workflow Cards */}
-        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => {
             const Icon = step.icon;
 
             return (
-              <div key={step.number} className="relative">
-                <div className="group h-full rounded-2xl border border-slate-200 bg-white p-7 transition duration-300 hover:-translate-y-2 hover:border-blue-300 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-950">
-                      <Icon size={28} />
-                    </div>
-
-                    <span className="text-3xl font-black text-blue-100 dark:text-blue-950">
+              <div key={step.number} className="relative group">
+                <div className="relative h-full rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 p-7 transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-300 hover:bg-white dark:hover:bg-slate-900 hover:shadow-xl hover:shadow-indigo-500/10">
+                  {/* Step pill & icon */}
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="rounded-xl bg-indigo-100 dark:bg-indigo-950/80 px-3 py-1 text-xs font-black text-indigo-700 dark:text-indigo-300">
                       {step.number}
                     </span>
+
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm transition-transform group-hover:scale-110">
+                      <Icon size={22} />
+                    </div>
                   </div>
 
-                  <h3 className="mt-7 text-xl font-bold text-slate-900 dark:text-white">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    {step.subtitle}
+                  </p>
+
+                  <h3 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
                     {step.title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-7 text-slate-500 dark:text-slate-400">
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Connector - Desktop only */}
+                {/* Connecting arrow - Desktop only */}
                 {index !== steps.length - 1 && (
-                  <div className="absolute -right-5 top-1/2 z-10 hidden -translate-y-1/2 text-blue-400 lg:block">
-                    <ArrowRight size={24} />
+                  <div className="absolute -right-3.5 top-1/2 z-10 hidden -translate-y-1/2 lg:flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-500 shadow-xs">
+                    <ArrowRight size={14} />
                   </div>
                 )}
               </div>
@@ -95,6 +110,4 @@ const HowItWorks = () => {
       </div>
     </section>
   );
-};
-
-export default HowItWorks;
+}

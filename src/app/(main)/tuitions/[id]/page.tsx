@@ -8,12 +8,9 @@ import {
   ArrowLeft,
   BadgeCheck,
   Bookmark,
-  BookOpen,
   Calendar,
   CheckCircle2,
   Clock,
-  DollarSign,
-  GraduationCap,
   Info,
   Lock,
   Mail,
@@ -25,7 +22,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -57,9 +54,7 @@ export default function TuitionDetailsPage({
   useEffect(() => {
     const fetchTuition = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const res = await fetch(`${apiUrl}/tuitions/${id}`);
-        const data = await res.json();
+        const data = await apiFetch<{ success: boolean; tuition: Tuition }>(`/tuitions/${id}`);
         if (data.success && data.tuition) {
           setTuition(data.tuition);
         } else {
@@ -148,13 +143,19 @@ export default function TuitionDetailsPage({
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-        <Skeleton className="h-8 w-32 mb-6 rounded-lg" />
-        <Skeleton className="h-72 w-full rounded-3xl mb-8" />
-        <div className="space-y-4">
-          <Skeleton className="h-10 w-3/4 rounded-lg" />
-          <Skeleton className="h-6 w-1/2 rounded-lg" />
-          <Skeleton className="h-32 w-full rounded-2xl" />
+      <div className="min-h-screen bg-slate-50/60 dark:bg-slate-950 pb-24 pt-10 transition-colors">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-8">
+          <Skeleton className="h-6 w-36 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          <Skeleton className="h-80 sm:h-96 w-full rounded-3xl bg-slate-200 dark:bg-slate-800" />
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-8 space-y-6">
+              <Skeleton className="h-44 w-full rounded-2xl bg-slate-200 dark:bg-slate-800" />
+              <Skeleton className="h-44 w-full rounded-2xl bg-slate-200 dark:bg-slate-800" />
+            </div>
+            <div className="lg:col-span-4">
+              <Skeleton className="h-72 w-full rounded-2xl bg-slate-200 dark:bg-slate-800" />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -162,17 +163,18 @@ export default function TuitionDetailsPage({
 
   if (!tuition) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-2xl font-bold text-slate-800">Tuition Not Found</h2>
-        <p className="mt-2 text-slate-500">The tuition listing you are looking for does not exist or has been removed.</p>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center bg-slate-50/60 dark:bg-slate-950">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 mb-4">
+          <Info size={32} />
+        </div>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Tuition Not Found</h2>
+        <p className="mt-2 text-slate-500 dark:text-slate-400 max-w-md">The tuition listing you are looking for does not exist or has been removed.</p>
         <Link href="/tuitions" className="mt-6">
-          <Button className="rounded-xl bg-blue-600">Back to All Tuitions</Button>
+          <Button className="rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-white">Back to All Tuitions</Button>
         </Link>
       </div>
     );
   }
-
-  const isStudent = user?.role === "student";
 
   return (
     <div className="min-h-screen bg-slate-50/60 dark:bg-slate-950 pb-24 pt-10 transition-colors">
@@ -180,7 +182,7 @@ export default function TuitionDetailsPage({
         {/* Back Link */}
         <Link
           href="/tuitions"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors mb-6"
         >
           <ArrowLeft size={16} />
           Back to Browse Tuitions
@@ -198,7 +200,7 @@ export default function TuitionDetailsPage({
           {/* Overlay Content */}
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 text-white">
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <Badge className="bg-blue-600 font-bold hover:bg-blue-600">{tuition.subject}</Badge>
+              <Badge className="bg-indigo-600 font-bold hover:bg-indigo-600 text-white border-0">{tuition.subject}</Badge>
               <Badge variant="outline" className="border-white/30 text-white font-semibold">
                 {tuition.classLevel}
               </Badge>
@@ -217,15 +219,15 @@ export default function TuitionDetailsPage({
 
             <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-slate-300">
               <div className="flex items-center gap-1.5">
-                <User size={15} className="text-blue-400" />
+                <User size={15} className="text-indigo-400" />
                 <span className="font-semibold text-white">{tuition.tutorName}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <MapPin size={15} className="text-blue-400" />
+                <MapPin size={15} className="text-indigo-400" />
                 <span>{tuition.location}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Calendar size={15} className="text-blue-400" />
+                <Calendar size={15} className="text-indigo-400" />
                 <span>{tuition.daysPerWeek}</span>
               </div>
             </div>
@@ -239,7 +241,7 @@ export default function TuitionDetailsPage({
             {/* Description Card */}
             <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                <Info size={18} className="text-blue-600 dark:text-blue-400" />
+                <Info size={18} className="text-indigo-600 dark:text-indigo-400" />
                 Batch & Curriculum Overview
               </h3>
               <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-line">
@@ -250,12 +252,12 @@ export default function TuitionDetailsPage({
             {/* Program Specs Highlights */}
             <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                <Sparkles size={18} className="text-blue-600 dark:text-blue-400" />
+                <Sparkles size={18} className="text-indigo-600 dark:text-indigo-400" />
                 Mentorship Highlights
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
-                  <Clock className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" size={18} />
+                  <Clock className="text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" size={18} />
                   <div>
                     <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Weekly Schedule</h5>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tuition.daysPerWeek}</p>
@@ -263,7 +265,7 @@ export default function TuitionDetailsPage({
                 </div>
 
                 <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
-                  <MapPin className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" size={18} />
+                  <MapPin className="text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" size={18} />
                   <div>
                     <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Session Mode</h5>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tuition.mode} ({tuition.location})</p>
@@ -279,7 +281,7 @@ export default function TuitionDetailsPage({
                 </div>
 
                 <div className="flex items-start gap-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 p-4">
-                  <Shield className="text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" size={18} />
+                  <Shield className="text-violet-600 dark:text-violet-400 shrink-0 mt-0.5" size={18} />
                   <div>
                     <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200">Student Protection</h5>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Free application & direct status tracking</p>
@@ -291,13 +293,13 @@ export default function TuitionDetailsPage({
             {/* Tutor Profile Summary */}
             <Card className="rounded-2xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
               <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 font-extrabold text-xl">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 font-extrabold text-xl">
                   {tuition.tutorName.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-lg font-bold text-slate-900 dark:text-white">{tuition.tutorName}</h4>
-                    <span className="rounded-full bg-blue-50 dark:bg-blue-950 px-2.5 py-0.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                    <span className="rounded-full bg-indigo-50 dark:bg-indigo-950 px-2.5 py-0.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
                       Verified Tutor
                     </span>
                   </div>
@@ -313,9 +315,9 @@ export default function TuitionDetailsPage({
           {/* Sticky Application Action Card (Right 4 cols) */}
           <div className="lg:col-span-4">
             <div className="sticky top-28 space-y-5">
-              <Card className="overflow-hidden rounded-2xl border-2 border-blue-600/30 bg-white dark:bg-slate-900 shadow-lg shadow-blue-500/5">
+              <Card className="overflow-hidden rounded-2xl border-2 border-indigo-600/30 bg-white dark:bg-slate-900 shadow-lg shadow-indigo-500/5">
                 <div className="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center">
-                  <p className="text-xs uppercase font-semibold text-blue-300 tracking-wider">Tuition Fee</p>
+                  <p className="text-xs uppercase font-semibold text-indigo-300 tracking-wider">Tuition Fee</p>
                   <p className="text-3xl font-extrabold text-white mt-1">
                     ৳{tuition.monthlyFee.toLocaleString()}{" "}
                     <span className="text-sm font-normal text-slate-400">/ month</span>
@@ -338,7 +340,7 @@ export default function TuitionDetailsPage({
                   <Button
                     onClick={handleApplyClick}
                     disabled={user?.role === "tutor" || user?.role === "admin"}
-                    className="w-full rounded-xl bg-blue-600 py-6 text-base font-bold shadow-md shadow-blue-600/20 hover:bg-blue-700"
+                    className="w-full rounded-xl bg-indigo-600 py-6 text-base font-bold shadow-md shadow-indigo-600/20 hover:bg-indigo-700 text-white"
                   >
                     <Send size={16} className="mr-2" />
                     Apply for Tuition
@@ -351,7 +353,7 @@ export default function TuitionDetailsPage({
                       onClick={handleBookmarkToggle}
                       className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
                     >
-                      <Bookmark size={15} className="mr-2 text-blue-600 dark:text-blue-400" />
+                      <Bookmark size={15} className="mr-2 text-indigo-600 dark:text-indigo-400" />
                       Save to My Bookmarks
                     </Button>
                   )}
@@ -456,7 +458,7 @@ export default function TuitionDetailsPage({
                   placeholder="Briefly mention your academic goal, current grade, or topics you need help with..."
                   value={studentNote}
                   onChange={(e) => setStudentNote(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
@@ -472,7 +474,7 @@ export default function TuitionDetailsPage({
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="rounded-xl bg-blue-600 font-semibold hover:bg-blue-700 px-6"
+                  className="rounded-xl bg-indigo-600 font-semibold hover:bg-indigo-700 px-6 text-white"
                 >
                   {submitting ? "Submitting..." : "Submit Application"}
                 </Button>

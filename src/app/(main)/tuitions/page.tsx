@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { apiFetch } from "@/lib/api";
 import type { Tuition } from "@/types/tuition";
 
 const SUBJECTS = [
@@ -77,7 +78,6 @@ function BrowseTuitionsContent() {
   const fetchTuitions = async () => {
     setLoading(true);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const params = new URLSearchParams();
 
       if (search.trim()) params.append("search", search.trim());
@@ -88,8 +88,12 @@ function BrowseTuitionsContent() {
       params.append("page", String(page));
       params.append("limit", "9");
 
-      const res = await fetch(`${apiUrl}/tuitions?${params.toString()}`);
-      const data = await res.json();
+      const data = await apiFetch<{
+        success: boolean;
+        tuitions: Tuition[];
+        total: number;
+        totalPages: number;
+      }>(`/tuitions?${params.toString()}`);
 
       if (data.success) {
         setTuitions(data.tuitions || []);
@@ -105,7 +109,21 @@ function BrowseTuitionsContent() {
 
   useEffect(() => {
     fetchTuitions();
-  }, [subject, classLevel, mode, sort, page]);
+  }, [search, subject, classLevel, mode, sort, page]);
+
+  // Sync URL query string
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (search.trim()) params.append("search", search.trim());
+    if (subject !== "All") params.append("subject", subject);
+    if (classLevel !== "All") params.append("classLevel", classLevel);
+    if (mode !== "All") params.append("mode", mode);
+    if (sort !== "newest") params.append("sort", sort);
+    if (page > 1) params.append("page", String(page));
+
+    const queryString = params.toString();
+    router.replace(`/tuitions${queryString ? `?${queryString}` : ""}`, { scroll: false });
+  }, [search, subject, classLevel, mode, sort, page, router]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,10 +145,10 @@ function BrowseTuitionsContent() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header Breadcrumb & Title */}
         <div className="mb-10 text-center sm:text-left">
-          <Badge className="mb-3 rounded-full border border-blue-200 bg-blue-50 dark:border-blue-900/60 dark:bg-blue-950/60 px-3.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
+          <Badge className="mb-3 rounded-full border border-indigo-200 bg-indigo-50 dark:border-indigo-900/60 dark:bg-indigo-950/60 px-3.5 py-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
             Tuition Catalog
           </Badge>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Browse Approved Tuitions & Mentors
           </h1>
           <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
@@ -139,7 +157,7 @@ function BrowseTuitionsContent() {
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="mb-8 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm space-y-4">
+        <div className="mb-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm space-y-4">
           {/* Top Search Input */}
           <form onSubmit={handleSearchSubmit} className="flex gap-2">
             <div className="relative flex-1">
@@ -152,12 +170,12 @@ function BrowseTuitionsContent() {
                 placeholder="Search by title, subject (e.g., Higher Math, Physics), or location..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-11 rounded-xl pl-10 border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus-visible:ring-blue-500 text-sm"
+                className="h-11 rounded-2xl pl-10 border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus-visible:ring-indigo-500 text-sm"
               />
             </div>
             <Button
               type="submit"
-              className="h-11 rounded-xl bg-blue-600 px-6 font-semibold hover:bg-blue-700"
+              className="h-11 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white px-6 font-semibold shadow-md shadow-indigo-600/20"
             >
               Search
             </Button>
@@ -174,7 +192,7 @@ function BrowseTuitionsContent() {
                   setSubject(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
               >
                 {SUBJECTS.map((s) => (
                   <option key={s} value={s}>
@@ -193,7 +211,7 @@ function BrowseTuitionsContent() {
                   setClassLevel(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
               >
                 {CLASS_LEVELS.map((lvl) => (
                   <option key={lvl} value={lvl}>
@@ -212,7 +230,7 @@ function BrowseTuitionsContent() {
                   setMode(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
               >
                 {MODES.map((m) => (
                   <option key={m} value={m}>
@@ -231,7 +249,7 @@ function BrowseTuitionsContent() {
                   setSort(e.target.value);
                   setPage(1);
                 }}
-                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-blue-500 focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:border-indigo-500 focus:outline-none"
               >
                 <option value="newest">Newest First</option>
                 <option value="fee-low">Fee: Low to High</option>
@@ -269,7 +287,7 @@ function BrowseTuitionsContent() {
             Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
+                className="flex flex-col overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
               >
                 <Skeleton className="h-48 w-full rounded-none bg-slate-100 dark:bg-slate-800" />
                 <div className="flex flex-1 flex-col p-6 space-y-4">
@@ -290,7 +308,7 @@ function BrowseTuitionsContent() {
             tuitions.map((item) => (
               <div
                 key={item._id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5"
+                className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/10"
               >
                 {/* Banner Image */}
                 <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -309,8 +327,8 @@ function BrowseTuitionsContent() {
                     <span
                       className={`rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm backdrop-blur ${
                         item.mode === "Online"
-                          ? "bg-emerald-500/90 text-white"
-                          : "bg-blue-600/90 text-white"
+                          ? "bg-emerald-500 text-white"
+                          : "bg-indigo-600 text-white"
                       }`}
                     >
                       {item.mode}
@@ -320,12 +338,12 @@ function BrowseTuitionsContent() {
 
                 {/* Card Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-2 text-xs font-medium text-blue-600 dark:text-blue-400">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
                     <BookOpen size={14} />
                     <span>{item.subject}</span>
                   </div>
 
-                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {item.title}
                   </h3>
 
@@ -336,7 +354,7 @@ function BrowseTuitionsContent() {
                   <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <User size={13} className="text-slate-400" />
-                      <span className="font-medium text-slate-700 dark:text-slate-300">{item.tutorName}</span>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">{item.tutorName}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={13} className="text-slate-400" />
@@ -351,15 +369,15 @@ function BrowseTuitionsContent() {
                   {/* Footer Fee & CTA */}
                   <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
                     <div>
-                      <p className="text-xs text-slate-400">Monthly Fee</p>
-                      <p className="text-lg font-extrabold text-blue-600 dark:text-blue-400">
-                        ৳{item.monthlyFee.toLocaleString()}{" "}
-                        <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/mo</span>
+                      <p className="text-[11px] font-medium text-slate-400">Monthly Fee</p>
+                      <p className="text-lg font-black text-indigo-600 dark:text-indigo-400">
+                        ৳{item.monthlyFee?.toLocaleString()}{" "}
+                        <span className="text-xs font-normal text-slate-400">/mo</span>
                       </p>
                     </div>
 
                     <Link href={`/tuitions/${item._id}`}>
-                      <Button size="sm" className="rounded-xl bg-blue-600 font-semibold hover:bg-blue-700">
+                      <Button size="sm" className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold">
                         View Details
                       </Button>
                     </Link>
@@ -368,7 +386,7 @@ function BrowseTuitionsContent() {
               </div>
             ))
           ) : (
-            <div className="col-span-full rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 p-16 text-center">
+            <div className="col-span-full rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 p-16 text-center">
               <BookOpen size={40} className="mx-auto text-slate-300 dark:text-slate-600" />
               <h3 className="mt-4 text-lg font-bold text-slate-800 dark:text-white">No tuitions match your criteria</h3>
               <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Try adjusting your search terms or resetting the filters.</p>
@@ -400,25 +418,11 @@ function BrowseTuitionsContent() {
               Previous
             </Button>
 
-            <div className="flex items-center gap-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <Button
-                  key={p}
-                  variant={p === page ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => {
-                    setPage(p);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className={`h-9 w-9 rounded-xl p-0 font-semibold ${
-                    p === page
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
-                  }`}
-                >
-                  {p}
-                </Button>
-              ))}
+            <div className="flex items-center gap-1 px-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
+              <span>Page</span>
+              <span className="font-bold text-indigo-600 dark:text-indigo-400">{page}</span>
+              <span>of</span>
+              <span>{totalPages}</span>
             </div>
 
             <Button
@@ -445,8 +449,8 @@ export default function BrowseTuitionsPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
-          <p className="text-slate-500 font-medium">Loading tuitions catalog...</p>
+        <div className="min-h-screen flex items-center justify-center bg-slate-50/50 dark:bg-slate-950">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
         </div>
       }
     >

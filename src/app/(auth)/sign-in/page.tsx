@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPathFor } from "@/lib/roles";
 import { GoogleAuthButton } from "@/components/auth/SocialAuthButton";
+import BrandLogo, { BrandLogoIcon } from "@/components/shared/BrandLogo";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -122,7 +123,7 @@ export default function SignInPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
           <p className="text-sm text-slate-500 dark:text-slate-400">Preparing your account...</p>
         </div>
       </main>
@@ -133,19 +134,19 @@ export default function SignInPage() {
     <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-6 sm:px-6 sm:py-10 transition-colors">
       <div className="grid w-full max-w-6xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl sm:rounded-3xl lg:min-h-[650px] lg:grid-cols-2">
         {/* Branding Section */}
-        <section className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-10 text-white lg:flex xl:p-14">
-          <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-500/40 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-blue-900/50 blur-3xl" />
+        <section className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-900 p-10 text-white lg:flex xl:p-14">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-indigo-500/30 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-violet-900/40 blur-3xl" />
 
           <Link href="/" className="relative z-10 inline-flex w-fit items-center gap-2.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-blue-600 shadow-md">
-              <GraduationCap size={27} />
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white p-2 text-indigo-600 shadow-md">
+              <BrandLogoIcon className="h-full w-full" />
             </div>
-            <span className="text-2xl font-black tracking-tight">MentorLagbe</span>
+            <span className="text-2xl font-black tracking-tight text-white">MentorLagbe</span>
           </Link>
 
           <div className="relative z-10 my-10">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/40 bg-blue-500/30 px-4 py-1.5 text-xs font-semibold backdrop-blur">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/30 px-4 py-1.5 text-xs font-semibold backdrop-blur">
               <GraduationCap size={15} />
               Concept-Driven Academic Mentorship
             </div>
@@ -154,7 +155,7 @@ export default function SignInPage() {
               Welcome Back To Your Learning Journey.
             </h1>
 
-            <p className="mt-5 max-w-md leading-relaxed text-blue-100 text-sm sm:text-base">
+            <p className="mt-5 max-w-md leading-relaxed text-indigo-100 text-sm sm:text-base">
               Continue learning, connect with verified tutors, and manage your tuition batches with ease.
             </p>
 
@@ -165,16 +166,16 @@ export default function SignInPage() {
                 "Flexible 1-on-1 home tuition and online sessions",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-blue-300 shrink-0" />
-                  <span className="text-xs sm:text-sm text-blue-50">{item}</span>
+                  <CheckCircle2 size={16} className="text-indigo-300 shrink-0" />
+                  <span className="text-xs sm:text-sm text-indigo-50">{item}</span>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="relative z-10 flex items-center gap-3 border-t border-white/20 pt-6">
-            <ShieldCheck size={20} className="shrink-0 text-blue-200" />
-            <p className="text-xs text-blue-100">
+            <ShieldCheck size={20} className="shrink-0 text-indigo-200" />
+            <p className="text-xs text-indigo-100">
               Trusted by 1,200+ students & educators across Bangladesh.
             </p>
           </div>
@@ -184,12 +185,11 @@ export default function SignInPage() {
         <section className="flex items-center justify-center px-5 py-8 sm:px-10 sm:py-12 lg:px-12 xl:px-16">
           <div className="w-full max-w-md">
             {/* Mobile Logo */}
-            <Link href="/" className="mb-8 inline-flex items-center gap-2 lg:hidden">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
-                <GraduationCap size={25} />
-              </div>
-              <span className="text-xl font-bold text-slate-900 dark:text-white">MentorLagbe</span>
-            </Link>
+            <div className="mb-8 lg:hidden">
+              <Link href="/">
+                <BrandLogo size="md" />
+              </Link>
+            </div>
 
             {/* Heading */}
             <div className="mb-7">
@@ -240,7 +240,7 @@ export default function SignInPage() {
                   autoComplete="email"
                   required
                   disabled={submitting || googleLoading}
-                  className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
+                  className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500/20"
                 />
               </div>
 
@@ -252,7 +252,7 @@ export default function SignInPage() {
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs font-semibold text-blue-600 dark:text-blue-400 transition hover:underline"
+                    className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 transition hover:underline"
                   >
                     Forgot password?
                   </Link>
@@ -267,7 +267,7 @@ export default function SignInPage() {
                     autoComplete="current-password"
                     required
                     disabled={submitting || googleLoading}
-                    className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 pr-11 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
+                    className="h-11 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 pr-11 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 transition focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500/20"
                   />
 
                   <button
@@ -298,7 +298,7 @@ export default function SignInPage() {
               <Button
                 type="submit"
                 disabled={submitting || googleLoading}
-                className="h-11 w-full rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                className="h-11 w-full rounded-xl bg-indigo-600 text-sm font-bold text-white shadow-md shadow-indigo-600/20 transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? (
                   <>
@@ -319,7 +319,7 @@ export default function SignInPage() {
               Don't have an account?{" "}
               <Link
                 href="/sign-up"
-                className="font-bold text-blue-600 dark:text-blue-400 transition hover:underline"
+                className="font-bold text-indigo-600 dark:text-indigo-400 transition hover:underline"
               >
                 Create an account
               </Link>

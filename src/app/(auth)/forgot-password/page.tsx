@@ -30,12 +30,12 @@ export default function ForgotPasswordPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 transition-colors">
       <div className="w-full max-w-md rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-xl">
-        <Link href="/sign-in" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 mb-6 transition-colors">
+        <Link href="/sign-in" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 dark:text-slate-400 mb-6 transition-colors">
           <ArrowLeft size={15} />
           Back to Sign In
         </Link>
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 mb-5">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 mb-5">
           <Mail size={24} />
         </div>
 
@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
               We have dispatched recovery details to <strong className="text-slate-900 dark:text-white">{email}</strong>.
             </p>
             <Link href="/sign-in" className="mt-5 inline-block">
-              <Button size="sm" className="rounded-xl bg-blue-600">Return to Sign In</Button>
+              <Button size="sm" className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">Return to Sign In</Button>
             </Link>
           </div>
         ) : (
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="h-11 w-full rounded-xl bg-blue-600 font-bold text-white hover:bg-blue-700 shadow-md shadow-blue-600/20"
+              className="h-11 w-full rounded-xl bg-indigo-600 font-bold text-white hover:bg-indigo-700 shadow-md shadow-indigo-600/20"
             >
               {loading ? "Sending..." : "Send Reset Link"}
             </Button>

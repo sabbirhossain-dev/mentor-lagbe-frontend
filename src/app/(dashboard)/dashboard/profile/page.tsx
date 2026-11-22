@@ -16,8 +16,9 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
@@ -81,7 +82,7 @@ export default function ProfilePage() {
     let finalImageUrl = image;
 
     try {
-      // 1. If user selected a new file, quietly upload to ImgBB without popup
+      // 1. If user selected a new file, upload to ImgBB
       if (selectedFile) {
         try {
           finalImageUrl = await uploadImageToImgBB(selectedFile);
@@ -119,6 +120,22 @@ export default function ProfilePage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <Skeleton className="h-8 w-48 rounded-xl bg-slate-100 dark:bg-slate-800" />
+        <div className="grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Skeleton className="h-72 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
+          </div>
+          <div className="lg:col-span-8">
+            <Skeleton className="h-96 w-full rounded-2xl bg-slate-100 dark:bg-slate-800" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -136,7 +153,7 @@ export default function ProfilePage() {
             <div className="relative mx-auto h-32 w-32">
               <Avatar className="h-32 w-32 border-4 border-slate-100 dark:border-slate-700 shadow-md">
                 <AvatarImage src={previewUrl || image} alt={name || "User"} />
-                <AvatarFallback className="bg-blue-600 text-3xl font-extrabold text-white">
+                <AvatarFallback className="bg-indigo-600 text-3xl font-extrabold text-white">
                   {(name || "U").charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -144,7 +161,7 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-1 right-1 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-blue-700"
+                className="absolute bottom-1 right-1 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-indigo-700"
                 title="Change Photo"
               >
                 <Camera size={18} />
@@ -163,7 +180,7 @@ export default function ProfilePage() {
             <p className="text-xs text-slate-500 dark:text-slate-400">{sessionUser?.email}</p>
 
             <div className="mt-3 flex items-center justify-center gap-2">
-              <Badge className="capitalize text-xs font-bold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+              <Badge className="capitalize text-xs font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800">
                 {sessionUser?.role || "student"}
               </Badge>
               <Badge className="capitalize text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
@@ -181,7 +198,7 @@ export default function ProfilePage() {
         <div className="lg:col-span-8">
           <Card className="rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
             <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-              <UserRound size={18} className="text-blue-600 dark:text-blue-400" />
+              <UserRound size={18} className="text-indigo-600 dark:text-indigo-400" />
               Personal Information
             </h3>
 
@@ -237,12 +254,12 @@ export default function ProfilePage() {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Tell students or tutors about your background, achievements, and subject interests..."
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 p-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none"
                 />
               </div>
 
               {selectedFile && (
-                <div className="rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/60 dark:bg-blue-950/60 p-3 text-xs text-blue-700 dark:text-blue-300 flex items-center justify-between">
+                <div className="rounded-xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/60 dark:bg-indigo-950/60 p-3 text-xs text-indigo-700 dark:text-indigo-300 flex items-center justify-between">
                   <span>Selected file: <strong>{selectedFile.name}</strong></span>
                   <button
                     type="button"
@@ -261,7 +278,7 @@ export default function ProfilePage() {
                 <Button
                   type="submit"
                   disabled={saving}
-                  className="rounded-xl bg-blue-600 px-6 py-5 font-semibold text-white shadow-md shadow-blue-500/20 hover:bg-blue-700"
+                  className="rounded-xl bg-indigo-600 px-6 py-5 font-semibold text-white shadow-md shadow-indigo-500/20 hover:bg-indigo-700"
                 >
                   <Save size={16} className="mr-2" />
                   {saving ? "Saving Changes..." : "Save Profile Changes"}

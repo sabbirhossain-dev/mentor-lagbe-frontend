@@ -76,14 +76,14 @@ export default function MyApplicationsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">My Applications</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">My Applications</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             View all tuition enrollment applications and real-time status.
           </p>
         </div>
 
         <Link href="/tuitions">
-          <Button className="rounded-xl bg-blue-600 hover:bg-blue-700 font-semibold text-white">
+          <Button className="rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-white shadow-md shadow-indigo-600/20">
             <Search size={16} className="mr-2" />
             Apply For More Tuitions
           </Button>
@@ -117,12 +117,12 @@ export default function MyApplicationsPage() {
                     <td className="px-6 py-5">
                       <Link
                         href={`/tuitions/${app.tuitionId}`}
-                        className="font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1.5"
+                        className="font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5"
                       >
                         {app.tuitionTitle}
                         <ExternalLink size={13} className="text-slate-400" />
                       </Link>
-                      <span className="mt-0.5 inline-block text-xs font-semibold text-blue-600 dark:text-blue-400">
+                      <span className="mt-0.5 inline-block text-xs font-semibold text-indigo-600 dark:text-indigo-400">
                         {app.subject}
                       </span>
                       {app.studentNote && (
@@ -138,7 +138,7 @@ export default function MyApplicationsPage() {
                     </td>
 
                     <td className="px-6 py-5">
-                      <span className="font-extrabold text-blue-600 dark:text-blue-400 text-base">
+                      <span className="font-extrabold text-indigo-600 dark:text-indigo-400 text-base">
                         ৳{app.monthlyFee?.toLocaleString()}
                       </span>
                       <span className="text-xs text-slate-400"> /mo</span>
@@ -191,13 +191,13 @@ export default function MyApplicationsPage() {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <FileText size={42} className="mx-auto text-slate-300" />
-            <h3 className="mt-4 text-base font-bold text-slate-800">No applications found</h3>
-            <p className="mt-1 text-xs text-slate-500">
+            <FileText size={42} className="mx-auto text-slate-300 dark:text-slate-600" />
+            <h3 className="mt-4 text-base font-bold text-slate-800 dark:text-white">No applications found</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               You haven't submitted any tuition applications yet.
             </p>
             <Link href="/tuitions" className="mt-5 inline-block">
-              <Button className="rounded-xl bg-blue-600 font-semibold text-white">
+              <Button className="rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-white shadow-md shadow-indigo-600/20">
                 Find Tuitions Now
               </Button>
             </Link>

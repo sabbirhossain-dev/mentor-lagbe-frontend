@@ -1,5 +1,6 @@
 import FeaturedTuitions from "@/components/home/FeaturedTuitions";
 import HeroSection from "@/components/home/HeroSection";
+import ComparisonSection from "@/components/home/ComparisonSection";
 import HowItWorks from "@/components/home/HowItWorks";
 import PricingSection from "@/components/home/PricingSection";
 import SmartMatchSection from "@/components/home/SmartMatchSection";
@@ -9,10 +10,13 @@ import FaqSection from "@/components/home/FaqSection";
 export default function Home() {
   return (
     <div>
-      {/* ================= HERO SECTION ================= */}
+      {/* ================= HERO SECTION (NEW COMMAND CENTER UI) ================= */}
       <HeroSection />
 
-      {/* ================= SMART MATCH ESTIMATOR (UNIQUE SECTION) ================= */}
+      {/* ================= COMPARISON MATRIX: MENTORLAGBE VS TRADITIONAL MEDIA ================= */}
+      <ComparisonSection />
+
+      {/* ================= SMART MATCH ESTIMATOR ================= */}
       <SmartMatchSection />
 
       {/* ================= FEATURED TUITIONS ================= */}

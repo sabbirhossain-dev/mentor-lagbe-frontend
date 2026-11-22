@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
@@ -70,7 +70,7 @@ export default function StudentOverviewPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 sm:p-8 text-white shadow-xl shadow-blue-500/10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-800 p-6 sm:p-8 text-white shadow-xl shadow-indigo-500/10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur">
             <GraduationCap size={14} />
@@ -79,13 +79,13 @@ export default function StudentOverviewPage() {
           <h1 className="mt-3 text-2xl sm:text-3xl font-black">
             Welcome back, {user?.name || "Student"}!
           </h1>
-          <p className="mt-1 text-sm text-blue-100 max-w-lg">
+          <p className="mt-1 text-sm text-indigo-100 max-w-lg">
             Track your applied mentorship batches, monitor tutor approvals, and explore new learning opportunities.
           </p>
         </div>
 
         <Link href="/tuitions">
-          <Button className="rounded-xl bg-white text-blue-700 font-bold hover:bg-blue-50 shadow-md">
+          <Button className="rounded-xl bg-white text-indigo-700 font-bold hover:bg-indigo-50 shadow-md">
             <Search size={16} className="mr-2" />
             Find New Tuitions
           </Button>
@@ -100,12 +100,16 @@ export default function StudentOverviewPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Total Applied
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400">
               <FileText size={20} />
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalApplied}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stats.totalApplied}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">Submitted applications</p>
           </div>
         </Card>
@@ -121,7 +125,11 @@ export default function StudentOverviewPage() {
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{stats.accepted}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{stats.accepted}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">Confirmed by tutors</p>
           </div>
         </Card>
@@ -137,7 +145,11 @@ export default function StudentOverviewPage() {
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-black text-amber-600 dark:text-amber-400">{stats.pending}</h3>
+            {loading ? (
+              <Skeleton className="h-9 w-16 rounded-lg bg-slate-100 dark:bg-slate-800" />
+            ) : (
+              <h3 className="text-3xl font-black text-amber-600 dark:text-amber-400">{stats.pending}</h3>
+            )}
             <p className="text-xs text-slate-400 mt-1">Under tutor review</p>
           </div>
         </Card>
@@ -148,20 +160,24 @@ export default function StudentOverviewPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Current Plan
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 dark:bg-violet-950/80 text-violet-600 dark:text-violet-400">
               <Sparkles size={20} />
             </div>
           </div>
           <div className="mt-4 flex items-baseline justify-between">
             <div>
-              <h3 className="text-3xl font-black capitalize text-slate-900 dark:text-white">
-                {stats.plan}
-              </h3>
+              {loading ? (
+                <Skeleton className="h-9 w-20 rounded-lg bg-slate-100 dark:bg-slate-800" />
+              ) : (
+                <h3 className="text-3xl font-black capitalize text-slate-900 dark:text-white">
+                  {stats.plan}
+                </h3>
+              )}
               <p className="text-xs text-slate-400 mt-1">Student tier</p>
             </div>
-            {stats.plan !== "pro" && (
+            {stats.plan !== "pro" && !loading && (
               <Link href="/pricing">
-                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950">
+                <Button size="sm" variant="outline" className="rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-900 hover:bg-indigo-50 dark:hover:bg-indigo-950">
                   Upgrade
                 </Button>
               </Link>
@@ -178,7 +194,7 @@ export default function StudentOverviewPage() {
             <p className="text-xs text-slate-500 dark:text-slate-400">Latest batches you have applied for</p>
           </div>
           <Link href="/dashboard/student/my-applications">
-            <Button variant="ghost" size="sm" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950">
+            <Button variant="ghost" size="sm" className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950">
               View All Applications
               <ArrowRight size={14} className="ml-1" />
             </Button>
@@ -207,13 +223,13 @@ export default function StudentOverviewPage() {
                 {recentApplications.map((app) => (
                   <tr key={app._id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/60 transition-colors">
                     <td className="py-4 font-semibold text-slate-900 dark:text-white">
-                      <Link href={`/tuitions/${app.tuitionId}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                      <Link href={`/tuitions/${app.tuitionId}`} className="hover:text-indigo-600 dark:hover:text-indigo-400">
                         {app.tuitionTitle}
                       </Link>
                       <span className="block text-xs font-normal text-slate-400">{app.subject}</span>
                     </td>
                     <td className="py-4 text-slate-700 dark:text-slate-300">{app.tutorName}</td>
-                    <td className="py-4 font-bold text-blue-600 dark:text-blue-400">৳{app.monthlyFee?.toLocaleString()}</td>
+                    <td className="py-4 font-bold text-indigo-600 dark:text-indigo-400">৳{app.monthlyFee?.toLocaleString()}</td>
                     <td className="py-4 text-slate-500 dark:text-slate-400 text-xs">
                       {new Date(app.appliedAt).toLocaleDateString()}
                     </td>
@@ -241,7 +257,7 @@ export default function StudentOverviewPage() {
             <h4 className="mt-3 text-sm font-bold text-slate-800 dark:text-white">No applications submitted yet</h4>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Browse verified tuitions and apply for mentorship.</p>
             <Link href="/tuitions" className="mt-4 inline-block">
-              <Button size="sm" className="rounded-xl bg-blue-600">Browse Tuitions</Button>
+              <Button size="sm" className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">Browse Tuitions</Button>
             </Link>
           </div>
         )}

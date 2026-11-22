@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Check, Crown, GraduationCap, Loader2, Sparkles, Users } from "lucide-react";
+import { Check, Crown, GraduationCap, Loader2, Sparkles, Users, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
 
-const PricingSection = () => {
+export default function PricingSection() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
@@ -90,20 +90,21 @@ const PricingSection = () => {
   };
 
   return (
-    <section className="bg-[#F0F7FF] py-20 dark:bg-slate-900">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+    <section className="bg-gradient-to-b from-indigo-50/40 via-white to-slate-50/50 py-24 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 transition-colors">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <span className="font-semibold text-blue-600 text-xs tracking-wider uppercase">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-bold tracking-wider uppercase text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/60 dark:text-indigo-300">
+            <Zap size={14} className="text-amber-500 fill-amber-500" />
             SIMPLE & TRANSPARENT PRICING
-          </span>
+          </div>
 
-          <h2 className="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl dark:text-white">
-            Plans That Fit Your Academic Goals
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
+            Plans That Fit Your Academic Journey
           </h2>
 
-          <p className="mt-4 leading-7 text-slate-500 dark:text-slate-400">
-            Start for free and upgrade with Stripe whenever you are ready for unlimited opportunities.
+          <p className="mt-4 leading-relaxed text-slate-600 dark:text-slate-400">
+            Start completely free and upgrade with encrypted Stripe processing whenever you are ready for unlimited capacity.
           </p>
         </div>
 
@@ -116,12 +117,12 @@ const PricingSection = () => {
             return (
               <div
                 key={plan.role}
-                className="rounded-3xl border border-blue-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-9 dark:border-slate-700 dark:bg-slate-950 flex flex-col justify-between"
+                className="rounded-3xl border border-slate-200/90 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-9 dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between"
               >
                 <div>
                   {/* Plan Header */}
                   <div className="flex items-center gap-4">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 dark:bg-blue-950">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300">
                       <Icon size={28} />
                     </div>
 
@@ -138,15 +139,15 @@ const PricingSection = () => {
                   {/* Pricing Tiers Grid */}
                   <div className="mt-8 grid gap-5 sm:grid-cols-2">
                     {/* Free Plan */}
-                    <div className="rounded-2xl border border-slate-200 p-5 dark:border-slate-800 flex flex-col justify-between">
+                    <div className="rounded-2xl border border-slate-200/90 p-5 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 flex flex-col justify-between">
                       <div>
-                        <h4 className="font-bold text-slate-900 dark:text-white">
+                        <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                           Free Tier
                         </h4>
 
-                        <p className="mt-3 text-3xl font-extrabold text-slate-900 dark:text-white">
+                        <p className="mt-3 text-3xl font-black text-slate-900 dark:text-white">
                           {plan.freePrice}
-                          <span className="text-sm font-medium text-slate-400"> / mo</span>
+                          <span className="text-xs font-normal text-slate-400"> / mo</span>
                         </p>
 
                         <ul className="mt-6 space-y-3">
@@ -162,7 +163,7 @@ const PricingSection = () => {
                         </ul>
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-slate-100 text-center">
+                      <div className="mt-6 pt-4 border-t border-slate-200/60 dark:border-slate-800 text-center">
                         <span className="text-xs font-semibold text-slate-400">
                           Included by default
                         </span>
@@ -170,22 +171,21 @@ const PricingSection = () => {
                     </div>
 
                     {/* Pro Plan */}
-                    <div className="relative rounded-2xl border-2 border-blue-500 bg-blue-50/70 p-5 dark:bg-blue-950/30 flex flex-col justify-between shadow-md shadow-blue-500/5">
-                      <span className="absolute -top-3 right-4 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-bold text-white shadow-sm">
-                        PRO
+                    <div className="relative rounded-2xl border-2 border-indigo-500 bg-gradient-to-b from-indigo-50/80 to-white dark:from-indigo-950/30 dark:to-slate-900 p-5 flex flex-col justify-between shadow-lg shadow-indigo-500/10">
+                      <span className="absolute -top-3 right-4 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-3 py-0.5 text-xs font-bold text-white shadow-sm flex items-center gap-1">
+                        <Crown size={12} className="text-amber-300" /> PRO
                       </span>
 
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <h4 className="font-bold text-slate-900 dark:text-white">
+                          <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                             Pro Tier
                           </h4>
-                          <Crown size={16} className="text-amber-500 fill-amber-500" />
                         </div>
 
-                        <p className="mt-3 text-3xl font-extrabold text-blue-600">
+                        <p className="mt-3 text-3xl font-black text-indigo-600 dark:text-indigo-400">
                           {plan.proPrice}
-                          <span className="text-sm font-medium text-slate-400"> / mo</span>
+                          <span className="text-xs font-normal text-slate-400"> / mo</span>
                         </p>
 
                         <ul className="mt-6 space-y-3">
@@ -194,7 +194,7 @@ const PricingSection = () => {
                               key={feature}
                               className="flex items-start gap-2 text-xs font-medium text-slate-700 dark:text-slate-200"
                             >
-                              <Check size={15} className="mt-0.5 shrink-0 text-blue-600" />
+                              <Check size={15} className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -204,14 +204,14 @@ const PricingSection = () => {
                       {/* Stripe Checkout CTA */}
                       <div className="mt-6">
                         {isUserPro ? (
-                          <div className="rounded-xl bg-emerald-100 p-2.5 text-center text-xs font-bold text-emerald-800">
+                          <div className="rounded-xl bg-emerald-100 dark:bg-emerald-950/60 p-2.5 text-center text-xs font-bold text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
                             ✓ Currently Active Plan
                           </div>
                         ) : (
                           <Button
                             onClick={() => handleSubscribe(plan.planKey)}
                             disabled={loadingPlan === plan.planKey}
-                            className="w-full rounded-xl bg-blue-600 py-5 text-xs font-bold text-white shadow-md shadow-blue-600/20 hover:bg-blue-700"
+                            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 py-5 text-xs font-bold text-white shadow-md shadow-indigo-600/25"
                           >
                             {loadingPlan === plan.planKey ? (
                               <>
@@ -220,8 +220,8 @@ const PricingSection = () => {
                               </>
                             ) : (
                               <>
-                                <Crown size={15} className="mr-2" />
-                                Subscribe with Stripe ({plan.proPrice})
+                                <Crown size={15} className="mr-2 text-amber-300" />
+                                Upgrade with Stripe ({plan.proPrice})
                               </>
                             )}
                           </Button>
@@ -237,6 +237,4 @@ const PricingSection = () => {
       </div>
     </section>
   );
-};
-
-export default PricingSection;
+}
