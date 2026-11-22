@@ -17,27 +17,35 @@ export default function SubjectsTestimonials() {
   const subjects = [
     {
       name: "Higher Mathematics",
-      description: "Build strong analytical & problem-solving skills for board and engineering admissions.",
+      description:
+        "Build strong analytical & problem-solving skills for board and engineering admissions.",
       icon: Atom,
-      color: "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300",
+      color:
+        "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300",
     },
     {
       name: "Physics & Chemistry",
-      description: "Master fundamentals and formulas with practical concept breakdowns and numerical drills.",
+      description:
+        "Master fundamentals and formulas with practical concept breakdowns and numerical drills.",
       icon: BookOpen,
-      color: "bg-violet-100 text-violet-700 dark:bg-violet-950/80 dark:text-violet-300",
+      color:
+        "bg-violet-100 text-violet-700 dark:bg-violet-950/80 dark:text-violet-300",
     },
     {
       name: "Programming & CS",
-      description: "Develop hands-on coding skills in Python, JavaScript, data structures, and algorithms.",
+      description:
+        "Develop hands-on coding skills in Python, JavaScript, data structures, and algorithms.",
       icon: Code2,
-      color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300",
+      color:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300",
     },
     {
       name: "IELTS & Spoken English",
-      description: "Achieve your target band score with guided speaking, vocabulary, and writing feedback.",
+      description:
+        "Achieve your target band score with guided speaking, vocabulary, and writing feedback.",
       icon: Languages,
-      color: "bg-amber-100 text-amber-700 dark:bg-amber-950/80 dark:text-amber-300",
+      color:
+        "bg-amber-100 text-amber-700 dark:bg-amber-950/80 dark:text-amber-300",
     },
   ];
 
@@ -45,7 +53,8 @@ export default function SubjectsTestimonials() {
     {
       name: "Tahsin Ahmed",
       role: "HSC Science Candidate (Dhaka)",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       initials: "TA",
       rating: 5,
       subject: "Higher Math & Physics",
@@ -55,7 +64,8 @@ export default function SubjectsTestimonials() {
     {
       name: "Nusrat Jahan",
       role: "Verified Tutor (Dhaka University)",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       initials: "NJ",
       rating: 5,
       subject: "Economics & English",
@@ -65,7 +75,8 @@ export default function SubjectsTestimonials() {
     {
       name: "Farhan Tanvir",
       role: "Undergraduate (NSU)",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       initials: "FT",
       rating: 5,
       subject: "Web Development & Python",
@@ -77,7 +88,7 @@ export default function SubjectsTestimonials() {
   return (
     <>
       {/* Popular Subjects Section */}
-      <section className="bg-slate-50/70 py-24 dark:bg-slate-900/50 transition-colors">
+      <section className="bg-slate-50/70 py-10 sm:py-16 dark:bg-slate-900/50 transition-colors">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-14 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
@@ -90,7 +101,8 @@ export default function SubjectsTestimonials() {
               </h2>
 
               <p className="mt-3 max-w-xl text-slate-600 dark:text-slate-400">
-                Explore popular academic tracks and find mentors ready to guide you step-by-step.
+                Explore popular academic tracks and find mentors ready to guide
+                you step-by-step.
               </p>
             </div>
 
@@ -112,7 +124,9 @@ export default function SubjectsTestimonials() {
                   href={`/tuitions?subject=${encodeURIComponent(sub.name)}`}
                   className="group rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm transition hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-500/5"
                 >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${sub.color} transition-transform group-hover:scale-105`}>
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-2xl ${sub.color} transition-transform group-hover:scale-105`}
+                  >
                     <Icon size={24} />
                   </div>
 
@@ -126,7 +140,10 @@ export default function SubjectsTestimonials() {
 
                   <div className="mt-5 flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                     <span>View Batches</span>
-                    <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+                    <ArrowRight
+                      size={13}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </div>
                 </Link>
               );
@@ -148,7 +165,8 @@ export default function SubjectsTestimonials() {
             </h2>
 
             <p className="mt-4 text-slate-600 dark:text-slate-400">
-              Read how MentorLagbe makes academic tuition organized, transparent, and rewarding.
+              Read how MentorLagbe makes academic tuition organized,
+              transparent, and rewarding.
             </p>
           </div>
 
@@ -172,7 +190,7 @@ export default function SubjectsTestimonials() {
                   </div>
 
                   <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic">
-                    "{item.quote}"
+                    {item.quote}
                   </p>
                 </div>
 

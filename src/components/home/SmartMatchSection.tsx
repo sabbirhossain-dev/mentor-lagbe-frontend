@@ -48,7 +48,10 @@ export default function SmartMatchSection() {
   };
 
   return (
-    <section id="smart-matching-section" className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-slate-50/80 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 py-24 transition-colors">
+    <section
+      id="smart-matching-section"
+      className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-slate-50/80 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 py-10 sm:py-16 transition-colors"
+    >
       {/* Background Accent Gradients */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 rounded-full bg-indigo-100/50 dark:bg-indigo-900/10 blur-3xl -z-10" />
       <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-violet-100/40 dark:bg-violet-900/10 blur-3xl -z-10" />
@@ -67,7 +70,9 @@ export default function SmartMatchSection() {
             </h2>
 
             <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
-              No more guessing tuition fees. Use our interactive estimator to gauge expected monthly rates across subjects and modes, then jump straight into verified matching tutors.
+              No more guessing tuition fees. Use our interactive estimator to
+              gauge expected monthly rates across subjects and modes, then jump
+              straight into verified matching tutors.
             </p>
 
             {/* Feature Highlights */}
@@ -77,8 +82,13 @@ export default function SmartMatchSection() {
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Verified Tutors</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Every tutor profile undergoes academic credential and phone verification.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    100% Verified Tutors
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Every tutor profile undergoes academic credential and phone
+                    verification.
+                  </p>
                 </div>
               </div>
 
@@ -87,8 +97,13 @@ export default function SmartMatchSection() {
                   <ShieldCheck size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Zero Commission for Students</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Free browsing, instant applications, and transparent direct communication.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Zero Commission for Students
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Free browsing, instant applications, and transparent direct
+                    communication.
+                  </p>
                 </div>
               </div>
 
@@ -97,8 +112,13 @@ export default function SmartMatchSection() {
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Direct Subject Filtering</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">One click on the estimator takes you straight to listings matching your exact selections.</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Direct Subject Filtering
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    One click on the estimator takes you straight to listings
+                    matching your exact selections.
+                  </p>
                 </div>
               </div>
             </div>
@@ -114,7 +134,10 @@ export default function SmartMatchSection() {
                     <Calculator size={16} />
                     Live Estimate
                   </span>
-                  <Badge variant="outline" className="border-indigo-500/40 text-indigo-300 text-[11px] font-semibold">
+                  <Badge
+                    variant="outline"
+                    className="border-indigo-500/40 text-indigo-300 text-[11px] font-semibold"
+                  >
                     {mode} Coaching
                   </Badge>
                 </div>
@@ -123,10 +146,13 @@ export default function SmartMatchSection() {
                   <span className="text-3xl font-extrabold sm:text-4xl text-white">
                     ৳{getEstimatedFee().toLocaleString()}
                   </span>
-                  <span className="text-sm text-slate-300">/ estimated month</span>
+                  <span className="text-sm text-slate-300">
+                    / estimated month
+                  </span>
                 </div>
                 <p className="mt-1 text-xs text-slate-400">
-                  Based on current tutor averages for {subject} ({classLevel}) in {mode} mode.
+                  Based on current tutor averages for {subject} ({classLevel})
+                  in {mode} mode.
                 </p>
               </div>
 
@@ -137,7 +163,12 @@ export default function SmartMatchSection() {
                     1. Select Class Level
                   </label>
                   <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                    {["Class 9-10", "Class 11-12", "University / Career", "Higher Study / Adult"].map((lvl) => (
+                    {[
+                      "Class 9-10",
+                      "Class 11-12",
+                      "University / Career",
+                      "Higher Study / Adult",
+                    ].map((lvl) => (
                       <button
                         key={lvl}
                         type="button"
@@ -148,7 +179,11 @@ export default function SmartMatchSection() {
                             : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-slate-700"
                         }`}
                       >
-                        {lvl === "University / Career" ? "Uni / Career" : lvl === "Higher Study / Adult" ? "Higher Study" : lvl}
+                        {lvl === "University / Career"
+                          ? "Uni / Career"
+                          : lvl === "Higher Study / Adult"
+                            ? "Higher Study"
+                            : lvl}
                       </button>
                     ))}
                   </div>
@@ -160,7 +195,14 @@ export default function SmartMatchSection() {
                     2. Select Subject
                   </label>
                   <div className="mt-2.5 grid grid-cols-3 gap-2">
-                    {["Higher Math", "Physics", "Chemistry", "Programming", "IELTS", "English"].map((sub) => (
+                    {[
+                      "Higher Math",
+                      "Physics",
+                      "Chemistry",
+                      "Programming",
+                      "IELTS",
+                      "English",
+                    ].map((sub) => (
                       <button
                         key={sub}
                         type="button"

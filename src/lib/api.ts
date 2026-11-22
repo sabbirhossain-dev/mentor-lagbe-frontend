@@ -95,6 +95,9 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
     }
 
     if (!res.ok) {
+        if (res.status === 401) {
+            clearAuthToken();
+        }
         const message =
             body && typeof body === "object" && "message" in body
                 ? String((body as { message: unknown }).message)

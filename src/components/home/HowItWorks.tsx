@@ -16,7 +16,8 @@ export default function HowItWorks() {
       number: "01",
       title: "Create Account",
       subtitle: "For Students & Tutors",
-      description: "Quickly sign up or continue with Google as a Student or verified Tutor with custom academic profile credentials.",
+      description:
+        "Quickly sign up or continue with Google as a Student or verified Tutor with custom academic profile credentials.",
       icon: UserCheck,
       badge: "Step 1",
     },
@@ -24,7 +25,8 @@ export default function HowItWorks() {
       number: "02",
       title: "Discover or Post",
       subtitle: "Interactive Search",
-      description: "Students filter batches by subject and budget; tutors post verified tuition listings with instant ImgBB banner upload.",
+      description:
+        "Students filter batches by subject and budget; tutors post verified tuition listings with instant ImgBB banner upload.",
       icon: Search,
       badge: "Step 2",
     },
@@ -32,7 +34,8 @@ export default function HowItWorks() {
       number: "03",
       title: "Direct Application",
       subtitle: "Schedule Alignment",
-      description: "Students apply with preferred time slots and learning goals; tutors review contact info and accept or decline.",
+      description:
+        "Students apply with preferred time slots and learning goals; tutors review contact info and accept or decline.",
       icon: FileCheck2,
       badge: "Step 3",
     },
@@ -40,14 +43,15 @@ export default function HowItWorks() {
       number: "04",
       title: "Start Mentorship",
       subtitle: "Academic Excellence",
-      description: "Begin structured 1-on-1 tutoring or online/offline batches with zero middleman commissions on student tuitions.",
+      description:
+        "Begin structured 1-on-1 tutoring or online/offline batches with zero middleman commissions on student tuitions.",
       icon: CheckCircle2,
       badge: "Step 4",
     },
   ];
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 dark:bg-slate-950 transition-colors">
+    <section className="relative overflow-hidden bg-white py-10 sm:py-16 dark:bg-slate-950 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -61,7 +65,8 @@ export default function HowItWorks() {
           </h2>
 
           <p className="mt-4 text-base text-slate-600 dark:text-slate-400">
-            Our streamlined process bridges the gap between ambitious students and verified mentors in 4 simple steps.
+            Our streamlined process bridges the gap between ambitious students
+            and verified mentors in 4 simple steps.
           </p>
         </div>
 

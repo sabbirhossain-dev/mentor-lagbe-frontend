@@ -25,7 +25,9 @@ export default function FeaturedTuitions() {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const data = await apiFetch<{ success: boolean; tuitions: Tuition[] }>("/tuitions/featured");
+        const data = await apiFetch<{ success: boolean; tuitions: Tuition[] }>(
+          "/tuitions/featured",
+        );
         if (data.success && Array.isArray(data.tuitions)) {
           setTuitions(data.tuitions);
         }
@@ -40,7 +42,7 @@ export default function FeaturedTuitions() {
   }, []);
 
   return (
-    <section className="bg-slate-50/70 py-24 dark:bg-slate-900/40 transition-colors">
+    <section className="bg-slate-50/70 py-10 sm:py-16 dark:bg-slate-900/40 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="mb-14 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -55,7 +57,8 @@ export default function FeaturedTuitions() {
             </h2>
 
             <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400">
-              Explore recent verified tuition batches and 1-on-1 mentorship programs posted by qualified tutors.
+              Explore recent verified tuition batches and 1-on-1 mentorship
+              programs posted by qualified tutors.
             </p>
           </div>
 
@@ -142,7 +145,9 @@ export default function FeaturedTuitions() {
                   <div className="mt-4 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 dark:text-slate-400">
                     <div className="flex items-center gap-1">
                       <User size={13} className="text-slate-400" />
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">{item.tutorName}</span>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">
+                        {item.tutorName}
+                      </span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar size={13} className="text-slate-400" />
@@ -150,22 +155,31 @@ export default function FeaturedTuitions() {
                     </div>
                     <div className="flex items-center gap-1">
                       <MapPin size={13} className="text-slate-400" />
-                      <span className="truncate max-w-[130px]">{item.location}</span>
+                      <span className="truncate max-w-[130px]">
+                        {item.location}
+                      </span>
                     </div>
                   </div>
 
                   {/* Footer Fee & CTA */}
                   <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-4">
                     <div>
-                      <p className="text-[11px] font-medium text-slate-400">Monthly Fee</p>
+                      <p className="text-[11px] font-medium text-slate-400">
+                        Monthly Fee
+                      </p>
                       <p className="text-lg font-black text-indigo-600 dark:text-indigo-400">
                         ৳{item.monthlyFee.toLocaleString()}{" "}
-                        <span className="text-xs font-normal text-slate-400">/mo</span>
+                        <span className="text-xs font-normal text-slate-400">
+                          /mo
+                        </span>
                       </p>
                     </div>
 
                     <Link href={`/tuitions/${item._id}`}>
-                      <Button size="sm" className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold shadow-xs">
+                      <Button
+                        size="sm"
+                        className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold shadow-xs"
+                      >
                         View Details
                       </Button>
                     </Link>
@@ -175,7 +189,9 @@ export default function FeaturedTuitions() {
             ))
           ) : (
             <div className="col-span-full rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center">
-              <p className="text-slate-500 dark:text-slate-400">No featured tuitions available right now.</p>
+              <p className="text-slate-500 dark:text-slate-400">
+                No featured tuitions available right now.
+              </p>
             </div>
           )}
         </div>

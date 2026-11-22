@@ -150,11 +150,11 @@ const Navbar = () => {
               }`}
             >
               <span>{link.name}</span>
-              {link.badge && (
+              {/* {link.badge && (
                 <span className="rounded-full bg-emerald-100 dark:bg-emerald-950 px-1.5 py-0.2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
                   {link.badge}
                 </span>
-              )}
+              )} */}
             </Link>
           ))}
         </nav>
@@ -169,7 +169,10 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2.5 rounded-2xl border border-slate-200/80 px-2.5 py-1.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/80 transition-all outline-none cursor-pointer">
                 <Avatar className="h-8 w-8 border border-indigo-200 dark:border-indigo-800">
-                  <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+                  <AvatarImage
+                    src={user?.image || ""}
+                    alt={user?.name || "User"}
+                  />
                   <AvatarFallback className="bg-indigo-600 text-xs font-bold text-white">
                     {userInitials}
                   </AvatarFallback>
@@ -207,7 +210,10 @@ const Navbar = () => {
                     onClick={handleDashboard}
                     className="cursor-pointer rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
                   >
-                    <LayoutDashboard size={15} className="mr-2 text-indigo-600 dark:text-indigo-400" />
+                    <LayoutDashboard
+                      size={15}
+                      className="mr-2 text-indigo-600 dark:text-indigo-400"
+                    />
                     Dashboard
                   </DropdownMenuItem>
 
@@ -215,7 +221,10 @@ const Navbar = () => {
                     onClick={() => router.push("/dashboard/profile")}
                     className="cursor-pointer rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"
                   >
-                    <UserRound size={15} className="mr-2 text-indigo-600 dark:text-indigo-400" />
+                    <UserRound
+                      size={15}
+                      className="mr-2 text-indigo-600 dark:text-indigo-400"
+                    />
                     Account Profile
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -284,7 +293,10 @@ const Navbar = () => {
             <div className="m-4 rounded-2xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-800/60">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10 border border-indigo-200 dark:border-indigo-800">
-                  <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+                  <AvatarImage
+                    src={user?.image || ""}
+                    alt={user?.name || "User"}
+                  />
                   <AvatarFallback className="bg-indigo-600 text-xs font-bold text-white">
                     {userInitials}
                   </AvatarFallback>
@@ -321,7 +333,10 @@ const Navbar = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon size={18} className="text-indigo-600 dark:text-indigo-400" />
+                    <Icon
+                      size={18}
+                      className="text-indigo-600 dark:text-indigo-400"
+                    />
                     <span>{link.name}</span>
                   </div>
                   {link.badge && (
@@ -358,13 +373,24 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="/sign-in" onClick={() => setIsOpen(false)} className="block">
-                  <Button variant="outline" className="w-full rounded-xl font-bold dark:border-slate-800">
+                <Link
+                  href="/sign-in"
+                  onClick={() => setIsOpen(false)}
+                  className="block"
+                >
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-xl font-bold dark:border-slate-800"
+                  >
                     Sign In
                   </Button>
                 </Link>
 
-                <Link href="/sign-up" onClick={() => setIsOpen(false)} className="block">
+                <Link
+                  href="/sign-up"
+                  onClick={() => setIsOpen(false)}
+                  className="block"
+                >
                   <Button className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 font-bold text-white">
                     Create Free Account
                   </Button>

@@ -52,7 +52,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50/70 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32 transition-colors">
+    <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50/70 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 pt-16 pb-10 lg:pt-16 lg:pb-12 transition-colors">
       {/* Background Radial Glow & Grid Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.04] dark:opacity-[0.07] pointer-events-none" />
       <div className="absolute top-12 left-1/2 -translate-x-1/2 h-96 w-96 sm:w-[680px] rounded-full bg-gradient-to-tr from-indigo-500/15 via-violet-500/15 to-transparent blur-3xl pointer-events-none -z-10" />
@@ -81,7 +81,9 @@ export default function HeroSection() {
 
           {/* Subtitle */}
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-            Directly connect with 100% verified educators from BUET, Dhaka University, Medical & top institutions. Small batches, personalized 1-on-1 learning, and zero middleman fees.
+            Directly connect with 100% verified educators from BUET, Dhaka
+            University, Medical & top institutions. Small batches, personalized
+            1-on-1 learning, and zero middleman fees.
           </p>
 
           {/* Multi-Segment Command Search Bar */}
@@ -92,7 +94,10 @@ export default function HeroSection() {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-12 items-center">
               {/* Segment 1: Subject / Topic */}
               <div className="sm:col-span-4 flex items-center gap-3 px-3 py-2 border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-800">
-                <Search size={18} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <Search
+                  size={18}
+                  className="text-indigo-600 dark:text-indigo-400 shrink-0"
+                />
                 <div className="w-full text-left">
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
                     Subject or Goal
@@ -109,7 +114,10 @@ export default function HeroSection() {
 
               {/* Segment 2: Class Level */}
               <div className="sm:col-span-3 flex items-center gap-3 px-3 py-2 border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-800">
-                <GraduationCap size={18} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <GraduationCap
+                  size={18}
+                  className="text-indigo-600 dark:text-indigo-400 shrink-0"
+                />
                 <div className="w-full text-left">
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
                     Academic Level
@@ -119,18 +127,37 @@ export default function HeroSection() {
                     onChange={(e) => setSelectedClass(e.target.value)}
                     className="w-full bg-transparent text-sm font-semibold text-slate-900 dark:text-white outline-none cursor-pointer"
                   >
-                    <option value="" className="dark:bg-slate-900">Any Level</option>
-                    <option value="Class 9-10" className="dark:bg-slate-900">Class 9-10 (SSC)</option>
-                    <option value="Class 11-12" className="dark:bg-slate-900">Class 11-12 (HSC)</option>
-                    <option value="University / Career" className="dark:bg-slate-900">University / Admission</option>
-                    <option value="Higher Study / Adult" className="dark:bg-slate-900">English Medium / IELTS</option>
+                    <option value="" className="dark:bg-slate-900">
+                      Any Level
+                    </option>
+                    <option value="Class 9-10" className="dark:bg-slate-900">
+                      Class 9-10 (SSC)
+                    </option>
+                    <option value="Class 11-12" className="dark:bg-slate-900">
+                      Class 11-12 (HSC)
+                    </option>
+                    <option
+                      value="University / Career"
+                      className="dark:bg-slate-900"
+                    >
+                      University / Admission
+                    </option>
+                    <option
+                      value="Higher Study / Adult"
+                      className="dark:bg-slate-900"
+                    >
+                      English Medium / IELTS
+                    </option>
                   </select>
                 </div>
               </div>
 
               {/* Segment 3: Session Mode */}
               <div className="sm:col-span-3 flex items-center gap-3 px-3 py-2">
-                <Compass size={18} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <Compass
+                  size={18}
+                  className="text-indigo-600 dark:text-indigo-400 shrink-0"
+                />
                 <div className="w-full text-left">
                   <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
                     Session Mode
@@ -140,9 +167,15 @@ export default function HeroSection() {
                     onChange={(e) => setSelectedMode(e.target.value)}
                     className="w-full bg-transparent text-sm font-semibold text-slate-900 dark:text-white outline-none cursor-pointer"
                   >
-                    <option value="" className="dark:bg-slate-900">All Modes</option>
-                    <option value="Online" className="dark:bg-slate-900">Online Live Session</option>
-                    <option value="Offline" className="dark:bg-slate-900">Offline / In-Person</option>
+                    <option value="" className="dark:bg-slate-900">
+                      All Modes
+                    </option>
+                    <option value="Online" className="dark:bg-slate-900">
+                      Online Live Session
+                    </option>
+                    <option value="Offline" className="dark:bg-slate-900">
+                      Offline / In-Person
+                    </option>
                   </select>
                 </div>
               </div>
@@ -187,7 +220,8 @@ export default function HeroSection() {
               100% Verified Educators
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Every mentor undergoes credential review with university identity and transcript validation.
+              Every mentor undergoes credential review with university identity
+              and transcript validation.
             </p>
           </div>
 
@@ -200,7 +234,8 @@ export default function HeroSection() {
               Zero Middleman Commission
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Students apply for free. No 50%-100% agency salary cuts or hidden brokerage fees.
+              Students apply for free. No 50%-100% agency salary cuts or hidden
+              brokerage fees.
             </p>
           </div>
 
@@ -213,7 +248,8 @@ export default function HeroSection() {
               Instant Application & Tracking
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Apply in one click, align timing preferences, and track tutor approval directly on your dashboard.
+              Apply in one click, align timing preferences, and track tutor
+              approval directly on your dashboard.
             </p>
           </div>
         </div>

@@ -13,9 +13,6 @@ export default function Home() {
       {/* ================= HERO SECTION (NEW COMMAND CENTER UI) ================= */}
       <HeroSection />
 
-      {/* ================= COMPARISON MATRIX: MENTORLAGBE VS TRADITIONAL MEDIA ================= */}
-      <ComparisonSection />
-
       {/* ================= SMART MATCH ESTIMATOR ================= */}
       <SmartMatchSection />
 
@@ -29,8 +26,10 @@ export default function Home() {
       <HowItWorks />
 
       {/* ================= SUBJECTS, STATS & TESTIMONIALS ================= */}
-      <SubjectsTestimonials />
+      {/* <SubjectsTestimonials /> */}
 
+      {/* ================= COMPARISON MATRIX: MENTORLAGBE VS TRADITIONAL MEDIA ================= */}
+      <ComparisonSection />
       {/* ================= FAQ & CTA SECTION ================= */}
       <FaqSection />
     </div>

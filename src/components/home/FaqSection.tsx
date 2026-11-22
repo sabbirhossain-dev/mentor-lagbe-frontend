@@ -40,12 +40,15 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="bg-white py-24 dark:bg-slate-950 transition-colors">
+    <section className="bg-white py-10 sm:py-16 dark:bg-slate-950 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/60 dark:text-indigo-300">
-            <HelpCircle size={14} className="text-indigo-600 dark:text-indigo-400" />
+            <HelpCircle
+              size={14}
+              className="text-indigo-600 dark:text-indigo-400"
+            />
             GOT QUESTIONS?
           </div>
 
@@ -54,7 +57,8 @@ export default function FaqSection() {
           </h2>
 
           <p className="mt-3 text-base text-slate-600 dark:text-slate-400">
-            Everything you need to know about finding tutors, applying for tuitions, and upgrading your plan.
+            Everything you need to know about finding tutors, applying for
+            tuitions, and upgrading your plan.
           </p>
         </div>
 
@@ -77,7 +81,9 @@ export default function FaqSection() {
                   <ChevronDown
                     size={18}
                     className={`shrink-0 text-slate-400 transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-indigo-600 dark:text-indigo-400" : ""
+                      isOpen
+                        ? "rotate-180 text-indigo-600 dark:text-indigo-400"
+                        : ""
                     }`}
                   />
                 </button>
@@ -93,7 +99,7 @@ export default function FaqSection() {
         </div>
 
         {/* Bottom CTA Banner */}
-        <div className="mt-20 overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 p-8 sm:p-12 shadow-2xl shadow-indigo-500/20 text-center relative">
+        {/* <div className="mt-20 overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 p-8 sm:p-12 shadow-2xl shadow-indigo-500/20 text-center relative">
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-violet-400/20 blur-2xl" />
 
@@ -108,7 +114,8 @@ export default function FaqSection() {
             </h3>
 
             <p className="mt-3 text-sm sm:text-base text-indigo-100 leading-relaxed">
-              Find verified tutors in your area or start teaching and sharing knowledge with motivated students.
+              Find verified tutors in your area or start teaching and sharing
+              knowledge with motivated students.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -129,7 +136,7 @@ export default function FaqSection() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

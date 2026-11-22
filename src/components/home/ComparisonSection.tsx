@@ -42,11 +42,13 @@ const comparisonData: ComparisonRow[] = [
     category: "Cost & Transparency",
     traditional: {
       title: "50% - 100% 1st Month Surcharge",
-      description: "Brokers and media agencies deduct 50-100% of the tutor's first-month salary and charge extra registration fees from guardians.",
+      description:
+        "Brokers and media agencies deduct 50-100% of the tutor's first-month salary and charge extra registration fees from guardians.",
     },
     mentorlagbe: {
       title: "0% Middleman Commission",
-      description: "100% free enrollment for students. Direct fee negotiations with zero hidden deductions or broker percentages.",
+      description:
+        "100% free enrollment for students. Direct fee negotiations with zero hidden deductions or broker percentages.",
     },
   },
   {
@@ -54,11 +56,13 @@ const comparisonData: ComparisonRow[] = [
     category: "Security & Credibility",
     traditional: {
       title: "Unverified / Anonymous Profiles",
-      description: "Anybody can post in Facebook groups. No NID checks, unverified graduation claims, and zero background screening.",
+      description:
+        "Anybody can post in Facebook groups. No NID checks, unverified graduation claims, and zero background screening.",
     },
     mentorlagbe: {
       title: "100% Admin-Verified Credentials",
-      description: "University student IDs, official graduation certificates, and contact info are manually reviewed by admins.",
+      description:
+        "University student IDs, official graduation certificates, and contact info are manually reviewed by admins.",
     },
   },
   {
@@ -66,11 +70,13 @@ const comparisonData: ComparisonRow[] = [
     category: "Efficiency",
     traditional: {
       title: "2 to 3 Weeks Slow Coordination",
-      description: "Endless delays waiting for agency middlemen to answer phone calls and share numbers manually.",
+      description:
+        "Endless delays waiting for agency middlemen to answer phone calls and share numbers manually.",
     },
     mentorlagbe: {
       title: "Instant One-Click Application",
-      description: "Select preferred days, specify curriculum requirements, and submit applications directly in under 60 seconds.",
+      description:
+        "Select preferred days, specify curriculum requirements, and submit applications directly in under 60 seconds.",
     },
   },
   {
@@ -78,11 +84,13 @@ const comparisonData: ComparisonRow[] = [
     category: "Technology",
     traditional: {
       title: "Zero Tracking / Lost in WhatsApp",
-      description: "Applications disappear into unorganized inbox messages with no confirmation, receipt, or status updates.",
+      description:
+        "Applications disappear into unorganized inbox messages with no confirmation, receipt, or status updates.",
     },
     mentorlagbe: {
       title: "Live Real-Time Dashboard",
-      description: "Dedicated portal displaying pending, accepted, or scheduled sessions with live status badges.",
+      description:
+        "Dedicated portal displaying pending, accepted, or scheduled sessions with live status badges.",
     },
   },
   {
@@ -90,18 +98,20 @@ const comparisonData: ComparisonRow[] = [
     category: "Accountability",
     traditional: {
       title: "Zero Accountability if Tutor Leaves",
-      description: "No refunds or replacement assistance if an unauthorized tutor suddenly discontinues classes after taking payment.",
+      description:
+        "No refunds or replacement assistance if an unauthorized tutor suddenly discontinues classes after taking payment.",
     },
     mentorlagbe: {
       title: "Moderated & Protected Ecosystem",
-      description: "Platform moderation, community feedback reviews, and direct reporting keep students and tutors secure.",
+      description:
+        "Platform moderation, community feedback reviews, and direct reporting keep students and tutors secure.",
     },
   },
 ];
 
 export default function ComparisonSection() {
   return (
-    <section className="relative overflow-hidden bg-slate-50/70 dark:bg-slate-950/80 py-20 sm:py-28 transition-colors">
+    <section className="relative overflow-hidden bg-slate-50/70 dark:bg-slate-950/80 py-10 sm:py-16 transition-colors">
       {/* Background Auras */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-transparent blur-3xl pointer-events-none -z-10" />
 
@@ -121,7 +131,8 @@ export default function ComparisonSection() {
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            Compare our modern, transparent, and concept-driven platform against legacy tuition agencies and unverified Facebook groups.
+            Compare our modern, transparent, and concept-driven platform against
+            legacy tuition agencies and unverified Facebook groups.
           </p>
         </div>
 
@@ -181,7 +192,10 @@ export default function ComparisonSection() {
                 {/* MentorLagbe Side (Highlighted) */}
                 <div className="col-span-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/30 p-3.5 border border-indigo-100/80 dark:border-indigo-900/40">
                   <div className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300 font-extrabold text-sm">
-                    <CheckCircle2 size={18} className="shrink-0 text-emerald-500" />
+                    <CheckCircle2
+                      size={18}
+                      className="shrink-0 text-emerald-500"
+                    />
                     <span>{row.mentorlagbe.title}</span>
                   </div>
                   <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -238,7 +252,7 @@ export default function ComparisonSection() {
         </div>
 
         {/* Bottom Callout Banner */}
-        <div className="mt-12 rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-violet-900 p-8 sm:p-10 text-white shadow-xl shadow-indigo-950/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div className="mt-12 rounded-3xl bg-gradient-to-r from-blue-950 via-indigo-950 to-violet-950 p-8 sm:p-10 text-white shadow-xl shadow-indigo-950/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold backdrop-blur">
               <BadgeCheck size={14} className="text-emerald-400" />
@@ -248,7 +262,8 @@ export default function ComparisonSection() {
               Ready to find a verified mentor without the middleman fee?
             </h3>
             <p className="text-xs sm:text-sm text-indigo-200 max-w-xl">
-              Browse available tuition batches, check tutor qualifications, and apply directly. No commission, ever.
+              Browse available tuition batches, check tutor qualifications, and
+              apply directly. No commission, ever.
             </p>
           </div>
 

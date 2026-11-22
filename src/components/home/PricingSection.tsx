@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Check, Crown, GraduationCap, Loader2, Sparkles, Users, Zap } from "lucide-react";
+import {
+  Check,
+  Crown,
+  GraduationCap,
+  Loader2,
+  Sparkles,
+  Users,
+  Zap,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
@@ -69,11 +77,14 @@ export default function PricingSection() {
     const toastId = toast.loading("Redirecting to Stripe Checkout...");
 
     try {
-      const res = await apiFetch<{ success: boolean; url: string }>("/payments/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planType: planKey }),
-      });
+      const res = await apiFetch<{ success: boolean; url: string }>(
+        "/payments/create-checkout-session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ planType: planKey }),
+        },
+      );
 
       if (res.success && res.url) {
         toast.dismiss(toastId);
@@ -84,13 +95,15 @@ export default function PricingSection() {
       }
     } catch (err: any) {
       console.error("Stripe error:", err);
-      toast.error(err.message || "Stripe checkout failed. Please try again.", { id: toastId });
+      toast.error(err.message || "Stripe checkout failed. Please try again.", {
+        id: toastId,
+      });
       setLoadingPlan(null);
     }
   };
 
   return (
-    <section className="bg-gradient-to-b from-indigo-50/40 via-white to-slate-50/50 py-24 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 transition-colors">
+    <section className="bg-gradient-to-b from-indigo-50/40 via-white to-slate-50/50 py-10 sm:py-16 dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950 transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -104,7 +117,8 @@ export default function PricingSection() {
           </h2>
 
           <p className="mt-4 leading-relaxed text-slate-600 dark:text-slate-400">
-            Start completely free and upgrade with encrypted Stripe processing whenever you are ready for unlimited capacity.
+            Start completely free and upgrade with encrypted Stripe processing
+            whenever you are ready for unlimited capacity.
           </p>
         </div>
 
@@ -147,7 +161,10 @@ export default function PricingSection() {
 
                         <p className="mt-3 text-3xl font-black text-slate-900 dark:text-white">
                           {plan.freePrice}
-                          <span className="text-xs font-normal text-slate-400"> / mo</span>
+                          <span className="text-xs font-normal text-slate-400">
+                            {" "}
+                            / mo
+                          </span>
                         </p>
 
                         <ul className="mt-6 space-y-3">
@@ -156,7 +173,10 @@ export default function PricingSection() {
                               key={feature}
                               className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300"
                             >
-                              <Check size={15} className="mt-0.5 shrink-0 text-emerald-500" />
+                              <Check
+                                size={15}
+                                className="mt-0.5 shrink-0 text-emerald-500"
+                              />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -185,7 +205,10 @@ export default function PricingSection() {
 
                         <p className="mt-3 text-3xl font-black text-indigo-600 dark:text-indigo-400">
                           {plan.proPrice}
-                          <span className="text-xs font-normal text-slate-400"> / mo</span>
+                          <span className="text-xs font-normal text-slate-400">
+                            {" "}
+                            / mo
+                          </span>
                         </p>
 
                         <ul className="mt-6 space-y-3">
@@ -194,7 +217,10 @@ export default function PricingSection() {
                               key={feature}
                               className="flex items-start gap-2 text-xs font-medium text-slate-700 dark:text-slate-200"
                             >
-                              <Check size={15} className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                              <Check
+                                size={15}
+                                className="mt-0.5 shrink-0 text-indigo-600 dark:text-indigo-400"
+                              />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -215,12 +241,18 @@ export default function PricingSection() {
                           >
                             {loadingPlan === plan.planKey ? (
                               <>
-                                <Loader2 size={15} className="animate-spin mr-2" />
+                                <Loader2
+                                  size={15}
+                                  className="animate-spin mr-2"
+                                />
                                 Connecting to Stripe...
                               </>
                             ) : (
                               <>
-                                <Crown size={15} className="mr-2 text-amber-300" />
+                                <Crown
+                                  size={15}
+                                  className="mr-2 text-amber-300"
+                                />
                                 Upgrade with Stripe ({plan.proPrice})
                               </>
                             )}
