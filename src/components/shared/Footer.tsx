@@ -43,7 +43,7 @@ export default function Footer() {
           {/* Brand & Socials */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <BrandLogo size="md" />
+              <BrandLogo size="md" variant="dark" />
             </Link>
 
             <p className="max-w-xs text-sm leading-6 text-slate-400">
