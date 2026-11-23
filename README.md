@@ -33,20 +33,20 @@ Finding the right private tutor or academic batch in Bangladesh has traditionall
 
 ## 🌐 Live URLs & Demo Credentials
 
-| Resource | URL |
-| :--- | :--- |
+| Resource                      | URL                                                                                            |
+| :---------------------------- | :--------------------------------------------------------------------------------------------- |
 | **Frontend Web App (Client)** | [https://mentorlagbe-frontend-three.vercel.app](https://mentorlagbe-frontend-three.vercel.app) |
-| **Backend REST API Server** | [https://mentorlagbe-backend-xi.vercel.app](https://mentorlagbe-backend-xi.vercel.app) |
+| **Backend REST API Server**   | [https://mentorlagbe-backend-xi.vercel.app](https://mentorlagbe-backend-xi.vercel.app)         |
 
 ### 🔑 Demo Accounts for Evaluation
 
 You can test every role-based feature using the pre-configured accounts below:
 
-| Role | Email | Password | Access & Capabilities |
-| :--- | :--- | :--- | :--- |
-| 🛡️ **Admin** | `hossain@gmail.com` | `Admin@1234` | Full platform moderation, user role reassignment, tuition approval/rejection queue, Stripe revenue audit |
-| 👨‍🏫 **Tutor** | `sabbirt@gmail.com` | `Tutor@1234` | Create/edit tuition batches, direct ImgBB uploads, manage applicants (accept/reject), view tuition stats |
-| 🎓 **Student** | `sabbir3@gmail.com` | `Student@1234` | Search & filter tuitions, apply to batches, track application status, cancel pending applications, bookmark posts |
+| Role           | Email               | Password   | Access & Capabilities                                                                                             |
+| :------------- | :------------------ | :--------- | :---------------------------------------------------------------------------------------------------------------- |
+| 🛡️ **Admin**   | `hossain@gmail.com` | `********` | Full platform moderation, user role reassignment, tuition approval/rejection queue, Stripe revenue audit          |
+| 👨‍🏫 **Tutor**   | `sabbirt@gmail.com` | `********` | Create/edit tuition batches, direct ImgBB uploads, manage applicants (accept/reject), view tuition stats          |
+| 🎓 **Student** | `sabbir3@gmail.com` | `********` | Search & filter tuitions, apply to batches, track application status, cancel pending applications, bookmark posts |
 
 > 💡 **Note:** Visitors can also create a new account via the **`/sign-up`** page and choose either **Student** or **Tutor** role.
 
@@ -55,17 +55,20 @@ You can test every role-based feature using the pre-configured accounts below:
 ## 🚀 Key Features
 
 ### 1. 🛡️ Role-Based Architecture & Authentication
+
 - Secure authentication powered by **Better Auth** with JWT session exchange and MongoDB storage.
 - Real-time role verification (`student`, `tutor`, `admin`) protecting dashboard routes and API calls.
 - Automated role redirection upon login with dedicated navigation shells.
 
 ### 2. 🔍 Smart Tuition Discovery & Hero Search
+
 - **Instant Search:** Live regex-based search by tuition title, subject, or tutor name.
 - **Multi-Filter System:** Filter listings by Subject, Class Level (Class 6-8, SSC, HSC, University), and Mode (Online, Offline, Hybrid).
 - **Interactive Tuition Estimator:** Budget calculator on the homepage allowing students to calculate estimated monthly rates and immediately find matching tutors.
 - **Server-Side Pagination & Sorting:** Smooth pagination with dynamic sorting by newest, fee (low-to-high, high-to-low).
 
 ### 3. 👨‍🏫 Tutor Studio & Management
+
 - **Tuition Creator:** Easy-to-use batch creation form with title, subject, class level, mode, monthly fee, schedule, and full markdown-supported descriptions.
 - **Direct ImgBB Image Upload:** Upload tuition banners and profile photos directly to ImgBB CDN with built-in client-side image compression fallback.
 - **Listing Lifecycle Control:** Toggle listings between `Active` and `Closed` at any time, edit batch info, or delete listings.
@@ -73,21 +76,25 @@ You can test every role-based feature using the pre-configured accounts below:
 - **Plan Enforcement:** Free Tutors can create up to 2 active listings; Tutor Pro members enjoy unlimited listings and priority badges.
 
 ### 4. 🎓 Student Experience & Applications
+
 - **One-Click Application:** Apply for any approved tuition with preferred timing and custom learning goals.
 - **Application Status Tracker:** Real-time visibility on application status (`Pending`, `Accepted`, `Rejected`) with the option to cancel pending applications.
 - **Saved Tuitions:** Bookmark favorite tuition posts to revisit later.
 
 ### 5. ⚙️ Admin Control Center
+
 - **Analytics Overview:** Comprehensive KPI counters including total registered users, active tutors, students, approved/pending listings, and Stripe revenue.
 - **Tuition Moderation Queue:** Review pending listings submitted by tutors and grant approval or rejection.
 - **User Role Management:** Manage registered users and switch roles between Student, Tutor, and Admin on the fly.
 - **Transaction Audit:** Inspect all processed Stripe subscription records including payment IDs, amounts, and dates.
 
 ### 6. 💳 Stripe Pro Subscriptions
+
 - Fully functional **Stripe Checkout** integration for Student Pro ($10) and Tutor Pro ($15) tiers.
 - Instant automated account upgrades to `plan: "pro"` upon payment verification.
 
 ### 7. 🎨 Responsive UI/UX & Design Details
+
 - **100% Responsive Design:** Optimized for mobile phones, tablets, and desktop displays.
 - **Dark / Light Mode:** Built-in theme switcher with smooth transitions powered by `next-themes`.
 - **Custom Brand Identity:** Hand-crafted Royal Indigo & Violet graduation cap logo rendered consistently across Navbar, Dashboard Shell, and Footer.
@@ -100,24 +107,24 @@ You can test every role-based feature using the pre-configured accounts below:
 
 ### Frontend Dependencies (`package.json`)
 
-| Package | Version | Purpose / Usage |
-| :--- | :--- | :--- |
-| **`next`** | `16.4.6` | React framework with App Router, Server Components & Turbopack |
-| **`react`** | `19.3.0` | Core React 19 UI library |
-| **`react-dom`** | `19.3.0` | React DOM renderer |
-| **`typescript`** | `^5` | Strict static typing and code reliability |
-| **`tailwindcss`** | `4.3.3` | Next-generation utility-first CSS framework |
-| **`better-auth`** | `^1.7.26` | Modern full-stack authentication framework |
-| **`@better-auth/mongo-adapter`** | `^1.7.26` | MongoDB adapter for Better Auth users and sessions |
-| **`lucide-react`** | `^1.76.0` | Modern, lightweight SVG iconography |
-| **`react-hot-toast`** | `^2.6.1` | Sleek toast notifications for user actions |
-| **`next-themes`** | `^0.4.6` | Flawless dark and light theme switching |
-| **`@base-ui/react`** | `^1.9.0` | Accessible, unstyled UI primitives |
-| **`jose`** | `^6.2.18` | Cryptographic JWT token handling & JWKS verification |
-| **`mongodb`** | `^7.9.1` | Native MongoDB driver for authentication operations |
-| **`class-variance-authority`** | `^0.7.1` | Composable component variant styling |
-| **`tw-animate-css`** | `^1.4.0` | Tailwind CSS animation extensions |
-| **`cn`** | `^0.5.2` | Classname merging utility |
+| Package                          | Version   | Purpose / Usage                                                |
+| :------------------------------- | :-------- | :------------------------------------------------------------- |
+| **`next`**                       | `16.4.6`  | React framework with App Router, Server Components & Turbopack |
+| **`react`**                      | `19.3.0`  | Core React 19 UI library                                       |
+| **`react-dom`**                  | `19.3.0`  | React DOM renderer                                             |
+| **`typescript`**                 | `^5`      | Strict static typing and code reliability                      |
+| **`tailwindcss`**                | `4.3.3`   | Next-generation utility-first CSS framework                    |
+| **`better-auth`**                | `^1.7.26` | Modern full-stack authentication framework                     |
+| **`@better-auth/mongo-adapter`** | `^1.7.26` | MongoDB adapter for Better Auth users and sessions             |
+| **`lucide-react`**               | `^1.76.0` | Modern, lightweight SVG iconography                            |
+| **`react-hot-toast`**            | `^2.6.1`  | Sleek toast notifications for user actions                     |
+| **`next-themes`**                | `^0.4.6`  | Flawless dark and light theme switching                        |
+| **`@base-ui/react`**             | `^1.9.0`  | Accessible, unstyled UI primitives                             |
+| **`jose`**                       | `^6.2.18` | Cryptographic JWT token handling & JWKS verification           |
+| **`mongodb`**                    | `^7.9.1`  | Native MongoDB driver for authentication operations            |
+| **`class-variance-authority`**   | `^0.7.1`  | Composable component variant styling                           |
+| **`tw-animate-css`**             | `^1.4.0`  | Tailwind CSS animation extensions                              |
+| **`cn`**                         | `^0.5.2`  | Classname merging utility                                      |
 
 ---
 
@@ -193,12 +200,14 @@ NEXT_PUBLIC_IMGBB_API_KEY=0c78446a1e6a350aa2ee4daa64b9e0e9
 ## 🚀 Local Development Setup
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/sabbirhossain-dev/mentorlagbe-frontend.git
    cd mentorlagbe-frontend
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
@@ -207,6 +216,7 @@ NEXT_PUBLIC_IMGBB_API_KEY=0c78446a1e6a350aa2ee4daa64b9e0e9
    Set up your `.env.local` using the environment variables guide above.
 
 4. **Run Development Server:**
+
    ```bash
    npm run dev
    ```
