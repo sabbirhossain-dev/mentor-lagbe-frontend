@@ -11,7 +11,23 @@
  * re-reads the user's role from the database — never from the token.
  */
 
+const PROD_BACKEND_URL = "https://mentorlagbe-backend-xi.vercel.app";
+
 function getApiBase(): string {
+    // 1. If running in a browser on production (e.g. mobile device, Vercel preview/production)
+    if (typeof window !== "undefined") {
+        const hostname = window.location.hostname;
+        const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+        if (!isLocal) {
+            const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+            if (envUrl && !envUrl.includes("localhost") && !envUrl.includes("127.0.0.1")) {
+                return envUrl;
+            }
+            return PROD_BACKEND_URL;
+        }
+    }
+
+    // 2. If environment variable is set
     const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
     if (envUrl) {
         // If client is accessed via 127.0.0.1 and envUrl has localhost, match hostname to avoid Chrome PNA block
@@ -20,6 +36,12 @@ function getApiBase(): string {
         }
         return envUrl;
     }
+
+    // 3. Fallback for server-side in production
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+        return PROD_BACKEND_URL;
+    }
+
     if (typeof window !== "undefined" && window.location.hostname === "127.0.0.1") {
         return "http://127.0.0.1:5000";
     }
@@ -93,12 +115,15 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
     const token = await getAuthToken();
     const apiBase = getApiBase();
 
-    // Try direct backend URLs with credentials: "omit" so bloated cookies
-    // on localhost never trigger HTTP 431 Request Header Fields Too Large.
-    const requestUrls = [
-        `${apiBase}${path}`,
-        `http://127.0.0.1:5000${path}`,
-    ];
+    const isLocal =
+        typeof window !== "undefined" &&
+        (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+    // On localhost, attempt both localhost and 127.0.0.1. On production (e.g. mobile device),
+    // only use the live production backend URL.
+    const requestUrls = isLocal
+        ? [`${apiBase}${path}`, `http://127.0.0.1:5000${path}`]
+        : [`${apiBase}${path}`];
 
     let lastError: Error | null = null;
     let res: Response | null = null;
@@ -126,7 +151,8 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
     if (!res) {
         const msg = lastError?.message || "Failed to fetch";
         console.warn(`apiFetch network error on ${path}:`, msg);
-        throw new ApiError(`Cannot connect to server (${msg}). Please verify backend is running on port 5000.`, 0);
+        const serverHint = isLocal ? "running on port 5000" : "reachable online";
+        throw new ApiError(`Cannot connect to server (${msg}). Please verify backend is ${serverHint}.`, 0);
     }
 
     let body: unknown = null;
