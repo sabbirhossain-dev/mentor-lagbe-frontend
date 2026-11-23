@@ -61,7 +61,7 @@ export default function TutorOverviewPage() {
     const loadDashboard = async () => {
       try {
         const [statsRes, tuitionsRes, applicantsRes] = await Promise.all([
-          apiFetch<{ success: boolean; stats: TutorStats }>("/stats/tutor"),
+          apiFetch<{ success: boolean; stats: TutorStats }>("/tutor/stats"),
           apiFetch<{ success: boolean; tuitions: Tuition[] }>("/tutor/my-tuitions"),
           apiFetch<{ success: boolean; applications: Application[] }>("/tutor/applicants"),
         ]);

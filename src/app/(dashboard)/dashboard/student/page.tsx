@@ -63,7 +63,7 @@ export default function StudentOverviewPage() {
     const loadDashboard = async () => {
       try {
         const [statsRes, appsRes] = await Promise.all([
-          apiFetch<{ success: boolean; stats: StudentStats }>("/stats/student"),
+          apiFetch<{ success: boolean; stats: StudentStats }>("/student/stats"),
           apiFetch<{ success: boolean; applications: Application[] }>("/student/my-applications"),
         ]);
 

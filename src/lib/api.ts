@@ -11,7 +11,21 @@
  * re-reads the user's role from the database — never from the token.
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+function getApiBase(): string {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+    if (envUrl) {
+        // If client is accessed via 127.0.0.1 and envUrl has localhost, match hostname to avoid Chrome PNA block
+        if (typeof window !== "undefined" && window.location.hostname === "127.0.0.1" && envUrl.includes("localhost")) {
+            return envUrl.replace("localhost", "127.0.0.1");
+        }
+        return envUrl;
+    }
+    if (typeof window !== "undefined" && window.location.hostname === "127.0.0.1") {
+        return "http://127.0.0.1:5000";
+    }
+    return "http://localhost:5000";
+}
+
 const AUTH_BASE = process.env.NEXT_PUBLIC_AUTH_URL ?? "";
 
 type CachedToken = { token: string; expiresAt: number };
@@ -77,15 +91,43 @@ export class ApiError extends Error {
 /** Fetch wrapper that attaches the JWT to Express API requests. */
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
     const token = await getAuthToken();
+    const apiBase = getApiBase();
 
-    const res = await fetch(`${API_BASE}${path}`, {
-        ...init,
-        credentials: "include",
-        headers: {
-            ...(init.headers ?? {}),
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-    });
+    // Try direct backend URLs with credentials: "omit" so bloated cookies
+    // on localhost never trigger HTTP 431 Request Header Fields Too Large.
+    const requestUrls = [
+        `${apiBase}${path}`,
+        `http://127.0.0.1:5000${path}`,
+    ];
+
+    let lastError: Error | null = null;
+    let res: Response | null = null;
+
+    for (const targetUrl of requestUrls) {
+        try {
+            const candidateRes = await fetch(targetUrl, {
+                ...init,
+                credentials: "omit",
+                headers: {
+                    ...(init.headers ?? {}),
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            res = candidateRes;
+            // Break on success or standard application response
+            if (candidateRes.status !== 431) {
+                break;
+            }
+        } catch (fetchErr: unknown) {
+            lastError = fetchErr instanceof Error ? fetchErr : new Error("Network error");
+        }
+    }
+
+    if (!res) {
+        const msg = lastError?.message || "Failed to fetch";
+        console.warn(`apiFetch network error on ${path}:`, msg);
+        throw new ApiError(`Cannot connect to server (${msg}). Please verify backend is running on port 5000.`, 0);
+    }
 
     let body: unknown = null;
     try {

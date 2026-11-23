@@ -15,17 +15,17 @@ function fileToOptimizedDataUrl(file: File): Promise<string> {
         return reject(new Error("Failed to process image file"));
       }
 
-      // If image is small (< 80KB), return as is
-      if (file.size < 80 * 1024) {
+      // If image is already tiny (< 40KB), return as is
+      if (file.size < 40 * 1024) {
         return resolve(result);
       }
 
-      // Resize & compress larger images to a reasonable avatar size using an offscreen canvas
+      // Resize & compress larger images to a reasonable web size using an offscreen canvas
       const img = new Image();
       img.onload = () => {
         try {
           const canvas = document.createElement("canvas");
-          const maxDim = 800;
+          const maxDim = 500;
           let { width, height } = img;
 
           if (width > height && width > maxDim) {
@@ -42,7 +42,7 @@ function fileToOptimizedDataUrl(file: File): Promise<string> {
           if (!ctx) return resolve(result);
 
           ctx.drawImage(img, 0, 0, width, height);
-          const compressed = canvas.toDataURL("image/jpeg", 0.85);
+          const compressed = canvas.toDataURL("image/jpeg", 0.75);
           resolve(compressed);
         } catch {
           resolve(result);

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { dashboardPathFor } from "@/lib/roles";
 import {
   ArrowRight,
@@ -12,6 +13,7 @@ import {
   CreditCard,
   DollarSign,
   GraduationCap,
+  RefreshCw,
   ShieldCheck,
   TrendingUp,
   UserCheck,
@@ -48,6 +50,39 @@ export default function AdminOverviewPage() {
     totalRevenue: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadStats = useCallback(async (isManual = false) => {
+    if (isManual) setRefreshing(true);
+    else setLoading(true);
+
+    try {
+      let statsData: AdminStats | null = null;
+      try {
+        const res = await apiFetch<{ success: boolean; stats: AdminStats }>("/admin/stats");
+        if (res.success && res.stats) {
+          statsData = res.stats;
+        }
+      } catch {
+        const res = await apiFetch<{ success: boolean; stats: AdminStats }>("/stats/admin");
+        if (res.success && res.stats) {
+          statsData = res.stats;
+        }
+      }
+
+      if (statsData) {
+        setStats(statsData);
+        if (isManual) toast.success("Analytics refreshed!");
+      }
+    } catch (err: unknown) {
+      console.error("Failed to load admin stats:", err);
+      const errMsg = err instanceof Error ? err.message : "Failed to load admin statistics";
+      toast.error(errMsg);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (isPending) return;
@@ -59,19 +94,8 @@ export default function AdminOverviewPage() {
       return;
     }
 
-    const loadStats = async () => {
-      try {
-        const res = await apiFetch<{ success: boolean; stats: AdminStats }>("/stats/admin");
-        if (res.success) setStats(res.stats);
-      } catch (err) {
-        console.error("Failed to load admin stats:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadStats();
-  }, [user, isPending, router]);
+  }, [user, isPending, router, loadStats]);
 
   return (
     <div className="space-y-8">
@@ -90,11 +114,23 @@ export default function AdminOverviewPage() {
           </p>
         </div>
 
-        <Link href="/dashboard/admin/tuitions">
-          <Button className="rounded-xl bg-white text-indigo-800 font-bold hover:bg-indigo-50 shadow-md">
-            Review Pending Tuitions ({loading ? "..." : stats.pendingTuitions})
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            onClick={() => loadStats(true)}
+            disabled={loading || refreshing}
+            className="rounded-xl border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur font-semibold cursor-pointer"
+          >
+            <RefreshCw size={16} className={`mr-1.5 ${refreshing ? "animate-spin" : ""}`} />
+            Refresh
           </Button>
-        </Link>
+
+          <Link href="/dashboard/admin/tuitions">
+            <Button className="rounded-xl bg-white text-indigo-800 font-bold hover:bg-indigo-50 shadow-md cursor-pointer">
+              Review Pending Tuitions ({loading ? "..." : stats.pendingTuitions})
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
