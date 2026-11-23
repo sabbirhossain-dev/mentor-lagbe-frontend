@@ -18,9 +18,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
 import type { Tuition } from "@/types/tuition";
 
 export default function SavedTuitionsPage() {
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+
   const [tuitions, setTuitions] = useState<Tuition[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,8 +45,10 @@ export default function SavedTuitionsPage() {
   };
 
   useEffect(() => {
+    if (isPending || !user) return;
+    if (user.role && user.role !== "student") return;
     fetchSaved();
-  }, []);
+  }, [user, isPending]);
 
   const handleRemoveBookmark = async (id: string) => {
     try {

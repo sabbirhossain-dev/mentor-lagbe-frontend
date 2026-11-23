@@ -23,9 +23,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
+import { authClient } from "@/lib/auth-client";
 import type { Application } from "@/types/tuition";
 
 export default function MyApplicationsPage() {
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
@@ -47,8 +51,10 @@ export default function MyApplicationsPage() {
   };
 
   useEffect(() => {
+    if (isPending || !user) return;
+    if (user.role && user.role !== "student") return;
     fetchApplications();
-  }, []);
+  }, [user, isPending]);
 
   const handleCancelApplication = async (id: string) => {
     if (!confirm("Are you sure you want to cancel this application?")) return;

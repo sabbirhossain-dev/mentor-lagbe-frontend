@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { dashboardPathFor } from "@/lib/roles";
 import {
   ArrowRight,
   BookOpen,
@@ -33,7 +35,8 @@ interface AdminStats {
 }
 
 export default function AdminOverviewPage() {
-  const { data: session } = authClient.useSession();
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
   const [stats, setStats] = useState<AdminStats>({
@@ -47,6 +50,15 @@ export default function AdminOverviewPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isPending) return;
+    if (!user) return;
+
+    // Role guard: if not admin, redirect to their role dashboard
+    if (user.role && user.role !== "admin") {
+      router.replace(dashboardPathFor(user.role));
+      return;
+    }
+
     const loadStats = async () => {
       try {
         const res = await apiFetch<{ success: boolean; stats: AdminStats }>("/stats/admin");
@@ -59,7 +71,7 @@ export default function AdminOverviewPage() {
     };
 
     loadStats();
-  }, []);
+  }, [user, isPending, router]);
 
   return (
     <div className="space-y-8">

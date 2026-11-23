@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { dashboardPathFor } from "@/lib/roles";
 import {
   ArrowRight,
   BookOpen,
@@ -34,7 +36,8 @@ interface StudentStats {
 }
 
 export default function StudentOverviewPage() {
-  const { data: session } = authClient.useSession();
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
   const [stats, setStats] = useState<StudentStats>({
@@ -48,6 +51,15 @@ export default function StudentOverviewPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isPending) return;
+    if (!user) return;
+
+    // Role guard: if user is not student, redirect to their role dashboard
+    if (user.role && user.role !== "student") {
+      router.replace(dashboardPathFor(user.role));
+      return;
+    }
+
     const loadDashboard = async () => {
       try {
         const [statsRes, appsRes] = await Promise.all([
@@ -65,7 +77,7 @@ export default function StudentOverviewPage() {
     };
 
     loadDashboard();
-  }, []);
+  }, [user, isPending, router]);
 
   return (
     <div className="space-y-8">

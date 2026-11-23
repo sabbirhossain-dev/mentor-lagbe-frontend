@@ -67,11 +67,12 @@ export default function DashboardShell({
 
   const handleSignOut = async () => {
     try {
-      await authClient.signOut();
       clearAuthToken();
-      router.push("/");
+      await authClient.signOut();
+      window.location.href = "/";
     } catch (err) {
       console.error("Sign out error:", err);
+      window.location.href = "/";
     }
   };
 
@@ -218,7 +219,9 @@ export default function DashboardShell({
         <div className="m-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 p-4 shadow-xs">
           <div className="flex items-center gap-3">
             <Avatar className="h-11 w-11 border-2 border-white dark:border-slate-700 shadow-xs">
-              <AvatarImage src={user?.image || ""} alt={user?.name || "User"} />
+              {user?.image ? (
+                <AvatarImage src={user.image} alt={user.name || "User"} />
+              ) : null}
               <AvatarFallback className="bg-indigo-600 text-white font-bold text-sm">
                 {(user?.name || "U").charAt(0).toUpperCase()}
               </AvatarFallback>

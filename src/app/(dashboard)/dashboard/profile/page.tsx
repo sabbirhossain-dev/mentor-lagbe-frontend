@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import {
   Camera,
@@ -26,6 +27,7 @@ import { uploadImageToImgBB } from "@/lib/uploadImage";
 import type { UserProfile } from "@/types";
 
 export default function ProfilePage() {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const sessionUser = session?.user;
 
@@ -42,24 +44,24 @@ export default function ProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch current user details from backend
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const res = await apiFetch<{ success: boolean; user: UserProfile }>("/users/me");
-        if (res.success && res.user) {
-          setName(res.user.name || "");
-          setPhone(res.user.phone || "");
-          setBio(res.user.bio || "");
-          setImage(res.user.image || "");
-          setPreviewUrl(res.user.image || "");
-        }
-      } catch (err: unknown) {
-        console.error("Failed to load profile:", err);
-      } finally {
-        setLoading(false);
+  const loadProfile = async () => {
+    try {
+      const res = await apiFetch<{ success: boolean; user: UserProfile }>("/users/me");
+      if (res.success && res.user) {
+        setName(res.user.name || "");
+        setPhone(res.user.phone || "");
+        setBio(res.user.bio || "");
+        setImage(res.user.image || "");
+        setPreviewUrl(res.user.image || "");
       }
-    };
+    } catch (err: unknown) {
+      console.error("Failed to load profile:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadProfile();
   }, []);
 
@@ -109,8 +111,15 @@ export default function ProfilePage() {
 
       if (res.success) {
         setImage(finalImageUrl);
+        setPreviewUrl(finalImageUrl);
         setSelectedFile(null);
         toast.success("Profile updated successfully!");
+
+        // Refresh router so that all server components, layout & page refresh with latest data
+        router.refresh();
+
+        // Also re-fetch the fresh profile data immediately
+        await loadProfile();
       }
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : "Failed to update profile";

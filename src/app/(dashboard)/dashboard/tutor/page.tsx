@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { dashboardPathFor } from "@/lib/roles";
 import {
   ArrowRight,
   BookOpen,
@@ -32,7 +34,8 @@ interface TutorStats {
 }
 
 export default function TutorOverviewPage() {
-  const { data: session } = authClient.useSession();
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
   const [stats, setStats] = useState<TutorStats>({
@@ -46,6 +49,15 @@ export default function TutorOverviewPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isPending) return;
+    if (!user) return;
+
+    // Role guard: if not tutor, redirect to correct role dashboard
+    if (user.role && user.role !== "tutor") {
+      router.replace(dashboardPathFor(user.role));
+      return;
+    }
+
     const loadDashboard = async () => {
       try {
         const [statsRes, tuitionsRes, applicantsRes] = await Promise.all([
@@ -65,7 +77,7 @@ export default function TutorOverviewPage() {
     };
 
     loadDashboard();
-  }, []);
+  }, [user, isPending, router]);
 
   return (
     <div className="space-y-8">

@@ -113,17 +113,13 @@ const Navbar = () => {
 
     try {
       setIsLoggingOut(true);
-
-      await authClient.signOut();
-
       clearAuthToken();
-
+      await authClient.signOut();
       setIsOpen(false);
-
-      router.replace("/sign-in");
-      router.refresh();
+      window.location.href = "/";
     } catch (error) {
       console.error("Logout failed:", error);
+      window.location.href = "/";
     } finally {
       setIsLoggingOut(false);
     }
@@ -169,10 +165,12 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2.5 rounded-2xl border border-slate-200/80 px-2.5 py-1.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/80 transition-all outline-none cursor-pointer">
                 <Avatar className="h-8 w-8 border border-indigo-200 dark:border-indigo-800">
-                  <AvatarImage
-                    src={user?.image || ""}
-                    alt={user?.name || "User"}
-                  />
+                  {user?.image ? (
+                    <AvatarImage
+                      src={user.image}
+                      alt={user.name || "User"}
+                    />
+                  ) : null}
                   <AvatarFallback className="bg-indigo-600 text-xs font-bold text-white">
                     {userInitials}
                   </AvatarFallback>

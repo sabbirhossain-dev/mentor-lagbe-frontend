@@ -2,7 +2,7 @@
  * Helper utility to upload image files directly to the ImgBB API.
  * Uses NEXT_PUBLIC_IMGBB_API_KEY from environment variables.
  * Returns the permanent direct image URL on success.
- * If ImgBB is unreachable, unconfigured, or rate-limited, gracefully
+ * If ImgBB is unconfigured, unreachable, or rate-limited, it gracefully
  * falls back to an optimized Data URL so profile/tuition updates never break.
  */
 
@@ -67,11 +67,9 @@ export async function uploadImageToImgBB(file: File): Promise<string> {
     throw new Error("Image size should not exceed 5MB");
   }
 
-  const apiKey =
-    process.env.NEXT_PUBLIC_IMGBB_API_KEY ||
-    "0c78446a1e6a350aa2ee4daa64b9e0e9";
+  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY?.trim();
 
-  // 1. Attempt direct ImgBB CDN Upload
+  // 1. Attempt direct ImgBB CDN Upload if API Key is configured in environment
   if (apiKey) {
     try {
       const formData = new FormData();
@@ -88,12 +86,12 @@ export async function uploadImageToImgBB(file: File): Promise<string> {
           return data.data.display_url || data.data.url;
         }
       }
-      console.warn("ImgBB upload service unavailable or blocked, falling back to optimized storage.");
+      console.warn("ImgBB service returned non-200 response, using fallback storage.");
     } catch (apiErr) {
-      console.warn("ImgBB network call failed, falling back to optimized storage:", apiErr);
+      console.warn("ImgBB network call failed, using fallback storage:", apiErr);
     }
   }
 
-  // 2. Fallback: Compress and convert to clean Data URL
+  // 2. Seamless Fallback: Convert to optimized Data URL if API Key is missing or service unavailable
   return fileToOptimizedDataUrl(file);
 }
